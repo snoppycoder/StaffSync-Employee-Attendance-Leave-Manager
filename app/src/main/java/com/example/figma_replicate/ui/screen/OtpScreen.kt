@@ -20,7 +20,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.signup.R
+import com.example.figma_replicate.R
+import com.example.figma_replicate.ui.component.BackArrowComponent
+import com.example.figma_replicate.ui.component.OtpInputComponent
+import com.example.figma_replicate.ui.component.RecoveryStepProgressBar
 import kotlin.collections.joinToString
 
 @Composable
