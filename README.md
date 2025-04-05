@@ -13,7 +13,9 @@ StaffSync is a mobile application designed to streamline employee attendance tra
 
 The application features user authentication and role-based authorization, ensuring data privacy and appropriate access control. A RESTful backend supports all operations with complete CRUD functionality, and the system is thoroughly tested through unit, widget, and integration tests.
 
-🔐 Authentication & Authorization Authentication is required for all users to securely access the app using email and password.
+🔐 **Authentication & Authorization **
+
+Authentication is required for all users to securely access the app using email and password.
 
 Authorization is enforced based on user roles:
 
