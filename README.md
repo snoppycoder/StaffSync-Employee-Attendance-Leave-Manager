@@ -19,7 +19,9 @@ Authentication is required for all users to securely access the app using email 
 
 Authorization is enforced based on user roles:
 
-👤 **Roles Employee**
+👤 **Roles**
+
+**Employee**
 
 Can log in and manage their own account
 
@@ -28,6 +30,17 @@ Can mark daily attendance
 Can submit, edit, or cancel their own leave requests
 
 Can view their personal attendance and leave history
+
+**Manager**
+
+Can log in and manage employee accounts within their team or department.
+
+Can view, approve, reject, or modify leave requests from their team.
+
+Can view and edit attendance records of employees in their team or department.
+
+Can manage personal leave approvals and attendance records.
+
 
 **Admin**
 
