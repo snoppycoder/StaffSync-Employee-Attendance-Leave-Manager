@@ -41,10 +41,46 @@ Can view, approve, reject, or modify any leave request
 Can manage employee profiles and role assignments
 
 ✅ Key Features
+1. Attendance Management (CRUD)
 
-**Attendance Management:**
-Employees can mark and view their attendance. Admins can view, update, and manage all attendance records.
+Create:
 
-**Leave Management:**
-Employees can submit, edit, or cancel leave requests. Admins can review, approve, or reject these requests, with full CRUD support.
+Employees can mark their daily attendance.
 
+Read:
+
+Employees can view their attendance history.
+
+Admins can view all employees' attendance records.
+
+Update:
+
+Admins can edit attendance records (e.g., fix mistakes).
+
+Delete:
+
+Admins can delete attendance records if needed.
+
+2. Leave Management (CRUD)
+
+Create:
+
+Employees can submit leave requests.
+
+Read:
+
+Employees can view their own leave requests and balances.
+
+Admins can view all leave requests.
+
+Update:
+
+Employees can edit their leave requests (before approval).
+
+Admins can modify any leave request details.
+
+Delete:
+
+Employees can cancel their leave requests.
+
+Admins can delete any leave request.
