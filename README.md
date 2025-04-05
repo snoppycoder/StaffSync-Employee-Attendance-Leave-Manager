@@ -7,7 +7,7 @@
 | Tesfanesh Asefa   | UGR/1233/15   | 3       |  
 | Yitbarek Alemu    | UGR/7554/15   | 1       |  
 
-📱 StaffSync-Employee-Attendance-Leave-Manager
+📱 ** StaffSync-Employee-Attendance-Leave-Manager**
 
 StaffSync is a mobile application designed to streamline employee attendance tracking and leave management within an organization. The app empowers employees to easily check in for work and submit leave requests, while giving administrators full control over managing records in a secure and organized way.
 
@@ -19,7 +19,7 @@ Authorization is enforced based on user roles:
 
 👤 **Roles Employee**
 
--> Can log in and manage their own account
+Can log in and manage their own account
 
 Can mark daily attendance
 
@@ -39,7 +39,7 @@ Can manage employee profiles and role assignments
 
 ✅ **Key Features**
 
-Attendance Management (CRUD)
+**Attendance Management (CRUD)**
 Create:
 
 Employees can mark their daily attendance.
@@ -58,7 +58,7 @@ Delete:
 
 Admins can delete attendance records if needed.
 
-Leave Management (CRUD)
+**Leave Management (CRUD)**
 Create:
 
 Employees can submit leave requests.
