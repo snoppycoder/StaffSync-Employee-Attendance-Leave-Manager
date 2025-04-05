@@ -75,6 +75,7 @@ Delete:
 Admins can delete attendance records if needed.
 
 **Leave Management (CRUD)**
+
 Create:
 
 Employees can submit leave requests.
