@@ -13,7 +13,7 @@ StaffSync is a mobile application designed to streamline employee attendance tra
 
 The application features user authentication and role-based authorization, ensuring data privacy and appropriate access control. A RESTful backend supports all operations with complete CRUD functionality, and the system is thoroughly tested through unit, widget, and integration tests.
 
-🔐 **Authentication & Authorization **
+🔐 **Authentication & Authorization**
 
 Authentication is required for all users to securely access the app using email and password.
 
@@ -29,7 +29,7 @@ Can submit, edit, or cancel their own leave requests
 
 Can view their personal attendance and leave history
 
-Admin
+**Admin**
 
 Can log in and manage all accounts
 
@@ -42,6 +42,7 @@ Can manage employee profiles and role assignments
 ✅ **Key Features**
 
 **Attendance Management (CRUD)**
+
 Create:
 
 Employees can mark their daily attendance.
