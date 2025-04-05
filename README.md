@@ -41,6 +41,7 @@ Can view, approve, reject, or modify any leave request
 Can manage employee profiles and role assignments
 
 ✅ Key Features
+
 **Attendance Management:**
 Employees can mark and view their attendance. Admins can view, update, and manage all attendance records.
 
