@@ -70,12 +70,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.figma_replicate.ui.screen.HomeScreen
 
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
 import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,179 +90,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     HomeScreen()
                 }
-
             }
         }
     }
-
-
-
-    @Composable
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun HomeScreen() {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-            , verticalArrangement = Arrangement.spacedBy(30.dp)
-
-        )
-
-        {
-            ProfileView()
-            DaysOfTheWeek()
-            Attendance()
-
-        }
-
-
-    }
-    @Composable
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun DaysOfTheWeek() {
-        val curr = LocalDate.now()
-        val currDay = curr.dayOfMonth
-        val start = curr.with(DayOfWeek.MONDAY)
-        val days = mutableListOf<String>()
-        val month = mutableListOf<String>()
-        for (i in 0..5) {
-            val day = start.plusDays(i.toLong())
-            days.add(day.format(DateTimeFormatter.ofPattern("dd")))
-            month.add(day.format(DateTimeFormatter.ofPattern("MMM")))
-        }
-        val combinedList = days.zip(month)
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)
-
-
-        ) {
-            items(combinedList) { (day, month) ->
-                Column(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(if (day == currDay.toString()) Color(0xFFFF7F50) else Color.White)
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                )
-                {
-                    Text(
-                        day,
-                        fontWeight = FontWeight.Bold,
-                        color = if (day == currDay.toString()) Color.White else Color.Black
-
-                    )
-                    Text(
-                        month,
-                        color = if (day == currDay.toString()) Color.White else Color.Black
-
-                    )
-
-
-                }
-            }
-
-
-        }
-
-    }
-
-    @Composable
-    fun ProfileView() {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(40.dp)
-
-        ) {
-            Spacer(modifier = Modifier.width(10.dp))
-            Box(
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape) //circle shape
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.profile),
-                    contentDescription = "profile picture",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-
-
-                )
-
-
-            }
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                Text(
-                    text = "John Doe",
-                    fontWeight = FontWeight.Bold
-                )
-                Text(text = "Lead UI/UX developer")
-            }
-            Column() {
-                val context = LocalContext.current
-                Spacer(modifier = Modifier.height(10.dp))
-                Icon(
-                    imageVector = Icons.Filled.Notifications,
-                    contentDescription = "Notification:icon",
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .size(25.dp)
-                        .clickable {
-                            // implement the navigation to the notification
-                            Toast
-                                .makeText(
-                                    context,
-                                    "Clicked notification button",
-                                    Toast.LENGTH_SHORT
-                                )
-                                .show()
-                        }
-
-
-                )
-
-            }
-
-
-        }
-    }
-    @Composable
-    fun Attendance() {
-        val checkIns = listOf("item1", "item2", "item3", "item4")
-
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            LazyVerticalGrid (
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxWidth()
-
-
-
-            ) {
-                items(checkIns) { check ->
-                    Box(modifier =
-                        Modifier.padding(15.dp)
-                    )
-                    {
-
-                    }
-                    Text(text=check)
-
-                }
-
-
-
-            }
-        }
-    }
-
-
 }
 
 
