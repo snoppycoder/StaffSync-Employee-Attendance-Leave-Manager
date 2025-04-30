@@ -22,50 +22,60 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
+@RequiresApi(Build.VERSION_CODES.O)
 fun DaysOfTheWeek() {
     val curr = LocalDate.now()
     val currDay = curr.dayOfMonth
     val start = curr.with(DayOfWeek.MONDAY)
     val days = mutableListOf<String>()
     val month = mutableListOf<String>()
-
     for (i in 0..5) {
         val day = start.plusDays(i.toLong())
         days.add(day.format(DateTimeFormatter.ofPattern("dd")))
         month.add(day.format(DateTimeFormatter.ofPattern("MMM")))
     }
-
     val combinedList = days.zip(month)
 
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        , horizontalArrangement = Arrangement.spacedBy(10.dp)
+
+
     ) {
         items(combinedList) { (day, month) ->
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .background(if (day == currDay.toString()) Color(0xFFFF7F50) else Color.White)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
+                    .shadow(elevation = 0.5.dp)
+                    .padding(horizontal = 20.dp, vertical = 8.dp)
+
+            )
+            {
                 Text(
-                    text = day,
+                    day,
                     fontWeight = FontWeight.Bold,
                     color = if (day == currDay.toString()) Color.White else Color.Black
+
                 )
                 Text(
-                    text = month,
+                    month,
                     color = if (day == currDay.toString()) Color.White else Color.Black
+
                 )
+
+
             }
         }
+
+
     }
+
 }

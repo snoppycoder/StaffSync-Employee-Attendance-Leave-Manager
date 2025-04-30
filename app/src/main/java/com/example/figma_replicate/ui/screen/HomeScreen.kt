@@ -9,8 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.graphics.Color
+import com.example.figma_replicate.ui.component.ListOfActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -21,6 +25,14 @@ fun HomeScreen() {
     ) {
         ProfileView()
         DaysOfTheWeek()
-        Attendance()
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color(red=242, green=242, blue=242))
+        ){
+            Attendance()
+            ListOfActivity()
+
+        }
+
     }
 }
