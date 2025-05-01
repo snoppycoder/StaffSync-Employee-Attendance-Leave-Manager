@@ -81,7 +81,7 @@ fun ListOfActivity() {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(red = 255, green = 127, blue = 80)
                 ), modifier = Modifier
-                    .align(Alignment.BottomCenter)
+
                     .fillMaxWidth()
 
                     .padding(horizontal = 16.dp, vertical = 8.dp)
