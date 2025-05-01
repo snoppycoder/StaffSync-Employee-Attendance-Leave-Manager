@@ -46,6 +46,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.navigation.compose.NavHost
 
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.rememberScrollState
@@ -71,6 +72,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.figma_replicate.ui.screen.HomeScreen
+import com.example.figma_replicate.ui.screen.Notification
 
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
 import java.time.format.DateTimeFormatter
@@ -81,14 +83,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+
             Figma_replicateTheme {
                 Box(
+
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(WindowInsets.systemBars.asPaddingValues())
-                        .padding(16.dp)
+                        .padding(vertical=16.dp, horizontal = 8.dp)
                 ) {
-                    HomeScreen()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "Home"
+                    ){
+                        composable ("Home"){
+                            HomeScreen(navController)
+
+
+                        }
+                        composable("Notification") {
+                            Notification("Notification", navController)
+                        }
+                    }
+
+
+
                 }
             }
         }

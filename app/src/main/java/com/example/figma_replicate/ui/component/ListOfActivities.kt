@@ -2,7 +2,9 @@ package com.example.figma_replicate.ui.component
 
 import com.example.figma_replicate.R
 
+import androidx.compose.ui.Alignment
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.foundation.lazy.items
@@ -75,13 +77,19 @@ fun ListOfActivity() {
 
             Button(
                 onClick = { },
+
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(red = 255, green = 127, blue = 80)
                 ), modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
+
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text(text = "Check in", fontWeight = FontWeight.Bold)
+                Box(
+                    modifier = Modifier.padding(vertical=16.dp)
+                )
+                Text(text = "Check in", fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
 
@@ -90,3 +98,4 @@ fun ListOfActivity() {
 
 
 }
+

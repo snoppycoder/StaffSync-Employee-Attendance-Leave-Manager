@@ -26,10 +26,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
 import com.example.figma_replicate.R
 
 @Composable
-fun ProfileView() {
+fun ProfileView(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,13 +76,14 @@ fun ProfileView() {
                     .size(25.dp)
                     .clickable {
                         // implement the navigation to the notification
-                        Toast
-                            .makeText(
-                                context,
-                                "Clicked notification button",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+//                        Toast
+//                            .makeText(
+//                                context,
+//                                "Clicked notification button",
+//                                Toast.LENGTH_SHORT
+//                            )
+//                            .show()
+                        navController.navigate("Notification")
                     }
 
 

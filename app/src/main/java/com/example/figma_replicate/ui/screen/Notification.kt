@@ -15,25 +15,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.example.figma_replicate.ui.component.Bar
 import com.example.figma_replicate.ui.component.ListOfActivity
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
-fun HomeScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(30.dp)
-    ) {
-        ProfileView(navController)
-        DaysOfTheWeek()
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color(red=242, green=242, blue=242))
-        ){
-            Attendance()
-            ListOfActivity()
+fun Notification(title:String, navController: NavController) {
+    Bar("Navigation", navController)
 
-        }
-
-    }
 }

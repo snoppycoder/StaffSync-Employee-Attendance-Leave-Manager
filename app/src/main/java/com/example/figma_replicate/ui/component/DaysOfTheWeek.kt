@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter
 fun DaysOfTheWeek() {
     val curr = LocalDate.now()
     val currDay = curr.dayOfMonth
+    val currFormated = curr.format(DateTimeFormatter.ofPattern("dd"))
     val start = curr.with(DayOfWeek.MONDAY)
     val days = mutableListOf<String>()
     val month = mutableListOf<String>()
@@ -49,25 +50,30 @@ fun DaysOfTheWeek() {
 
 
     ) {
+
         items(combinedList) { (day, month) ->
+            println(day)
+
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
-                    .background(if (day == currDay.toString()) Color(0xFFFF7F50) else Color.White)
+
+                    .background(if (day == currFormated.toString()) Color(0xFFFF7F50) else Color.White)
                     .shadow(elevation = 0.5.dp)
                     .padding(horizontal = 20.dp, vertical = 8.dp)
 
             )
+
             {
                 Text(
                     day,
                     fontWeight = FontWeight.Bold,
-                    color = if (day == currDay.toString()) Color.White else Color.Black
+                    color = if (day == currFormated.toString()) Color.White else Color.Black
 
                 )
                 Text(
                     month,
-                    color = if (day == currDay.toString()) Color.White else Color.Black
+                    color = if (day == currFormated.toString()) Color.White else Color.Black
 
                 )
 
