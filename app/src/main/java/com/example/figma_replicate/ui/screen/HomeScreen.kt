@@ -1,38 +1,63 @@
 package com.example.figma_replicate.ui.screen
-
-import com.example.figma_replicate.ui.component.DaysOfTheWeek
-import com.example.figma_replicate.ui.component.ProfileView
-import com.example.figma_replicate.ui.component.Attendance
 import android.os.Build
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.graphics.Color
-import com.example.figma_replicate.ui.component.ListOfActivity
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.figma_replicate.navigation.Routes
+import com.example.figma_replicate.ui.component.*
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
+@RequiresApi(Build.VERSION_CODES.O)
 fun HomeScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(30.dp)
-    ) {
-        ProfileView()
-        DaysOfTheWeek()
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color(red=242, green=242, blue=242))
-        ){
-            Attendance()
-            ListOfActivity()
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
+    Scaffold(
+        bottomBar = {
+            if (currentRoute != Routes.NOTIFICATION) {
+                BottomNavBar(navController = navController)
+            }
         }
-
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Routes.HOME,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(Routes.HOME) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    ProfileView(navController = navController)
+                    DaysOfTheWeek()
+                    Attendance()
+                    ListOfActivity()
+                }
+            }
+            composable(Routes.SCHEDULE) {
+                // ScheduleScreen()
+            }
+            composable(Routes.OFFICE) {
+                // OfficeScreen()
+            }
+            composable(Routes.HOLIDAY) {
+                // HolidayScreen()
+            }
+            composable(Routes.PROFILE) {
+                // ProfileScreen()
+            }
+            composable(Routes.NOTIFICATION) {
+                NotificationScreen(navController = navController)
+            }
+        }
     }
 }
