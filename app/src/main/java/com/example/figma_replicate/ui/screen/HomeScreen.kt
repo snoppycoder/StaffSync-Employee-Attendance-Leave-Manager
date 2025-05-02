@@ -33,10 +33,10 @@ fun HomeScreen() {
         NavHost(
             navController = navController,
             startDestination = Routes.HOME,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
         ) {
             composable(Routes.HOME) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
                     ProfileView(navController = navController)
                     DaysOfTheWeek()
                     Attendance()
