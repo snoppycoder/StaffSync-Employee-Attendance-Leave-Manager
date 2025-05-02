@@ -41,7 +41,7 @@ fun BottomNavBar(navController: NavHostController) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // Red line above icon when selected
+
                         Box(
                             modifier = Modifier
                                 .width(24.dp)
