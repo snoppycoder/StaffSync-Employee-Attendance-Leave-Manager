@@ -1,6 +1,7 @@
 package com.example.figma_replicate.ui.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 @Composable
 fun NotificationScreen(navController: NavController) {
     Scaffold(
+
         topBar = {
             TopAppBar(
                 title = { Text("Notifications") },
@@ -31,7 +33,7 @@ fun NotificationScreen(navController: NavController) {
             )
         }
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
+        Column(modifier = Modifier.padding(innerPadding).padding(16.dp).fillMaxSize()) {
             Text(text = "No new notifications", style = MaterialTheme.typography.bodyMedium)
         }
     }
