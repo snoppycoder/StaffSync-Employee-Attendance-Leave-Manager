@@ -43,7 +43,7 @@ fun ProfileView(navController: NavController) {
     ) {
         Box(
             modifier = Modifier
-                .size(50.dp)
+                .size(40.dp)
                 .clip(CircleShape)
         ) {
             Image(
@@ -55,26 +55,27 @@ fun ProfileView(navController: NavController) {
         }
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(5.dp)
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "John Doe",
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+
+
             )
             Text(text = "Lead UI/UX developer")
         }
-
-        Column {
-            Icon(
+           Icon(
                 imageVector = Icons.Filled.Notifications,
                 contentDescription = "Notification:icon",
                 tint = Color.Black,
                 modifier = Modifier
-                    .size(25.dp)
+                    .size(20.dp)
                     .clickable {
-                        navController.navigate(Routes.NOTIFICATION) // Navigate to notification screen
+                        navController.navigate(Routes.NOTIFICATION)
                     }
             )
-        }
+
     }
 }

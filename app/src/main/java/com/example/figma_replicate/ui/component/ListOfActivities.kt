@@ -1,55 +1,39 @@
-package com.example.figma_replicate.ui.component
-
-import com.example.figma_replicate.R
-
-
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
-import androidx.compose.foundation.lazy.items
-
-import androidx.compose.ui.*
-import androidx.compose.material3.Button
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.unit.dp
-import androidx.compose.material3.Icon
-
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
-import androidx.compose.foundation.background
-
-import androidx.compose.foundation.layout.Arrangement
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-
-import androidx.compose.foundation.lazy.LazyColumn
-
-import androidx.compose.material3.ButtonDefaults
-
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.figma_replicate.R
 
 @Composable
-
 fun ListOfActivity() {
-    val list = listOf("Item1", "Item1", "Item1", "Item1", "Item1")
-    Text(text = "Today's Attendance", fontWeight = FontWeight.SemiBold)
-    LazyColumn(
+    val list = listOf("Item1", "Item1", "Item1")
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp) // <- Add general padding here
-        , verticalArrangement = Arrangement.spacedBy(12.dp)
+            .verticalScroll(rememberScrollState()) // Enable scrolling
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(list) { activity ->
+        Text(
+            text = "Your Activity",
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        list.forEach { activity ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
                     .padding(20.dp),
-
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -68,25 +52,18 @@ fun ListOfActivity() {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
-
-        }
-        item {
-
-
-            Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(red = 255, green = 127, blue = 80)
-                ), modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Text(text = "Check in", fontWeight = FontWeight.Bold)
-            }
         }
 
-
+        Button(
+            onClick = { },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(red = 255, green = 127, blue = 80)
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(text = "Check in", fontWeight = FontWeight.Bold)
+        }
     }
-
-
 }

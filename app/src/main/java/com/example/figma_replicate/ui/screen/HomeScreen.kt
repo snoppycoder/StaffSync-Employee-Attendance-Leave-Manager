@@ -1,12 +1,18 @@
 package com.example.figma_replicate.ui.screen
+import ListOfActivity
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
 
-@Composable
+ @Composable
 @RequiresApi(Build.VERSION_CODES.O)
 fun HomeScreen() {
     val navController = rememberNavController()
@@ -35,15 +41,32 @@ fun HomeScreen() {
             modifier = Modifier
         ) {
             composable(Routes.HOME) {
-                Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
-                    ProfileView(navController = navController)
-                    DaysOfTheWeek()
-                    Attendance()
-                    ListOfActivity()
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(vertical = 16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ){
+                        ProfileView(navController = navController)
+                        DaysOfTheWeek()
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+//                            .background(Color(0xFFF2F2F2))
+                    ) {
+                        Attendance()
+                        ListOfActivity()
+                    }
                 }
             }
+
             composable(Routes.SCHEDULE) {
-                LeaveDashboardScreen(navController = navController)
+                LeaveDashboardScreen(navController)
             }
             composable(Routes.OFFICE) {
                 // OfficeScreen()

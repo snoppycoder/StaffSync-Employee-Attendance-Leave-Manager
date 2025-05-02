@@ -47,6 +47,7 @@ fun BottomNavBar(navController: NavHostController) {
                                 .width(24.dp)
                                 .height(2.dp)
                                 .background(if (currentRoute == route) coral else Color.Transparent)
+//
                         )
                         Spacer(modifier = Modifier.height(8.dp)) // Space between line and icon
                         Icon(
