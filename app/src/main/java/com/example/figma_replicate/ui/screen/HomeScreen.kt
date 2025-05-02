@@ -43,7 +43,7 @@ fun HomeScreen() {
                 }
             }
             composable(Routes.SCHEDULE) {
-                ScheduleScreen(navController = navController)
+                LeaveDashboardScreen(navController = navController)
             }
             composable(Routes.OFFICE) {
                 // OfficeScreen()
