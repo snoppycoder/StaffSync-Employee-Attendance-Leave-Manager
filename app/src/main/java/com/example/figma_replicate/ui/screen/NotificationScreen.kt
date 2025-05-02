@@ -1,4 +1,4 @@
-package com.example.figma_replicate.ui.component
+package com.example.figma_replicate.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

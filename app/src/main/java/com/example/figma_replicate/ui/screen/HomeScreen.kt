@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
 
-
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
 fun HomeScreen() {
@@ -44,7 +43,7 @@ fun HomeScreen() {
                 }
             }
             composable(Routes.SCHEDULE) {
-                // ScheduleScreen()
+                ScheduleScreen(navController = navController)
             }
             composable(Routes.OFFICE) {
                 // OfficeScreen()
