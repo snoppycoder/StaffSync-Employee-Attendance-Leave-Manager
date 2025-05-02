@@ -22,13 +22,35 @@ import androidx.navigation.NavController
 import com.example.figma_replicate.navigation.Routes
 
 @Composable
+
 fun LeaveStatGrid() {
-    Row(modifier = Modifier.fillMaxWidth(), ) {
-        StatCard(Color.hsl(215F,99F, 59F), "Present Employees", "20", Color.hsl(215f,99f, 59f), Modifier.weight(1f))
-        StatCard(Color.hsl(78F,62F, 52F), "Absent Employees", "2", Color.hsl(78f,62f, 52f), Modifier.weight(1f))
+    Row(modifier = Modifier.fillMaxWidth()) {
+        StatCard(
+            backgroundColor = Color.hsl(215f, 0.99f, 0.59f),
+            title = "Present Employees",
+            value = "20",
+            valueColor = Color.hsl(215f, 0.99f, 0.59f),
+            modifier = Modifier.weight(1f)
+        )
+
+        StatCard(
+            backgroundColor = Color.hsl(78f, 0.62f, 0.52f),
+            title = "Absent Employees",
+            value = "2",
+            valueColor = Color.hsl(78f, 0.62f, 0.52f),
+            modifier = Modifier.weight(1f)
+        )
     }
+
     Spacer(modifier = Modifier.height(8.dp))
-    StatCard(Color.hsl(215F, 99F, 59F), "Leave Pending", "4", Color(0xFF008080), Modifier.fillMaxWidth())
+
+    StatCard(
+        backgroundColor = Color.hsl(215f, 0.99f, 0.59f),
+        title = "Leave Pending",
+        value = "4",
+        valueColor = Color(0xFF008080),
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable

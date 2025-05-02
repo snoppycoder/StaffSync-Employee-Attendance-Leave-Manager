@@ -23,7 +23,7 @@ import com.example.figma_replicate.navigation.Routes
 @Composable
 fun LeaveDashboardContent(innerPadding: PaddingValues) {
     val tabs = listOf("Upcoming", "Past", "Team Leave")
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     Column(
         modifier = Modifier
