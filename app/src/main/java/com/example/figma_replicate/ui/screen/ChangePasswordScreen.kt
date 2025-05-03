@@ -15,7 +15,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.navigation.NavController
 
-import com.example.figma_replicate.ui.component.LeaveFormContent
+import com.example.figma_replicate.ui.component.ChangePasswordContent
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
