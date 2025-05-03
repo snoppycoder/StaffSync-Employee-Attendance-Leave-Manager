@@ -21,12 +21,12 @@ import com.example.figma_replicate.ui.component.*
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 
-fun LeaveFormScreen(navController: NavController) {
+fun EditProfileScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Apply Leave") },
+                title = { Text("Edit Profile") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -36,6 +36,6 @@ fun LeaveFormScreen(navController: NavController) {
         }
     ) { innerPadding ->
 
-        LeaveFormContent(innerPadding)
+        EditProfileContent(innerPadding)
     }
 }
