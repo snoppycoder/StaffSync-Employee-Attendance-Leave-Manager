@@ -66,7 +66,7 @@ fun HomeScreen() {
             }
 
             composable(Routes.SCHEDULE) {
-                LeaveDashboardScreen(navController)
+                ScheduleScreen(navController)
             }
             composable(Routes.OFFICE) {
                 // OfficeScreen()
@@ -79,6 +79,9 @@ fun HomeScreen() {
             }
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
+            }
+            composable(Routes.APPLY_LEAVE) {
+                ApplyLeave(navController = navController)
             }
         }
     }

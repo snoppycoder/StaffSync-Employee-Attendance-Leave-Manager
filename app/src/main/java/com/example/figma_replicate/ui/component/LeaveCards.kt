@@ -65,6 +65,7 @@ fun LeaveCard(
                 Text(
                     status,
                     color = statusColor,
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier
                         .background(statusColor.copy(alpha = 0.1f), shape = RoundedCornerShape(8.dp))

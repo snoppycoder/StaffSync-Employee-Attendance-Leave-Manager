@@ -1,5 +1,4 @@
-package com.example.figma_replicate.ui.screen
-
+package com.example.figma_replicate.ui.componen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
@@ -19,21 +18,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.figma_replicate.navigation.Routes
-import com.example.figma_replicate.ui.componen.ScheduleContent
-import com.example.figma_replicate.ui.component.BottomNavBar
-import com.example.figma_replicate.ui.component.LeaveDashboardContent
-import com.example.figma_replicate.ui.component.LeaveDashboardTopBar
-import com.example.figma_replicate.ui.component.ScheduleTopBar
+import com.example.figma_replicate.ui.component.LeaveCardList
+import com.example.figma_replicate.ui.component.LeaveTabs
+import com.example.figma_replicate.ui.component.ScheduleGrid
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ScheduleScreen(navController: NavController) {
-    Scaffold(
-        topBar = { ScheduleTopBar(navController) },
-        bottomBar = { BottomNavBar(navController = navController as NavHostController) }
-    ) { innerPadding ->
-        ScheduleContent(innerPadding)
+fun ScheduleContent(innerPadding: PaddingValues) {
+    val tabs = listOf("Upcoming", "Past", "Team Leave")
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+    Column(
+        modifier = Modifier
+            .padding(innerPadding)
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        ScheduleGrid()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LeaveTabs(tabs, selectedTabIndex) { selectedTabIndex = it }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LeaveCardList()
     }
 }
