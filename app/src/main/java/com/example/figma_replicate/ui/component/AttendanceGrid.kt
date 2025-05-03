@@ -59,8 +59,17 @@ fun Attendance() {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Today's Attendance", fontWeight = FontWeight.SemiBold)
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                8.dp
+            )
+        ){
+            Text(text = "Today's Attendance", fontWeight = FontWeight.SemiBold)
+        }
+
         LazyVerticalGrid (
             columns = GridCells.Fixed(2),
             modifier = Modifier

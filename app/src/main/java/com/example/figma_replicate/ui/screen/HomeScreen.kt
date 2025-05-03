@@ -1,38 +1,101 @@
 package com.example.figma_replicate.ui.screen
-
-import com.example.figma_replicate.ui.component.DaysOfTheWeek
-import com.example.figma_replicate.ui.component.ProfileView
-import com.example.figma_replicate.ui.component.Attendance
+import ListOfActivity
 import android.os.Build
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.figma_replicate.ui.component.ListOfActivity
+import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.figma_replicate.navigation.Routes
+import com.example.figma_replicate.ui.component.*
 
+ @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-@Composable
 fun HomeScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(30.dp)
-    ) {
-        ProfileView()
-        DaysOfTheWeek()
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color(red=242, green=242, blue=242))
-        ){
-            Attendance()
-            ListOfActivity()
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
+    Scaffold(
+        bottomBar = {
+            if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE) {
+                BottomNavBar(navController = navController)
+            }
         }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Routes.HOME,
+            modifier = Modifier
+        ) {
+            composable(Routes.HOME) {
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(vertical = 16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ){
+                        ProfileView(navController = navController)
+                        DaysOfTheWeek()
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
 
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+//                            .background(Color(0xFFF2F2F2))
+                    ) {
+                        Attendance()
+                        ListOfActivity()
+                    }
+                }
+            }
+
+            composable(Routes.SCHEDULE) {
+                ScheduleScreen(navController)
+            }
+            composable(Routes.OFFICE) {
+                // OfficeScreen()
+            }
+            composable(Routes.HOLIDAY) {
+                // HolidayScreen()
+            }
+            composable(Routes.PROFILE) {
+                Column(
+
+                )
+
+                {
+                    Spacer(modifier=Modifier.height(24.dp))
+                    ProfileScreen(navController = navController)
+                }
+            }
+            composable(Routes.NOTIFICATION) {
+                NotificationScreen(navController = navController)
+            }
+            composable(Routes.APPLY_LEAVE) {
+                LeaveFormScreen(navController)
+            }
+            composable( Routes.EDIT_PROFILE)  {
+                // EditProfileScreen()
+            }
+            composable(Routes.NOTIFICATION_SETTING){
+                NotificationSettingScreen(navController = navController)
+            }
+        }
     }
 }
