@@ -81,7 +81,7 @@ fun HomeScreen() {
                 NotificationScreen(navController = navController)
             }
             composable(Routes.APPLY_LEAVE) {
-                ApplyLeave(navController = navController)
+                LeaveFormScreen(navController = navController)
             }
         }
     }
