@@ -92,10 +92,10 @@ fun HomeScreen() {
                 NotificationScreen(navController = navController)
             }
             composable(Routes.APPLY_LEAVE) {
-                LeaveFormScreen(navController)
+                LeaveFormScreen(navController=navController)
             }
             composable( Routes.EDIT_PROFILE)  {
-                // EditProfileScreen()
+                 EditProfileScreen(navController=navController)
             }
             composable(Routes.NOTIFICATION_SETTING){
                 NotificationSettingScreen(navController = navController)

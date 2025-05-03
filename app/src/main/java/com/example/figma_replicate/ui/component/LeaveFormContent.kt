@@ -1,16 +1,25 @@
 package com.example.figma_replicate.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import android.app.DatePickerDialog
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.*
+import androidx.compose.material3.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import java.time.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,91 +34,131 @@ import androidx.compose.ui.graphics.Color
 import com.example.figma_replicate.R
 
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.math.sin
 
 @Composable
-fun LeaveFormContent(innerPadding: PaddingValues){
-    var fullName: String by remember {mutableStateOf("")}
-    var designation: String by remember {mutableStateOf("")}
-    var email: String by remember {mutableStateOf("")}
-    var EmployeeType:String by remember {mutableStateOf("")}
+fun CalendarField(label: String, selectedDate: String, minDateMillis: Long? = null, onDateSelected: (String) -> Unit){
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
 
-    Column(
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val datePickerDialog = remember {
+        DatePickerDialog(context, { _, y, m, d ->
+            val formattedDate = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
+                .format(GregorianCalendar(y, m, d).time)
+            onDateSelected(formattedDate)
+        }, year, month, day).apply {
+            minDateMillis?.let { datePicker.minDate = it }
+        }
+    }
+
+    Card(
+        border = BorderStroke(1.dp, color=MaterialTheme.colorScheme.primary),
+        shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(innerPadding),
-
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-        Box(
-            modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "profile picture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        Box(){
-            Text("John Doe", fontWeight = FontWeight.SemiBold)
-        }
-        Box(){
-            Text("Lead UI/UX Developer", fontWeight = FontWeight.SemiBold)
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ){
-            OutlinedTextField(
-                value=fullName,
-                shape = RoundedCornerShape(12.dp),
-                onValueChange = { fullName = it },
-                label= { Text("Full Name") }
-
-
-            )
-            OutlinedTextField(
-                value=email,
-                shape = RoundedCornerShape(8.dp),
-                onValueChange = {email = it},
-                label= { Text("Email Address") }
-
-            )
-            OutlinedTextField(
-                value=designation,
-                onValueChange= { designation = it},
-                shape = RoundedCornerShape(8.dp),
-                label= { Text("Designation") }
-
-            )
-            OutlinedTextField(
-                value=EmployeeType,
-                shape = RoundedCornerShape(8.dp),
-                onValueChange= { EmployeeType = it},
-                label= { Text("Employee Type") }
-
-            )
-        }
-        Button(
-                onClick = { },
-                 colors = ButtonDefaults.buttonColors(
-            containerColor = Color(red = 255, green = 127, blue = 80)
-        ),
+            .clickable { datePickerDialog.show() },
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 8.dp)
+                .padding(8.dp),
 
-
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-        Text(text = "Submit", fontWeight = FontWeight.Bold)
+            Column {
+                Text(text = label, color = Color(0xFFFF6D00))
+                Text(text = selectedDate, color = Color.Black)
+            }
+            Icon(
+                imageVector = Icons.Default.DateRange,
+                contentDescription = "Calendar",
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
     }
+}
 
-
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun LeaveFormContent(innerPadding: PaddingValues) {
+    var title by remember { mutableStateOf("") }
+    var leaveType by remember { mutableStateOf("") }
+    var contactNumber by remember { mutableStateOf("") }
+    var reason by remember { mutableStateOf("") }
+    var startDate by remember {
+        mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MMM d, yyyy")))
     }
+    val sdf = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+    val minDateMillis = remember(startDate){
+        sdf.parse(startDate)?.time ?: 0L
+    }
+    var endDate by remember { mutableStateOf("") }
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.9f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("Title") },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = leaveType,
+                onValueChange = { leaveType = it },
+                label = { Text("Leave Type") },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            CalendarField("Start Date", selectedDate = startDate) { startDate = it }
+            CalendarField("End Date", selectedDate = endDate, minDateMillis=sdf.parse(startDate)?.time) { endDate = it }
+
+            OutlinedTextField(
+                value = reason,
+                onValueChange = { reason = it },
+                label = { Text("Reason") },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+            )
+
+            Button(
+                onClick = {  },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFF7F50)
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            ) {
+                Text("Submit", fontWeight = FontWeight.Bold)
+            }
+        }
+    }
 }
