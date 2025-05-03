@@ -30,7 +30,11 @@ fun HomeScreen() {
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE) {
+            if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE
+                && currentRoute != Routes.NOTIFICATION_SETTING
+                && currentRoute != Routes.CHANGE_PASSWORD
+                )
+            {
                 BottomNavBar(navController = navController)
             }
         }
@@ -96,6 +100,10 @@ fun HomeScreen() {
             composable(Routes.NOTIFICATION_SETTING){
                 NotificationSettingScreen(navController = navController)
             }
+            composable (Routes.CHANGE_PASSWORD) {
+//                ChangePasswordScreen(navController=navController)
+            }
+
         }
     }
 }
