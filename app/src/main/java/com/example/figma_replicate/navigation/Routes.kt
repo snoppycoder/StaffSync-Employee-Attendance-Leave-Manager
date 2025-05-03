@@ -10,4 +10,5 @@ object Routes {
     const val NOTIFICATION = "notification"
     const val APPLY_LEAVE = "apply_leave"
     const val EDIT_PROFILE = "edit_profile"
+    const val NOTIFICATION_SETTING = "notification_setting"
 }

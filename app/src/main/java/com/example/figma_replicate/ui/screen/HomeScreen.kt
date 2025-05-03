@@ -75,13 +75,26 @@ fun HomeScreen() {
                 // HolidayScreen()
             }
             composable(Routes.PROFILE) {
-                ProfileScreen(navController=navController)
+                Column(
+
+                )
+
+                {
+                    Spacer(modifier=Modifier.height(24.dp))
+                    ProfileScreen(navController = navController)
+                }
             }
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
             }
             composable(Routes.APPLY_LEAVE) {
                 LeaveFormScreen(navController)
+            }
+            composable( Routes.EDIT_PROFILE)  {
+                // EditProfileScreen()
+            }
+            composable(Routes.NOTIFICATION_SETTING){
+                //NotificationSettingScreen()
             }
         }
     }
