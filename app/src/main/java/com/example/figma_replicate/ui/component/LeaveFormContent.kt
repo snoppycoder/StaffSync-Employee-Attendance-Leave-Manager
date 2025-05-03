@@ -9,15 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import com.example.figma_replicate.R
 
 import androidx.compose.ui.layout.ContentScale
@@ -25,13 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun EditProfileContent(innerPadding: PaddingValues){
-    var fullName: String by mutableStateOf("")
-    var designation: String by mutableStateOf("")
-    var email: String by mutableStateOf("")
-    var EmployeeType:String by  mutableStateOf("")
+fun LeaveFormContent(innerPadding: PaddingValues){
+    var fullName: String by remember {mutableStateOf("")}
+    var designation: String by remember {mutableStateOf("")}
+    var email: String by remember {mutableStateOf("")}
+    var EmployeeType:String by remember {mutableStateOf("")}
 
     Column(
         modifier = Modifier
@@ -92,6 +95,19 @@ fun EditProfileContent(innerPadding: PaddingValues){
 
             )
         }
+        Button(
+                onClick = { },
+                 colors = ButtonDefaults.buttonColors(
+            containerColor = Color(red = 255, green = 127, blue = 80)
+        ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp, vertical = 8.dp)
+
+
+        ) {
+        Text(text = "Submit", fontWeight = FontWeight.Bold)
+    }
 
 
     }

@@ -27,7 +27,7 @@ fun ScheduleTopBar(navController: NavController) {
     TopAppBar(
         title = { Text("All leaves") },
         actions = {
-            IconButton(onClick = { navController.navigate("notifications") }) {
+            IconButton(onClick = { navController.navigate("notification") }) {
                 Icon(
 
                     imageVector = Icons.Filled.Notifications,

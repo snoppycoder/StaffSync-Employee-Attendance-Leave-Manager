@@ -30,7 +30,7 @@ fun HomeScreen() {
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Routes.NOTIFICATION) {
+            if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE) {
                 BottomNavBar(navController = navController)
             }
         }
@@ -75,13 +75,13 @@ fun HomeScreen() {
                 // HolidayScreen()
             }
             composable(Routes.PROFILE) {
-                ProfileScreen(navController=navController)
+//                ProfileScreen(navController=navController)
             }
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
             }
             composable(Routes.APPLY_LEAVE) {
-                LeaveFormScreen(navController = navController)
+                LeaveFormScreen(navController)
             }
         }
     }
