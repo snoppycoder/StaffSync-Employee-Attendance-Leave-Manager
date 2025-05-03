@@ -11,4 +11,5 @@ object Routes {
     const val APPLY_LEAVE = "apply_leave"
     const val EDIT_PROFILE = "edit_profile"
     const val NOTIFICATION_SETTING = "notification_setting"
+    const val CHANGE_PASSWORD = "change_password"
 }
