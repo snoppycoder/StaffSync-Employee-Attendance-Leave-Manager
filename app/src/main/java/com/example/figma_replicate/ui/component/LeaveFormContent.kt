@@ -1,6 +1,5 @@
 package com.example.figma_replicate.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,17 +8,14 @@ import androidx.compose.foundation.layout.*
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.*
 import androidx.compose.material3.*
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import java.time.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,20 +25,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import com.example.figma_replicate.R
-
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.math.sin
+
 
 @Composable
 fun CalendarField(label: String, selectedDate: String, minDateMillis: Long? = null, onDateSelected: (String) -> Unit){
