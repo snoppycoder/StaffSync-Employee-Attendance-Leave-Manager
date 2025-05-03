@@ -117,19 +117,24 @@ fun NotificationSettingContent(innerPadding: PaddingValues) {
                 options.forEachIndexed { index, pair ->
                     DropdownMenuItem(
                         text = {
-                            Row(modifier =Modifier.fillMaxWidth()){
-                                Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(
+                                    modifier = Modifier.weight(1f) // Takes up remaining space
+                                ) {
                                     Text(
                                         text = pair.first,
                                         fontWeight = FontWeight.Bold,
                                         color = Color(0xFFFF5722)
-
                                     )
                                     Text(
                                         text = pair.second,
                                         style = MaterialTheme.typography.bodySmall
                                     )
                                 }
+
                                 RadioButton(
                                     selected = index == selectedIndex,
                                     onClick = {
@@ -138,6 +143,7 @@ fun NotificationSettingContent(innerPadding: PaddingValues) {
                                     }
                                 )
                             }
+
 
                         },
                         onClick = {
