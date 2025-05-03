@@ -14,17 +14,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.navigation.NavController
-import com.example.figma_replicate.ui.component.EditProfileContent
+
+import com.example.figma_replicate.ui.component.LeaveFormContent
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 
-fun ProfileScreen(navController: NavController) {
+fun LeaveFormScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("") },
+                title = { Text("Apply Leave") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -34,6 +35,6 @@ fun ProfileScreen(navController: NavController) {
         }
     ) { innerPadding ->
 
-        EditProfileContent(innerPadding)
+        LeaveFormContent(innerPadding)
     }
 }
