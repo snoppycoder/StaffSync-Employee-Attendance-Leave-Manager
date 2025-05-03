@@ -95,7 +95,7 @@ fun ProfileScreen(navController: NavController){
         ){
             Box() {
                 Button(
-                    onClick = { navController.navigate("edit_profile") },
+                    onClick = { navController.navigate("notification_setting") },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier

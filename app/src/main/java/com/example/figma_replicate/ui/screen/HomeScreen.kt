@@ -94,7 +94,7 @@ fun HomeScreen() {
                 // EditProfileScreen()
             }
             composable(Routes.NOTIFICATION_SETTING){
-                //NotificationSettingScreen()
+                NotificationSettingScreen(navController = navController)
             }
         }
     }
