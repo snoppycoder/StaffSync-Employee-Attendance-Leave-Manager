@@ -58,7 +58,8 @@ fun StatCard(
     backgroundColor: Color,
     title: String,
     value: String,
-    valueColor: Color,
+    border: Color = Color.Black,
+    valueColor: Color = border,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -66,7 +67,7 @@ fun StatCard(
             .padding(4.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        border = BorderStroke(1.dp, backgroundColor)
+        border = BorderStroke(1.dp, border)
     ) {
         Column(
             modifier = Modifier
@@ -81,7 +82,7 @@ fun StatCard(
             )
             Text(
                 value,
-                color = valueColor,
+                color = border,
                 style = MaterialTheme.typography.headlineMedium
             )
         }
