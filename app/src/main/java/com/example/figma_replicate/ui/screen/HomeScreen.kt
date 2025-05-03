@@ -101,7 +101,7 @@ fun HomeScreen() {
                 NotificationSettingScreen(navController = navController)
             }
             composable (Routes.CHANGE_PASSWORD) {
-//                ChangePasswordScreen(navController=navController)
+                ChangePasswordScreen(navController=navController)
             }
 
         }
