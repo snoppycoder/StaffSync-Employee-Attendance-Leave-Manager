@@ -75,7 +75,7 @@ fun HomeScreen() {
                 // HolidayScreen()
             }
             composable(Routes.PROFILE) {
-                // ProfileScreen()
+                ProfileScreen(navController=navController)
             }
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
