@@ -33,6 +33,12 @@ const identifyUser = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized - No token provided' });
   }
+  const blacklistedToken = await prisma.blacklistedToken.findUnique({
+    where: { token },
+  });
+  if (blacklistedToken) {
+    return res.status(401).json({ error: 'Token has been invalidated' });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
@@ -59,8 +65,6 @@ const identifyUser = async (req, res, next) => {
     await prisma.$disconnect();
   }
 };
-
-
 
 const errorHandler = (error, request, response, next) => {
   logger.error(error)
@@ -97,12 +101,11 @@ const rbacMiddleware = (allowedRoles) => {
   };
 };
 
-
 module.exports = {
-	requestLogger,
-	getTokenFrom,
-	unknownEndpoint,
-	identifyUser,
-	errorHandler,
-	rbacMiddleware
+  requestLogger,
+  getTokenFrom,
+  unknownEndpoint,
+  identifyUser,
+  errorHandler,
+  rbacMiddleware
 }
