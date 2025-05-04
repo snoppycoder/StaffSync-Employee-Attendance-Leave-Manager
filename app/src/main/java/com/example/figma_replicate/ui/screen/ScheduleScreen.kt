@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 
-import com.example.figma_replicate.ui.componen.ScheduleContent
+import com.example.figma_replicate.ui.component.ScheduleContent
 import com.example.figma_replicate.ui.component.BottomNavBar
 
 import com.example.figma_replicate.ui.component.ScheduleTopBar
