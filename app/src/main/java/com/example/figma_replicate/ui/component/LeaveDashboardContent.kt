@@ -22,7 +22,12 @@ fun LeaveDashboardContent(innerPadding: PaddingValues) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LeaveTabs(tabs, selectedTabIndex) { selectedTabIndex = it }
+        LeaveTabs(tabs, selectedTabIndex) {
+            selectedTabIndex = it
+            if (selectedTabIndex == 2) {
+                LeaveAcceptAndRejectCards("John Doe", "", "", "", "")
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
