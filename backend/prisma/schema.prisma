@@ -30,17 +30,30 @@ enum EmploymentType {
   INTERNSHIP
 }
 
+enum LeaveType {
+  SICK
+  VACATION
+  PERSONAL
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  password String
-  email    String   @unique
-  role     Role     @default(EMPLOYEE)
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String   @unique
+  role      Role     @default(EMPLOYEE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
-  profile  Profile?
-
+  profile   Profile?
+  leaveRequests LeaveRequest[]
+  attendance Attendance[]
 }
 
 model Profile {
@@ -63,4 +76,28 @@ model BlacklistedToken {
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model LeaveRequest {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  type      LeaveType
+  startDate DateTime
+  endDate   DateTime
+  reason    String
+  status    LeaveStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  date      DateTime @unique
+  checkIn   DateTime
+  checkOut  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

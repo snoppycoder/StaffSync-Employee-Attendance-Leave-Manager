@@ -6,19 +6,16 @@ const { identifyUser } = require('../utils/middleware');
 const prisma = new PrismaClient();
 const logoutRouter = express.Router();
 
-// POST /api/logout - Blacklist the user's JWT
 logoutRouter.post('/', identifyUser, async (req, res, next) => {
   try {
     const { token } = req;
-
-    // Decode JWT to get expiration
     const decoded = jwt.decode(token);
     console.log('Decoded token:', decoded); // Debug
     if (!decoded || !decoded.exp) {
       return res.status(400).json({ error: 'Invalid token' });
     }
 
-    // Store token in BlacklistedToken
+
     await prisma.blacklistedToken.create({
       data: {
         token,
