@@ -66,19 +66,26 @@ fun LeaveTeamLeave(
                     painter = painterResource(id = R.drawable.profile),
                     contentDescription = "Profile picture"
                 )
-                Spacer(modifier = Modifier.width(12.dp))
+
+
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally // Center name and designation
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+
+                    horizontalAlignment = Alignment.CenterHorizontally
+                   
                 ) {
                     Text(
                         text = name,
                         style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Black
                     )
                     Text(
                         text = designation,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray
+                        color = Color.Black
                     )
                 }
             }
@@ -95,7 +102,7 @@ fun LeaveTeamLeave(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Apply Days\n$applyDays",
+                    text = "Apply Days $applyDays",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold
                 )

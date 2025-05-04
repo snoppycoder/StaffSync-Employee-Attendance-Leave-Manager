@@ -61,7 +61,7 @@ fun HomeScreen() {
                             .fillMaxWidth()
 //                            .background(Color(0xFFF2F2F2))
                     ) {
-                        Attendance()
+                        AttendanceGrid()
                         ListOfActivity()
                     }
                 }
