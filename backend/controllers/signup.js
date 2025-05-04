@@ -15,6 +15,7 @@ signupRouter.post('/', async (req, res) => {
     employmentType,
     designation,
     dateOfBirth,
+    role
   } = req.body;
 
   if (!username || !password || !email || !fullName || !gender || !employmentType || !designation || !dateOfBirth) {

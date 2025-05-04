@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 async function main() {
-    //use this to erase the data first and populate again
-    // await prisma.user.deleteMany();
-    // console.log('Deleted all existing users.');
+    // use this to erase the data first and populate again
+    await prisma.user.deleteMany();
+    console.log('Deleted all existing users.');
 
     const users = [
         { 
