@@ -88,34 +88,40 @@ fun AttendanceCard(
 
     }
 }
-
 @Composable
-
-
 fun AttendanceGrid() {
-    val attendanceList = listOf(
-        Triple("Check In", "10:45PM", "On Time"),
-        Triple("Check Out", "6:30PM", "Left Early"),
-        Triple("Check In", "9:00AM", "Late"),
-        Triple("Check Out", "5:00PM", "On Time")
-    )
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    Column(modifier = Modifier
+        .padding(8.dp)) {
 
-    ) {
-        items(attendanceList.size) { item ->
-            val (status, time, task) = attendanceList[item]
-            AttendanceCard(status, time, task)
+        Text(
+            text = "Today's Attendance",
+            style = MaterialTheme.typography.bodyLarge,
+            color = Color.Black,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
 
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+        ) {
+            val attendanceList = listOf(
+                Triple("Check In", "10:45PM", "On Time"),
+                Triple("Check Out", "6:30PM", "Left Early"),
+                Triple("Check In", "9:00AM", "Late"),
+                Triple("Check Out", "5:00PM", "On Time")
+            )
+
+            items(attendanceList.size) { item ->
+                val (status, time, task) = attendanceList[item]
+                AttendanceCard(status, time, task)
+            }
         }
-
     }
-
-
-
-
 }
+
 
