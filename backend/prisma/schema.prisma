@@ -12,14 +12,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-enum Role{
+
+enum Role {
   EMPLOYEE
   MANAGER
 }
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum EmploymentType {
+  PERMANENT
+  CONTRACTUAL
+  INTERNSHIP
+}
+
 model User {
   id       Int      @id @default(autoincrement())
   username String   @unique
   password String
   email    String   @unique
   role     Role     @default(EMPLOYEE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  profile  Profile?
+
+}
+
+model Profile {
+  id             Int            @id @default(autoincrement())
+  fullName       String
+  gender         Gender
+  employmentType EmploymentType
+  designation    String
+
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id])
+  dateOfBirth DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }
