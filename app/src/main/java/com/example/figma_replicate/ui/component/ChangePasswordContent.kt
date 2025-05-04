@@ -75,7 +75,7 @@ fun ChangePasswordContent(paddingValues: PaddingValues) {
 
         Button(
             onClick = {
-                // Handle password change logic here
+
             },
             modifier = Modifier
                 .fillMaxWidth()
