@@ -1,7 +1,9 @@
 package com.example.figma_replicate.ui.component
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,16 +16,20 @@ import androidx.navigation.NavController
 @Composable
 fun LeaveDashboardTopBar(navController: NavController) {
     TopAppBar(
-        title = { Text("All leaves", color = Color(0xFFFF6B00)) },
+        title = { Text("All leaves") },
         actions = {
-            IconButton(onClick = { navController.navigate("notification") }, modifier = Modifier.size(20.dp),) {
+            IconButton(onClick = { navController.navigate("notification") }) {
                 Icon(
+
                     imageVector = Icons.Filled.Notifications,
+                    modifier = Modifier.size(20.dp),
                     contentDescription = "Notifications",
                     tint = Color.Black
                 )
             }
+
         }
     )
+
 }
 

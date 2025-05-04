@@ -27,7 +27,7 @@ fun LeaveCardList() {
         leaveBalance = "19",
         approvedBy = "Martin Deo",
         status = "Approved",
-        statusColor = Color(0xFFB2DFDB)
+        statusColor = Color(0xFF05CC8C)
     )
 }
 
@@ -38,22 +38,24 @@ fun LeaveCard(
     leaveBalance: String,
     approvedBy: String,
     status: String,
-    statusColor: Color
+    statusColor : Color
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
+
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Date", color = MaterialTheme.colorScheme.onSurface)
+                Text("Date", color = Color.Black)
                 Text(
                     status,
-                    color = statusColor,
+                    color = if (status.lowercase() == "approved") Color(0xFF05CC8C) else Color.Red,
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier
@@ -63,22 +65,29 @@ fun LeaveCard(
             }
             Text(
                 dateRange,
-                style = MaterialTheme.typography.bodyLarge,
+                fontWeight=FontWeight.Bold,
+                style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
+
+
             Spacer(modifier = Modifier.height(8.dp))
+            Divider()
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Apply Days\n$applyDays", color = MaterialTheme.colorScheme.onSurface)
-                Text("Leave Balance\n$leaveBalance", color = MaterialTheme.colorScheme.onSurface)
+                Text("Apply Days\n$applyDays", style = MaterialTheme.typography.bodyMedium ,color = MaterialTheme.colorScheme.onSurface)
+                Text("Leave Balance\n$leaveBalance", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
                 Text(
                     "Approved By\n$approvedBy",
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = Color.Black
                 )
+
+
+
             }
         }
     }
