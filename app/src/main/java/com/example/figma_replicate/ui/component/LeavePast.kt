@@ -9,36 +9,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
+enum class Chronology {
+    UPCOMING,
+    PAST,
+    TEAMLEAVE
+}
 @Composable
-fun LeaveCardList() {
-    LeaveCard(
+fun ListCardPast() {
+    LeaveCardPast(
         dateRange = "Apr 15, 2025 - Apr 18, 2025",
         applyDays = "3 Days",
         leaveBalance = "16",
         approvedBy = "Martin Deo",
         status = "Rejected",
-        statusColor = Color.Red
+        statusColor = Color.Red,
+
     )
     Spacer(modifier = Modifier.height(8.dp))
-    LeaveCard(
+    LeaveCardPast(
         dateRange = "Mar 10, 2025 - Mar 12, 2025",
         applyDays = "2 Days",
         leaveBalance = "19",
         approvedBy = "Martin Deo",
         status = "Approved",
-        statusColor = Color(0xFF05CC8C)
+        statusColor = Color(0xFF05CC8C),
+
     )
 }
 
 @Composable
-fun LeaveCard(
+fun LeaveCardPast(
     dateRange: String,
     applyDays: String,
     leaveBalance: String,
     approvedBy: String,
     status: String,
-    statusColor : Color
+    statusColor : Color,
+    chronology : Chronology = Chronology.PAST,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth()

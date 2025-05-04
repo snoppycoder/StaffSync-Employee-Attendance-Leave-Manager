@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.figma_replicate.ui.component.LeaveTeamLeave
 
 @Composable
 fun LeaveDashboardContent(innerPadding: PaddingValues) {
@@ -24,13 +25,15 @@ fun LeaveDashboardContent(innerPadding: PaddingValues) {
 
         LeaveTabs(tabs, selectedTabIndex) {
             selectedTabIndex = it
-            if (selectedTabIndex == 2) {
-                LeaveAcceptAndRejectCards("John Doe", "", "", "", "")
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LeaveCardList()
+        when(selectedTabIndex) {
+            0 -> ListCardUpcoming()
+            1 -> ListCardPast()
+            2 -> ListCardTeamLeave()
+
+        }
     }
 }
