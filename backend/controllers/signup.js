@@ -6,11 +6,22 @@ const prisma = new PrismaClient();
 const { identifyUser } = require('../utils/middleware')
 
 signupRouter.post('/', async (req, res) => {
-  const { username, email, password, role } = req.body;
-  if (!(username && email && password)) {
-    return res.status(400).json({
-      error: 'Username, email, and password are required'
-    });
+  const {
+    username,
+    password,
+    email,
+    fullName,
+    gender,
+    employmentType,
+    designation,
+    dateOfBirth,
+  } = req.body;
+
+  if (!username || !password || !email || !fullName || !gender || !employmentType || !designation || !dateOfBirth) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'Password must be at least 6 characters long' });
   }
 
   try {
@@ -25,7 +36,7 @@ signupRouter.post('/', async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
-        error: existingUser.username === username ? 'Username already taken' : 'Email already taken'
+        error: existingUser.username === username ? 'Username already taken' : 'Email already exists'
       });
     }
 
