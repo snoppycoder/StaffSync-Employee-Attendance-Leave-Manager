@@ -14,6 +14,7 @@ fun LeaveTabs(tabs: List<String>, selectedIndex: Int, onTabSelected: (Int) -> Un
                 selected = selectedIndex == index,
                 onClick = { onTabSelected(index) }
             )
+
         }
     }
 }
