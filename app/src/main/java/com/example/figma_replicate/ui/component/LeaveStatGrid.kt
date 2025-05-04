@@ -14,34 +14,40 @@ import androidx.compose.ui.unit.dp
 @Composable
 
 fun LeaveStatGrid() {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        StatCard(
-            backgroundColor = Color.hsl(215f, 0.99f, 0.59f),
-            title = "Present Employees",
-            value = "20",
-            valueColor = Color.hsl(215f, 0.99f, 0.59f),
-            modifier = Modifier.weight(1f)
-        )
 
-        StatCard(
-            backgroundColor = Color.hsl(78f, 0.62f, 0.52f),
-            title = "Absent Employees",
+        Row(modifier = Modifier.fillMaxWidth()) {
+            StatCard(
+                backgroundColor = Color.hsl(216f, 1f, 0.98f),
+                title = "Present Employees",
+                border = Color.hsl(215f, 0.99f, 0.59f),
+                value = "20",
+                modifier = Modifier.weight(1f)
+            )
+
+            StatCard(
+
+                backgroundColor = Color.hsl(0f, 0f, 0.95f),
+                title = "Absent Employees",
+                value = "2",
+                border = Color.hsl(5f, 1f, 0.73f),
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(modifier = Modifier.fillMaxWidth()){
+            StatCard(
+
+            backgroundColor = Color.hsl(83f, 0.67f, 0.98f),
+            title = "Leave Pending",
             value = "2",
-            valueColor = Color.hsl(78f, 0.62f, 0.52f),
+            border= Color.hsl(78f, 0.62f, 0.52f),
             modifier = Modifier.weight(1f)
-        )
+        )}
+
     }
 
-    Spacer(modifier = Modifier.height(8.dp))
 
-    StatCard(
-        backgroundColor = Color.hsl(215f, 0.99f, 0.59f),
-        title = "Leave Pending",
-        value = "4",
-        valueColor = Color(0xFF008080),
-        modifier = Modifier.fillMaxWidth()
-    )
-}
 
 @Composable
 fun StatCard(
