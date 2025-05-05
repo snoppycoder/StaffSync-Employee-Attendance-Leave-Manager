@@ -1,4 +1,5 @@
 package com.example.figma_replicate.ui.screen
+
 import ListOfActivity
 import android.os.Build
 import androidx.annotation.RequiresApi
