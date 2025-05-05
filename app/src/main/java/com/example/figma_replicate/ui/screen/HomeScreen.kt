@@ -31,7 +31,8 @@ fun HomeScreen() {
         bottomBar = {
             if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE
                 && currentRoute != Routes.NOTIFICATION_SETTING
-                && currentRoute != Routes.CHANGE_PASSWORD
+                && currentRoute != Routes.CHANGE_PASSWORD &&
+                currentRoute != Routes.SIGNUP && currentRoute != Routes.LOGIN
                 )
             {
                 BottomNavBar(navController = navController)
@@ -66,6 +67,9 @@ fun HomeScreen() {
                         ListOfActivity()
                     }
                 }
+            }
+            composable(Routes.SIGNUP){
+                FullNamePreview()
             }
 
             composable(Routes.SCHEDULE) {

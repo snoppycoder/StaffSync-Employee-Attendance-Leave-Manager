@@ -45,7 +45,7 @@ fun FullNameScreen(
     var fullName by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
 
-    // Validation: not empty, no numbers
+
     fun isValidName(name: String): Boolean {
         return name.isNotBlank() && name.all { it.isLetter() || it.isWhitespace() }
     }
@@ -58,7 +58,7 @@ fun FullNameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        // Top Bar
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,7 +75,7 @@ fun FullNameScreen(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        // Illustration
+
         Image(
             painter = painterResource(id = R.drawable.signup_illustration),
             contentDescription = "Sign Up Illustration",
@@ -84,7 +84,7 @@ fun FullNameScreen(
                 .width(348.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        // Title
+
         Text(
             text = "Create account",
             fontSize = 28.sp,
@@ -92,7 +92,7 @@ fun FullNameScreen(
             color = Color(0xFF36454F)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        // Progress Indicator
+
         SignUpProgressBar(
             currentStep = 1,
             onStepClick = onStepClick,
@@ -100,7 +100,7 @@ fun FullNameScreen(
             gray = gray
         )
         Spacer(modifier = Modifier.height(32.dp))
-        // Input Label
+
         Text(
             text = "Your Full Name",
             fontSize = 18.sp,
@@ -109,7 +109,7 @@ fun FullNameScreen(
             modifier = Modifier.align(Alignment.Start)
         )
         Spacer(modifier = Modifier.height(8.dp))
-        // Input Field
+
         OutlinedTextField(
             value = fullName,
             onValueChange = {
@@ -151,7 +151,6 @@ fun FullNameScreen(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-        // Continue Button
         Button(
             onClick = {
                 if (isValidName(fullName)) {
@@ -178,14 +177,14 @@ fun FullNameScreen(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-        // Divider
+
         HorizontalDivider(
             color = gray,
             thickness = 1.dp,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
-        // Bottom Text
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
