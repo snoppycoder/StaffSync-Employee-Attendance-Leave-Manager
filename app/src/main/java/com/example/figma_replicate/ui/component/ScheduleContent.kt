@@ -19,7 +19,7 @@ fun ScheduleContent(innerPadding: PaddingValues) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        LeaveStatGrid()
+        ScheduleGrid()
 
         Spacer(modifier = Modifier.height(16.dp))
 
