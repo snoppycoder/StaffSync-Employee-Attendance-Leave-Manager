@@ -3,7 +3,7 @@ const signupRouter = express.Router();
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { identifyUser } = require('../utils/middleware')
+const { identifyUser } = require('../utils/middleware');
 
 signupRouter.post('/', async (req, res) => {
   const {
@@ -18,6 +18,7 @@ signupRouter.post('/', async (req, res) => {
     role
   } = req.body;
 
+  // Validate required fields
   if (!username || !password || !email || !fullName || !gender || !employmentType || !designation || !dateOfBirth) {
     return res.status(400).json({ error: 'All fields are required' });
   }
@@ -26,6 +27,7 @@ signupRouter.post('/', async (req, res) => {
   }
 
   try {
+    // Check for existing user
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [
@@ -44,19 +46,48 @@ signupRouter.post('/', async (req, res) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const newUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: passwordHash,
-        role: role || 'EMPLOYEE' // Default to 'EMPLOYEE' if role is not provided
+    // Create user, profile, and initial leave balances in a transaction
+    const newUser = await prisma.$transaction(async (prisma) => {
+      // Create the user
+      const user = await prisma.user.create({
+        data: {
+          username,
+          email,
+          password: passwordHash,
+          role: role || 'EMPLOYEE', // Default to 'EMPLOYEE' if role is not provided
+          points: 100, // Initial points allocation
+          profile: {
+            create: {
+              fullName,
+              gender,
+              employmentType,
+              designation,
+              dateOfBirth: new Date(dateOfBirth),
+            }
+          }
+        }
+      });
+
+      // Create initial leave balances for each leave type
+      const leaveTypes = ['SICK', 'VACATION', 'PERSONAL'];
+      for (const type of leaveTypes) {
+        await prisma.leaveBalance.create({
+          data: {
+            userId: user.id,
+            type,
+            balance: 20, // Initial balance of 20 days per leave type
+          },
+        });
       }
+
+      return user;
     });
 
     res.status(201).json({
       username: newUser.username,
       email: newUser.email,
-      role: newUser.role
+      role: newUser.role,
+      points: newUser.points
     });
   } catch (error) {
     console.error('Error during signup:', error);

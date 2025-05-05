@@ -7,7 +7,13 @@ const bcrypt = require('bcrypt');
 const { error } = require('../utils/logger');
 const { errorHandler } = require('../utils/middleware');
 
-//Update a profile
+
+// profileRouter.get('/', identifyUser, async(req, res)=>{
+//   try{
+
+//   }
+// })
+
 profileRouter.patch('/:id', identifyUser, async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -111,3 +117,4 @@ profileRouter.patch('/:id', identifyUser, async (req, res, next) => {
       next(error);
     }
   });
+  module.exports = profileRouter;
