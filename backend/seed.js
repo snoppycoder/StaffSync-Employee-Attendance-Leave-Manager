@@ -4,9 +4,14 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 async function main() {
-    // use this to erase the data first and populate again
-    await prisma.user.deleteMany();
-    console.log('Deleted all existing users.');
+    // Delete all existing data to start fresh
+    // await prisma.user.deleteMany();
+    // // await prisma.leaveBalance.deleteMany();
+    // await prisma.leaveRequest.deleteMany();
+    // await prisma.attendance.deleteMany();
+    // await prisma.blacklistedToken.deleteMany();
+    // await prisma.profile.deleteMany();
+    console.log('Deleted all existing records.');
 
     const users = [
         { 
@@ -47,19 +52,33 @@ async function main() {
         },
     ];
 
-    // Insert users into the database
+    // Insert users with initial points and create leave balances
     for (const user of users) {
-        await prisma.user.create({
+        const createdUser = await prisma.user.create({
             data: {
                 username: user.username,
                 email: user.email,
                 password: await bcrypt.hash(user.password, saltRounds),
+                points: 100, // Initial points allocation
                 profile: {
                     create: user.profile
                 }
             },
         });
         console.log(`Created user: ${user.email}`);
+
+        // Create initial leave balances for each leave type
+        const leaveTypes = ['SICK', 'VACATION', 'PERSONAL'];
+        for (const type of leaveTypes) {
+            await prisma.leaveBalance.create({
+                data: {
+                    userId: createdUser.id,
+                    type,
+                    balance: 20, // Initial balance of 20 days per leave type
+                },
+            });
+            console.log(`Created leave balance for ${type} for user: ${user.email}`);
+        }
     }
 }
 

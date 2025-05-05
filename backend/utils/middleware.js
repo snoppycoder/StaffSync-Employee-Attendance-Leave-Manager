@@ -22,7 +22,7 @@ const getTokenFrom = (request, response, next) => {
     request.token = auth.slice(7);
     logger.info('Extracted token:', request.token); // Debug
   } else {
-    logger.warn('No valid Bearer token found');
+    logger.info('No valid Bearer token found');
   }
   next();
 };
@@ -101,11 +101,43 @@ const rbacMiddleware = (allowedRoles) => {
   };
 };
 
+// Helper function to calculate leave duration in days
+const calculateLeaveDuration = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffTime = Math.abs(end - start);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Include both start and end dates
+};
+
+const isOnLeave = async (userId, date) => {
+  const leaveRequests = await prisma.leaveRequest.findMany({
+    where: {
+      userId,
+      status: 'APPROVED',
+      startDate: { lte: new Date(date) },
+      endDate: { gte: new Date(date) },
+    },
+  });
+  return leaveRequests.length > 0;
+};
+const isOnWork = async (userId, date) =>  {
+  const working = await prisma.user.findMany({
+    where:{
+      userId,
+      attendance: 'PRESENT',
+    },
+  });
+  return working.length>0;
+}
+
 module.exports = {
   requestLogger,
   getTokenFrom,
   unknownEndpoint,
   identifyUser,
   errorHandler,
-  rbacMiddleware
+  rbacMiddleware,
+  calculateLeaveDuration,
+  isOnLeave,
+  isOnWork
 }

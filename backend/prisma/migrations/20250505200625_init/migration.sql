@@ -11,7 +11,10 @@ CREATE TYPE "EmploymentType" AS ENUM ('PERMANENT', 'CONTRACTUAL', 'INTERNSHIP');
 CREATE TYPE "LeaveType" AS ENUM ('SICK', 'VACATION', 'PERSONAL');
 
 -- CreateEnum
-CREATE TYPE "LeaveStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+CREATE TYPE "LeaveStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED');
+
+-- CreateEnum
+CREATE TYPE "Attendances" AS ENUM ('PRESENT', 'ABSENT');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -20,6 +23,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'EMPLOYEE',
+    "points" INTEGER NOT NULL DEFAULT 100,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
@@ -44,6 +48,18 @@ CREATE TABLE "Profile" (
 );
 
 -- CreateTable
+CREATE TABLE "LeaveBalance" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "type" "LeaveType" NOT NULL,
+    "balance" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "LeaveBalance_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "BlacklistedToken" (
     "id" SERIAL NOT NULL,
     "token" TEXT NOT NULL,
@@ -62,6 +78,9 @@ CREATE TABLE "LeaveRequest" (
     "endDate" TIMESTAMP(3) NOT NULL,
     "reason" TEXT NOT NULL,
     "status" "LeaveStatus" NOT NULL DEFAULT 'PENDING',
+    "pointsDeduction" INTEGER NOT NULL DEFAULT 0,
+    "approvedById" INTEGER,
+    "approvedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -73,8 +92,9 @@ CREATE TABLE "Attendance" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "checkIn" TIMESTAMP(3) NOT NULL,
+    "checkIn" TIMESTAMP(3),
     "checkOut" TIMESTAMP(3),
+    "attendance" "Attendances",
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -94,13 +114,19 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 CREATE UNIQUE INDEX "BlacklistedToken_token_key" ON "BlacklistedToken"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Attendance_date_key" ON "Attendance"("date");
+CREATE UNIQUE INDEX "Attendance_userId_date_key" ON "Attendance"("userId", "date");
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "LeaveBalance" ADD CONSTRAINT "LeaveBalance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "LeaveRequest" ADD CONSTRAINT "LeaveRequest_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeaveRequest" ADD CONSTRAINT "LeaveRequest_approvedById_fkey" FOREIGN KEY ("approvedById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Attendance" ADD CONSTRAINT "Attendance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
