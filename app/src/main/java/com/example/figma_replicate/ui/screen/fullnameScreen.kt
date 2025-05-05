@@ -1,4 +1,4 @@
-package com.example.signup.ui
+package com.example.figma_replicate.ui.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.signup.R
+import com.example.figma_replicate.R
 
 @Composable
 fun FullNameScreen(
