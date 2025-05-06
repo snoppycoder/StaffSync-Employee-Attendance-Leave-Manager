@@ -7,12 +7,15 @@ const bcrypt = require('bcrypt');
 const { error } = require('../utils/logger');
 const { errorHandler } = require('../utils/middleware');
 
+profileRouter.get('/', async (req, res) => {
+  try {
+      const profile = await prisma.profile.findMany();
+      res.json(profile);
+  } catch (error) {
+      res.status(500).json({ error: 'Could not retrieve profile' });
+  }
+});
 
-// profileRouter.get('/', identifyUser, async(req, res)=>{
-//   try{
-
-//   }
-// })
 
 profileRouter.patch('/:id', identifyUser, async (req, res, next) => {
     try {
