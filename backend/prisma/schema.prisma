@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum EmploymentType {
+  PERMANENT
+  CONTRACTUAL
+  INTERNSHIP
+}
+
+enum LeaveType {
+  SICK
+  VACATION
+  PERSONAL
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum Attendances {
+  PRESENT
+  ABSENT
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
+  password      String
+  email         String         @unique
+  role          Role           @default(EMPLOYEE)
+  points        Int            @default(100) // Initial points allocated upon signup - crucial for leave balance logic
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+  profile       Profile?
+  leaveRequests LeaveRequest[] @relation("UserLeaveRequests")
+  leaveBalances LeaveBalance[]
+  attendance    Attendance[]
+  approvedLeaves LeaveRequest[] @relation("ApprovedByUser")
+}
+
+model Profile {
+  id             Int            @id @default(autoincrement())
+  fullName       String
+  gender         Gender
+  employmentType EmploymentType
+  designation    String
+  userId         Int            @unique
+  user           User           @relation(fields: [userId], references: [id])
+  dateOfBirth    DateTime
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+}
+
+model LeaveBalance {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  type      LeaveType
+  balance   Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model BlacklistedToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model LeaveRequest {
+  id              Int          @id @default(autoincrement())
+  userId          Int
+  user            User         @relation("UserLeaveRequests", fields: [userId], references: [id])
+  type            LeaveType
+  startDate       DateTime
+  endDate         DateTime
+  reason          String
+  status          LeaveStatus  @default(PENDING)
+  pointsDeduction Int          @default(0) // Points to deduct if leave is approved
+  approvedById    Int?         // Foreign key to User who approved the request
+  approvedBy      User?        @relation("ApprovedByUser", fields: [approvedById], references: [id])
+  approvedAt      DateTime?    // When the request was approved
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Attendance {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  date      DateTime
+  checkIn   DateTime?
+  checkOut  DateTime?
+  attendance Attendances?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  @@unique([userId, date]) // Composite unique constraint
+}
