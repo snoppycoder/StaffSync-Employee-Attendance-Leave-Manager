@@ -72,7 +72,7 @@ fun HomeScreen() {
                 ScheduleScreen(navController)
             }
             composable(Routes.OFFICE) {
-                LeaveDashboardScreen(navController=navController)
+                UsersScreen()
                 // OfficeScreen()
             }
             composable(Routes.HOLIDAY) {
