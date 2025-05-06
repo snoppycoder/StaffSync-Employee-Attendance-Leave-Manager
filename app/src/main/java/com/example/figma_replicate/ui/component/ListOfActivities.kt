@@ -1,6 +1,4 @@
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +17,6 @@ fun ListOfActivity() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState()) // Enable scrolling
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
