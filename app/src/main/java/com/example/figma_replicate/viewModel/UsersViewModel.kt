@@ -3,8 +3,8 @@ package com.example.figma_replicate.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.figma_replicate.data.models.User
-import com.example.figma_replicate.data.network.ApiService
+import com.example.figma_replicate.data.network.RetrofitClient
+import com.example.figma_replicate.domain.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,11 +24,11 @@ class UserViewModel : ViewModel() {
         fetchUsers()
     }
 
-    private fun fetchUsers() {
+    fun fetchUsers() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val userList = ApiService.retrofitService.getUsers()
+                val userList = RetrofitClient.apiService.getUsers()
                 _users.value = userList
                 _errorMessage.value = null
             } catch (e: Exception) {

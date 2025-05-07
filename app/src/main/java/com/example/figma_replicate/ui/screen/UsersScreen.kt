@@ -1,64 +1,105 @@
 package com.example.figma_replicate.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.figma_replicate.viewModel.UserViewModel
+import com.example.figma_replicate.domain.model.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UsersScreen(viewModel: UserViewModel = viewModel()) {
-    val users by viewModel.users.collectAsState()
-    val loading by viewModel.isLoading.collectAsState()
-    val error by viewModel.errorMessage.collectAsState()
+fun UserScreen() {
+    val viewModel: UserViewModel = viewModel()
+    val users = viewModel.users.collectAsState().value
+    val isLoading = viewModel.isLoading.collectAsState().value
+    val errorMessage = viewModel.errorMessage.collectAsState().value
 
-    Scaffold(topBar = {
-        TopAppBar(title = { Text("Users") })
-    }) { paddingValues ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("User List") },
+                actions = {
+                    IconButton(onClick = { viewModel.fetchUsers() }) {
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "Refresh"
+                        )
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
+                .padding(innerPadding)
         ) {
-            when {
-                loading -> {
-                    CircularProgressIndicator()
-                }
-                error != null -> {
-                    Text(
-                        text = error ?: "Unknown error",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                users.isEmpty() -> {
-                    Text(
-                        text = "No users found.",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                else -> {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        users.forEach { user ->
-                            Text(
-                                text = "${user.username} - ${user.email}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Divider(modifier = Modifier.padding(vertical = 4.dp))
-                        }
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(16.dp)
+                ) {
+                    items(users) { user ->
+                        UserItem(user = user)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun UserItem(user: User) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = user.username,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = user.email,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserScreenPreview() {
+    com.example.figma_replicate.ui.theme.Figma_replicateTheme {
+        UserScreen()
     }
 }
