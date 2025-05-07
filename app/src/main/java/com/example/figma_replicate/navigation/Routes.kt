@@ -3,6 +3,8 @@ package com.example.figma_replicate.navigation
 
 object Routes {
     const val HOME = "home"
+    const val LOGIN = "login"
+    const val SIGNUP = "signup"
     const val SCHEDULE = "schedule"
     const val OFFICE = "office"
     const val HOLIDAY = "holiday"
