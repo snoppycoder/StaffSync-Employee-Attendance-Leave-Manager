@@ -1,6 +1,5 @@
 package com.example.figma_replicate.ui.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,14 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.widget.Toast
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.platform.LocalContext
-import com.example.figma_replicate.R
+import com.example.figma_replicate.ui.component.ImageComponent
+
 
 @Composable
 fun SignUpScreen(
@@ -35,13 +34,7 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(60.dp))
-        Image(
-            painter = painterResource(id = R.drawable.signup_illustration),
-            contentDescription = "Sign Up Illustration",
-            modifier = Modifier
-                .height(342.dp)
-                .width(348.dp)
-        )
+        ImageComponent()
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = "Sign up as",
@@ -71,12 +64,7 @@ fun SignUpScreen(
                 )
             }
         }
-//        Button(onClick = onEmployeeClick) {
-//            Text("Employee")
-//        }
-//        Button(onClick = onManagerClick) {
-//            Text("Manager")
-//        }
+//
 
         Spacer(modifier = Modifier.height(20.dp))
         // Manager Button
@@ -129,9 +117,4 @@ fun SignUpScreen(
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun SignUpPreview() {
-//
-//}
 

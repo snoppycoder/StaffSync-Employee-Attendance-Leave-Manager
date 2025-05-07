@@ -1,60 +1,65 @@
 package com.example.figma_replicate.ui.screen
 
-
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.figma_replicate.ui.component.BackArrowComponent
 import com.example.figma_replicate.ui.component.BottomTextComponent
 import com.example.figma_replicate.ui.component.ContinueButtonComponent
 import com.example.figma_replicate.ui.component.CreateAccountTextComponent
+import com.example.figma_replicate.ui.component.DateOfBirthField
 import com.example.figma_replicate.ui.component.ImageComponent
-import com.example.figma_replicate.ui.component.NameTextField
 import com.example.figma_replicate.ui.component.SignUpProgressBarComponent
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FullNameScreen(
+fun BirthDayScreen(
     onBack: () -> Unit,
     onContinue: (String) -> Unit,
     onStepClick: (Int) -> Unit,
-    onLogin:() -> Unit
-
-) {
-    val orange = Color(0xFFFF7F50)
-    val gray = Color(0xFFD9D9D9)
-    val darkGray = Color(0xFF36454F)
-    val lightGray = Color(0xFFD3D3D3)
-    val context = LocalContext.current
-
-    var fullName by remember { mutableStateOf("") }
+    onLogin: () -> Unit
+){
+    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    var dateOfBirth by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
-    fun isValidName(name: String): Boolean {
-        return name.isNotBlank() && name.all { it.isLetter() || it.isWhitespace() }
+
+    fun isValidBirthday(input: String): Boolean {
+        return try {
+            val date = LocalDate.parse(input, dateFormatter)
+            val today = LocalDate.now()
+            val age = Period.between(date, today).years
+            age >= 18 && !date.isAfter(today)
+        } catch (e: DateTimeParseException) {
+            false
+        }
     }
 
     Column(
-        modifier = Modifier
+            modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+    ){
         Spacer(modifier = Modifier.height(30.dp))
         // Top Bar
         BackArrowComponent(onBack)
@@ -68,46 +73,32 @@ fun FullNameScreen(
         // Progress Indicator
         SignUpProgressBarComponent(
             steps = listOf("Email", "Name", "Birthday", "Gender", "Pass"),
-            currentStep = 1,
+            currentStep = 2,
             onStepClick = onStepClick
         )
+        // Date of Birth Field
         Spacer(modifier = Modifier.height(20.dp))
-        // Input Label
-        NameTextField(
-            value = fullName,
-            onValueChange = {
-                fullName = it
-                showError = false
-            },
-            isError = showError,
-            modifier = Modifier
-                .width(288.dp),
-            onDone = {
-                if (isValidName(fullName)) {
-                    onContinue(fullName)
+        DateOfBirthField(
+            onDateChanged = { dateString ->
+                dateOfBirth = dateString
+                showError = false // Reset error when editing
+            }
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        ContinueButtonComponent(
+            enabled = isValidBirthday(dateOfBirth),
+            showError = showError,
+            onClick = {
+                if (isValidBirthday(dateOfBirth)) {
+                    onContinue(dateOfBirth)
                 } else {
                     showError = true
                 }
-            }
+            },
+            step = 2
         )
-
         Spacer(modifier = Modifier.height(24.dp))
-        // Continue Button
-ContinueButtonComponent(
-    enabled=isValidName(fullName),
-        showError = showError,
-        onClick= {if (isValidName(fullName)){
-            onContinue(fullName)}
-        else{
-            showError = true
-}},
-    step=1)
-
-        Spacer(modifier = Modifier.height(24.dp))
-        // Divider and Bottom Text
+//        Divider and Bottom Text
         BottomTextComponent(onLogin)
-}
     }
-
-
-
+}
