@@ -1,8 +1,4 @@
 package com.example.figma_replicate.data.models
-import kotlinx.serialization.Serializable
-
-
-@Serializable
 data class User(
     val id: Int,
     val username: String,

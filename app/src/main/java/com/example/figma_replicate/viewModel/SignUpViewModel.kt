@@ -1,6 +1,5 @@
 package com.example.figma_replicate.viewModel
 
-
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,9 +12,9 @@ class SignupViewModel @Inject constructor(
     private val signupRepository: SignupRepository
 ) : ViewModel() {
 
-    var isLoading = mutableStateOf(false)
-    var errorMessage = mutableStateOf<String?>(null)
-    var signedUpUser = mutableStateOf<User?>(null)
+    val isLoading = mutableStateOf(false)
+    val errorMessage = mutableStateOf<String?>(null)
+    val signedUpUser = mutableStateOf<User?>(null)
 
     fun signup(user: User) {
         isLoading.value = true
@@ -23,10 +22,10 @@ class SignupViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                // Make the API call to signup
-                signedUpUser.value = signupRepository.signup(user)
+                val response = signupRepository.signup(user)
+                signedUpUser.value = response
             } catch (e: Exception) {
-                errorMessage.value = "Signup failed: ${e.message}"
+                errorMessage.value = "Signup failed: ${e.localizedMessage ?: "Unknown error"}"
             } finally {
                 isLoading.value = false
             }
