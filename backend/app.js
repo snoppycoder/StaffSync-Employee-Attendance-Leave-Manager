@@ -8,8 +8,10 @@ const logoutRouter = require('./controllers/logout');
 const leaveRequestRouter = require('./controllers/leaveRequest');
 const attendanceRouter = require('./controllers/attendance');
 const profileRouter = require('./controllers/profile');
+const cors = require('cors');
 
 
+app.use(cors())
 app.use(express.json())
 app.use(getTokenFrom)
 

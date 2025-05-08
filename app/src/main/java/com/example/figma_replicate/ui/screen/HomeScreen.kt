@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,8 +48,12 @@ fun HomeScreen() {
             composable(Routes.HOME) {
                 Column(
                     modifier = Modifier
+
                         .padding(innerPadding)
                         .padding(vertical = 16.dp)
+//                        .verticalScroll(rememberScrollState())
+
+
                 ) {
                     Column(
                         modifier = Modifier.padding(horizontal = 8.dp)
@@ -60,9 +66,10 @@ fun HomeScreen() {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-//                            .background(Color(0xFFF2F2F2))
+
+//
                     ) {
-                        Attendance()
+                        AttendanceGrid()
                         ListOfActivity()
                     }
                 }
@@ -72,7 +79,7 @@ fun HomeScreen() {
                 ScheduleScreen(navController)
             }
             composable(Routes.OFFICE) {
-                LeaveDashboardScreen(navController=navController)
+                UsersScreen()
                 // OfficeScreen()
             }
             composable(Routes.HOLIDAY) {
