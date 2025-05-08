@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const prisma = new PrismaClient();
 const saltRounds = 10;
 
+
 async function main() {
     // Delete all existing data to start fresh
     // await prisma.user.deleteMany();
@@ -12,7 +13,7 @@ async function main() {
     // await prisma.blacklistedToken.deleteMany();
     // await prisma.profile.deleteMany();
     console.log('Deleted all existing records.');
-
+   
     const users = [
         { 
             username: "alice", 

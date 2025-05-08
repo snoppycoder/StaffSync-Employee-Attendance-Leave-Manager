@@ -2,6 +2,7 @@ package com.example.figma_replicate.ui.screen
 
 import ListOfActivity
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,8 +23,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
+import com.example.figma_replicate.ui.screen.LoginScreen
 
- @Composable
+@Composable
 @RequiresApi(Build.VERSION_CODES.O)
 fun HomeScreen() {
     val navController = rememberNavController()
@@ -33,7 +36,7 @@ fun HomeScreen() {
         bottomBar = {
             if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE
                 && currentRoute != Routes.NOTIFICATION_SETTING
-                && currentRoute != Routes.CHANGE_PASSWORD
+                && currentRoute != Routes.CHANGE_PASSWORD && Routes.SIGNUP != currentRoute && Routes.LOGIN != currentRoute
                 )
             {
                 BottomNavBar(navController = navController)
@@ -42,7 +45,7 @@ fun HomeScreen() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.HOME,
+            startDestination = Routes.SIGNUP,
             modifier = Modifier
         ) {
             composable(Routes.HOME) {
@@ -104,12 +107,43 @@ fun HomeScreen() {
             composable( Routes.EDIT_PROFILE)  {
                  EditProfileScreen(navController=navController)
             }
+            composable( Routes.SIGNUP)  {
+                val context = LocalContext.current
+
+                SignUpScreen(onEmployeeClick = {
+
+                    navController.navigate("createaccount")
+                 },
+                     onManagerClick = {
+                         navController.navigate("createaccount")
+                     }, navController=navController
+                 )
+            }
             composable(Routes.NOTIFICATION_SETTING){
                 NotificationSettingScreen(navController = navController)
             }
             composable (Routes.CHANGE_PASSWORD) {
                 ChangePasswordScreen(navController=navController)
             }
+            composable (Routes.FORGOT_PASSWORD) {
+                ForgotPassword(navController=navController)
+            }
+            composable (Routes.FULLNAME) {
+                CreateAccountFullName(navController=navController)
+            }
+            composable (Routes.GENDER) {
+                CreateAccountGender(navController=navController)
+            }
+            composable (Routes.LOGIN) {
+                val context = LocalContext.current
+                LoginScreen(
+                    onLoginClick = {  Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
+                onSignUpClick={Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
+                onForgotPasswordClick={  Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
+                navController=navController
+                )
+            }
+
 
         }
     }

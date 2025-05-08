@@ -12,4 +12,9 @@ object Routes {
     const val EDIT_PROFILE = "edit_profile"
     const val NOTIFICATION_SETTING = "notification_setting"
     const val CHANGE_PASSWORD = "change_password"
+    const val SIGNUP = "signup"
+    const val LOGIN =  "login"
+    const val FORGOT_PASSWORD = "forgotpassword"
+    const val FULLNAME = "fullname"
+    const val GENDER = "gender"
 }
