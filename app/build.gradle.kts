@@ -2,10 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0-Beta2"
-
+    // Remove the following line:
+    // kotlin("jvm")
 }
-
 
 android {
     namespace = "com.example.figma_replicate"
@@ -42,6 +41,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -59,6 +59,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    implementation("com.google.dagger:dagger-compiler:2.51.1")
+    implementation("com.google.devtools.ksp:symbol-processing-api:2.2.0-Beta2-1.0.32")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     testImplementation(libs.junit)
     implementation(libs.androidx.navigation.compose)
 
@@ -70,3 +74,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
 }
+

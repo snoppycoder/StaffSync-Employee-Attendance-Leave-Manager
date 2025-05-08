@@ -14,16 +14,3 @@ data class User(
     val updatedAt: String,      // ISO 8601 timestamp
     val deletedAt: String? = null
 )
-@Serializable
-data class Profile(
-    val id: Int,
-    val fullName: String,
-    val gender: String,
-    val employmentType: String,
-    val designation: String,
-    val userId: Int,
-    val dateOfBirth: String,    // ISO 8601 timestamp
-    val createdAt: String,      // ISO 8601 timestamp
-    val updatedAt: String,      // ISO 8601 timestamp
-    val deletedAt: String? = null
-)
