@@ -1,4 +1,3 @@
-
 package com.example.figma_replicate.ui.screen
 
 import ListOfActivity
@@ -38,6 +37,8 @@ fun HomeScreen() {
             if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE
                 && currentRoute != Routes.NOTIFICATION_SETTING
                 && currentRoute != Routes.CHANGE_PASSWORD && Routes.SIGNUP != currentRoute && Routes.LOGIN != currentRoute
+                && currentRoute != Routes.PASSWORD && currentRoute != Routes.OTP && currentRoute != Routes.FULLNAME &&
+                currentRoute != Routes.DOB && currentRoute != Routes.GENDER
             )
             {
                 BottomNavBar(navController = navController)
@@ -113,10 +114,10 @@ fun HomeScreen() {
 
                 SignUpScreen(onEmployeeClick = {
 
-                    navController.navigate("createaccount")
+                    navController.navigate("fullname")
                 },
                     onManagerClick = {
-                        navController.navigate("createaccount")
+                        navController.navigate("fullname")
                     }, navController=navController
                 )
             }
@@ -126,14 +127,23 @@ fun HomeScreen() {
             composable (Routes.CHANGE_PASSWORD) {
                 ChangePasswordScreen(navController=navController)
             }
-//            composable (Routes.FORGOT_PASSWORD) {
-//                ForgotPassword(navController=navController)
-//            }
+            composable (Routes.FORGOT_PASSWORD) {
+                ForgotPassword(navController=navController)
+            }
             composable (Routes.FULLNAME) {
                 CreateAccountFullName(navController=navController)
             }
             composable (Routes.GENDER) {
                 CreateAccountGender(navController=navController)
+            }
+            composable (Routes.DOB) {
+                CreateAccountDOB(navController=navController)
+            }
+            composable (Routes.PASSWORD) {
+                CreateAccountPassword(navController=navController)
+            }
+            composable (Routes.OTP) {
+                CreateAccountOTP(navController=navController)
             }
             composable (Routes.LOGIN) {
                 val context = LocalContext.current

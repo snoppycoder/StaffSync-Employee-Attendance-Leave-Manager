@@ -17,4 +17,7 @@ object Routes {
     const val FORGOT_PASSWORD = "forgotpassword"
     const val FULLNAME = "fullname"
     const val GENDER = "gender"
+    const val DOB = "dob"
+    const val PASSWORD = "password"
+    const val OTP = "otp"
 }
