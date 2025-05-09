@@ -135,6 +135,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+
 //    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
 //    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:$kotlin_metadata_jvm_version")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")

@@ -1,5 +1,6 @@
 package com.example.figma_replicate.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,9 +35,11 @@ class SignupViewModel @Inject constructor(
     private var designation: String? = null
     private var employmentType: String? = null
     fun setUsername(username: String) {
+        println(username)
         this.username = username
     }
     fun setDesignation(designation: String) {
+
         this.designation = designation
 
     }
@@ -66,41 +69,49 @@ class SignupViewModel @Inject constructor(
     }
 
     fun signup() {
-        if (!validateInput()) {
-            signupState.value = SignupState.Error("Incomplete or invalid input.")
-            return
-        }
+//        if (!validateInput()) {
+////            println(username, password, dob, designation, email, employmentType, fullName)
+//            println("Incomplete or invalid input")
+//            signupState.value = SignupState.Error("Incomplete or invalid input.")
+//            return
+//        }
 
         signupState.value = SignupState.Loading
 
         viewModelScope.launch {
             try {
+
+//
                 val user = signupRepository.signup(
                     User(
-                        username = username!!,
-                        gender = gender!!,
-                        dateOfBirth = dob!!,
-                        fullName = fullName!!,
-                        password = password!!,
-                        email = email!!,
-                        role = role!!.name.lowercase(),
-                        designation = designation!!,
-                        employmentType = employmentType!!
+                        username = username,
+                        gender = gender,
+                        dateOfBirth = dob,
+                        fullName = fullName,
+                        password = password,
+                        email = email,
+                        role = role,
+                        designation = designation,
+                        employmentType = employmentType
                     )
                 )
+                println("user profile $user")
+
                 signupState.value = SignupState.Success(user)
             } catch (e: Exception) {
                 signupState.value = SignupState.Error("Signup failed. Please try again.")
+                println("here is the error ${e.localizedMessage}, ${e.cause}")
+//
             }
         }
     }
 
-    private fun validateInput(): Boolean {
-        return fullName?.isNotBlank() == true &&
-                email?.contains("@") == true &&
-                (password?.length ?: 0) >= 6 &&
-                role != null
-    }
+//    private fun validateInput(): Boolean {
+//        return fullName?.isNotBlank() == true &&
+//                email?.contains("@") == true &&
+//                (password?.length ?: 0) >= 6 &&
+//                role != null
+//    }
 
     fun resetState() {
         signupState.value = SignupState.Idle

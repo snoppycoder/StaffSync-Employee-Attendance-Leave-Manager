@@ -112,7 +112,7 @@ fun HomeScreen() {
             composable( Routes.SIGNUP)  {
                 val context = LocalContext.current
 
-                SignUpScreen(
+                SignupScreen(
                     navController=navController
                 )
             }
@@ -137,9 +137,9 @@ fun HomeScreen() {
             composable (Routes.PASSWORD) {
                 CreateAccountPassword(navController=navController)
             }
-            composable (Routes.OTP) {
-                CreateAccountOTP(navController=navController)
-            }
+//            composable (Routes.OTP) {
+//                CreateAccountOTP(navController=navController)
+//            }
             composable (Routes.LOGIN) {
                 val context = LocalContext.current
                 LoginScreen(
