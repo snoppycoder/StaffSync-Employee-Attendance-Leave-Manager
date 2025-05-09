@@ -103,6 +103,7 @@ dependencies {
     val gson_version = "2.10.1"
     val kotlin_serialization_version = "1.6.3"
     val kotlin_metadata_jvm_version = "0.5.1"
+    val okhttpVersion = "4.11.0"
 
     // Room with KSP
     implementation("androidx.room:room-runtime:$room_version")
@@ -136,7 +137,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version")
 //    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:$kotlin_metadata_jvm_version")
-
+    implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
     // Compose & AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -146,6 +147,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+
 
     // Testing
 //    testImplementation(libs.junit)

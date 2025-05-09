@@ -17,7 +17,7 @@ object AppModule {
     @Provides
     fun provideApiService(): ApiServiceInterface {
         return Retrofit.Builder()
-            .baseUrl("https://")
+            .baseUrl("https://10.2.2.0:3000/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(ApiServiceInterface::class.java)

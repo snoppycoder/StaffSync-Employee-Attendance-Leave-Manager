@@ -12,13 +12,13 @@ import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 // Base URL for API
-private const val BASE_URL = "http://10.0.2.2:3000/"
+private const val BASE_URL = "http://10.6.156.49:3000/"
 
 // OkHttpClient for custom timeout configurations
 private val client = OkHttpClient.Builder()
-    .connectTimeout(30, TimeUnit.SECONDS)  // Timeout for establishing a connection
-    .readTimeout(30, TimeUnit.SECONDS)     // Timeout for reading data
-    .writeTimeout(30, TimeUnit.SECONDS)    // Timeout for sending data
+    .connectTimeout(60, TimeUnit.SECONDS)  // Timeout for establishing a connection
+    .readTimeout(60, TimeUnit.SECONDS)     // Timeout for reading data
+    .writeTimeout(60, TimeUnit.SECONDS)    // Timeout for sending data
     .build()
 
 // Json serializer configuration with kotlinx.serialization

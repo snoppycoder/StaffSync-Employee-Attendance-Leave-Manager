@@ -73,8 +73,9 @@ import androidx.navigation.compose.composable
 import com.example.figma_replicate.ui.screen.HomeScreen
 
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.DateTimeFormatter
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

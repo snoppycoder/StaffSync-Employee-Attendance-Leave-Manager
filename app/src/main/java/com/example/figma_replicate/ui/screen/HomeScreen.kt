@@ -112,13 +112,8 @@ fun HomeScreen() {
             composable( Routes.SIGNUP)  {
                 val context = LocalContext.current
 
-                SignUpScreen(onEmployeeClick = {
-
-                    navController.navigate("fullname")
-                },
-                    onManagerClick = {
-                        navController.navigate("fullname")
-                    }, navController=navController
+                SignUpScreen(
+                    navController=navController
                 )
             }
             composable(Routes.NOTIFICATION_SETTING){
@@ -148,7 +143,7 @@ fun HomeScreen() {
             composable (Routes.LOGIN) {
                 val context = LocalContext.current
                 LoginScreen(
-                    onLoginClick = {  Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
+                    onLoginClick = {navController.navigate("home")},
                     onSignUpClick={Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
                     onForgotPasswordClick={  Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()},
                     navController=navController

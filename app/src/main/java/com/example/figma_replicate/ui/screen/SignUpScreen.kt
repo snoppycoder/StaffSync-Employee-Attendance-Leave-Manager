@@ -47,16 +47,40 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.figma_replicate.R
+import com.example.figma_replicate.data.models.UserRole
+import com.example.figma_replicate.viewModel.SignupState
+import com.example.figma_replicate.viewModel.SignupViewModel
+
 
 @Composable
 fun SignUpScreen(
-    onEmployeeClick: () -> Unit,
-    onManagerClick: () -> Unit, navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = viewModel ()
 ) {
     val orange = Color(0xFFFF7F50)
     val context = LocalContext.current
+
+    // Observe ViewModel state
+    when (val state = viewModel.signupState.value) {
+        is SignupState.Loading -> {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
+        is SignupState.Error -> {
+            Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+            viewModel.resetState() // Reset error state after showing
+        }
+        is SignupState.Success -> {
+            navController.navigate("home") {
+                popUpTo("signup") { inclusive = true }
+            }
+            viewModel.resetState() // Reset state after navigation
+        }
+        is SignupState.Idle -> Unit
+    }
 
     Column(
         modifier = Modifier
@@ -89,7 +113,8 @@ fun SignUpScreen(
                 .fillMaxWidth(0.85f)
                 .height(56.dp)
                 .clickable {
-                    onEmployeeClick()
+                    viewModel.setRole(UserRole.EMPLOYEE)
+                    navController.navigate("fullname")
                 }
         ) {
             Box(contentAlignment = Alignment.Center) {
@@ -101,13 +126,6 @@ fun SignUpScreen(
                 )
             }
         }
-//        Button(onClick = onEmployeeClick) {
-//            Text("Employee")
-//        }
-//        Button(onClick = onManagerClick) {
-//            Text("Manager")
-//        }
-
         Spacer(modifier = Modifier.height(20.dp))
         // Manager Button
         Surface(
@@ -117,7 +135,8 @@ fun SignUpScreen(
                 .fillMaxWidth(0.85f)
                 .height(56.dp)
                 .clickable {
-                    onManagerClick()
+                    viewModel.setRole(UserRole.MANAGER)
+                    navController.navigate("fullname")
                 }
         ) {
             Box(contentAlignment = Alignment.Center) {
@@ -131,9 +150,11 @@ fun SignUpScreen(
         }
         Spacer(modifier = Modifier.height(80.dp))
         // Bottom Text
-        HorizontalDivider(modifier=Modifier.fillMaxWidth(0.85f), 2.dp, Color(0xFFD9D9D9)
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(0.85f),
+            thickness = 2.dp,
+            color = Color(0xFFD9D9D9)
         )
-//        Spacer(modifier=Modifier.height(24.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,13 +176,14 @@ fun SignUpScreen(
                 }
             )
         }
-
     }
 }
+
 @Composable
 
 fun CreateAccountFullName(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -222,7 +244,17 @@ fun CreateAccountFullName(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-
+        var username by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Enter Your Preferred Username") },
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         // Input Field
         var name by remember { mutableStateOf("") }
         OutlinedTextField(
@@ -246,6 +278,18 @@ fun CreateAccountFullName(
                 .fillMaxWidth()
                 .height(56.dp)
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        // Input Field
+        var designation by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = designation,
+            onValueChange = { designation = it },
+            label = { Text("Enter Your Designation") },
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -253,6 +297,9 @@ fun CreateAccountFullName(
         Button(
             onClick = {
                 navController.navigate("gender")
+                viewModel.setFullNameAndEmail(name, email)
+                viewModel.setDesignation(designation)
+                viewModel.setUsername(username)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -269,7 +316,8 @@ fun CreateAccountFullName(
 }
 @Composable
 fun CreateAccountGender(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -334,6 +382,17 @@ fun CreateAccountGender(
         Spacer(modifier = Modifier.height(24.dp))
 
         // Input Field
+        var employmentType by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = employmentType,
+            onValueChange = { employmentType = it },
+            label = { Text("Employment Type") },
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+        Spacer(modifier = Modifier.height(24.dp))
         var gender by remember { mutableStateOf("") }
         OutlinedTextField(
             value = gender,
@@ -351,6 +410,7 @@ fun CreateAccountGender(
         Button(
             onClick = {
                 navController.navigate("dob")
+                viewModel.setGender(gender)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -368,7 +428,8 @@ fun CreateAccountGender(
 
 @Composable
 fun CreateAccountDOB(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -447,6 +508,7 @@ fun CreateAccountDOB(
         Button(
             onClick = {
                 navController.navigate("password")
+                viewModel.setDob(dob)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -463,7 +525,8 @@ fun CreateAccountDOB(
 }
 @Composable
 fun CreateAccountPassword(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -555,6 +618,7 @@ fun CreateAccountPassword(
         Button(
             onClick = {
                 navController.navigate("otp")
+                viewModel.setPassword(password)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -570,7 +634,8 @@ fun CreateAccountPassword(
     }
 }
 @Composable
-fun CreateAccountOTP(navController: NavController
+fun CreateAccountOTP(navController: NavController,
+                     viewModel: SignupViewModel = hiltViewModel()
 ) {
 
     Column(
@@ -697,7 +762,12 @@ fun CreateAccountOTP(navController: NavController
 
             // Confirm Button
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate("login")
+                    viewModel.signup()
+
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
