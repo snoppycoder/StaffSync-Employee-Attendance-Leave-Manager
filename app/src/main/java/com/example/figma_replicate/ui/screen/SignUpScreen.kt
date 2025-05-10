@@ -1,6 +1,8 @@
 package com.example.figma_replicate.ui.screen
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +38,7 @@ import com.example.figma_replicate.InputValidators.Email_Validator
 import com.example.figma_replicate.InputValidators.FullName_Validator
 import com.example.figma_replicate.InputValidators.Password_Validator
 import com.example.figma_replicate.InputValidators.UserName_Validator
+import com.example.figma_replicate.InputValidators.sigUpButtonEnabled
 
 import com.example.figma_replicate.R
 import com.example.figma_replicate.data.models.UserRole
@@ -312,7 +315,8 @@ fun CreateAccountFullName(
             onClick = {
                 navController.navigate("gender")
             },
-//            enabled = validator == null,
+            enabled = fullNameValidator == null && emailValidator==null
+                    && designation_validator==null && userNameValidator==null,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
                 .fillMaxWidth()
@@ -386,6 +390,7 @@ fun CreateAccountGender(
                 navController.navigate("dob")
 
             },
+
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
                 .fillMaxWidth()
@@ -397,6 +402,7 @@ fun CreateAccountGender(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreateAccountDOB(
     navController: NavController,
@@ -433,15 +439,6 @@ fun CreateAccountDOB(
         StepIndicator(2)
         Spacer(modifier = Modifier.height(16.dp))
 
-//        OutlinedTextField(
-//            value = dob,
-//            onValueChange = {viewModel.setDob(it) },
-//            label = { Text("Date of Birth") },
-//            singleLine = true,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(65.dp)
-//        )
         CalendarField("Date of Birth", selectedDate = dob) { viewModel.setDob(it)}
         Spacer(modifier = Modifier.height(16.dp))
         Button(
@@ -526,11 +523,14 @@ fun CreateAccountPassword(
                 navController.navigate("login")
 
 
+
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFFFF7043))
+
+            colors = ButtonDefaults.buttonColors(Color(0xFFFF7043)),
+            enabled = passwordValidator == null
         ) {
             Text("Confirm", color = Color.White, fontSize = 16.sp)
         }

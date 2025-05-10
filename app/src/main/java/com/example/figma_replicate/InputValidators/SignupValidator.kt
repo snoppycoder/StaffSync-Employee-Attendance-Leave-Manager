@@ -45,3 +45,17 @@ fun Password_Validator(password: String, confirmPassword:String):String?{
     return formErrorMessage
 
 }
+fun sigUpButtonEnabled(username:String, password:String, designation:String,
+                       email:String, fullName: String, confirmPassword:String,
+                       ):Boolean{
+
+    if (Password_Validator(password, confirmPassword) == null &&
+        Designation_Validation(designation) == null && UserName_Validator(
+            username) == null  && Email_Validator(email) == null
+        )
+    {
+        return true
+    }
+    return false
+}
+
