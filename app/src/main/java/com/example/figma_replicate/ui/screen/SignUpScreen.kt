@@ -56,8 +56,6 @@ fun SignupScreen(
 ) {
     val context = LocalContext.current
     val state by viewModel.signupState
-
-    // Handle ViewModel state
     when (state) {
         is SignupState.Loading -> {
             CircularProgressIndicator(
@@ -345,7 +343,8 @@ fun CreateAccountGender(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navController.popBackStack() })
+            {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
             }
         }

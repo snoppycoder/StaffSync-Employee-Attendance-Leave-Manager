@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     private const val BASE_URL = "http://192.168.100.6:3000/"
 
     @Provides
@@ -61,4 +60,5 @@ object AppModule {
         return LoginRepository(apiService)
 
     }
+
 }

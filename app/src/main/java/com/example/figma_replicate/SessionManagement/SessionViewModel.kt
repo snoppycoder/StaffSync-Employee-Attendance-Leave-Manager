@@ -28,9 +28,7 @@
 //@HiltViewModel
 //
 //class SessionViewModel(application: Application): AndroidViewModel(application) {
-//    private val context = application.applicationContext
-//    private val _isLoggedIn = mutableStateOf(false)
-//    val isLoggedIn: State<Boolean> get() = _isLoggedIn
+//
 //
 //    init {
 //        viewModelScope.launch {
