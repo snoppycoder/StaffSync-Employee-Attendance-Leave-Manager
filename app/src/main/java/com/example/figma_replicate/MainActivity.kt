@@ -26,6 +26,7 @@ import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
 import com.example.figma_replicate.ui.screen.*
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
+import com.example.figma_replicate.viewModel.LoginViewModel
 import com.example.figma_replicate.viewModel.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -135,6 +136,7 @@ fun MainScreen() {
 
             composable(Routes.LOGIN) {
                 val context = LocalContext.current
+                val viewModel: LoginViewModel = hiltViewModel()
                 LoginScreen(
                     onLoginClick = { navController.navigate(Routes.HOME) },
                     onSignUpClick = {

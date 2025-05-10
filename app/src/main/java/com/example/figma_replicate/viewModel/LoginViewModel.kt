@@ -26,13 +26,15 @@ class LoginViewModel @Inject constructor(
 ): ViewModel(){
     var loginState = mutableStateOf<LoginState>(LoginState.Idle)
         private set
-    private var username: String? = null
-    private var password: String? = null
-    fun setUserName(username:String) {
-        this.username = username
+    var username = mutableStateOf("")
+        private set
+    var password = mutableStateOf("")
+        private set
+    fun setUserName(value:String) {
+        username.value = value
     }
-    fun setPassword(password:String){
-        this.password = password
+    fun setPassword(value:String){
+        password.value = value
     }
     fun login(){
         loginState.value = LoginState.Loading
@@ -40,8 +42,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             loginRepository.login(
                 LoginUsers(
-                    username=username,
-                    password=password
+                    username=username.value,
+                    password=password.value
 
                 )
             )

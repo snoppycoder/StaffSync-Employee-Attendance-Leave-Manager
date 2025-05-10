@@ -48,8 +48,8 @@ fun LoginScreen(
 ) {
     val orange = Color(0xFFFF7F50)
     val context = LocalContext.current
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var username by viewModel.username
+    var password by   viewModel.password
 
     Column(
         modifier = Modifier
@@ -88,7 +88,7 @@ fun LoginScreen(
         // Email Field
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = { viewModel.setUserName(it) },
             label = { Text("Username") },
             leadingIcon = {
                 Icon(
@@ -113,7 +113,7 @@ fun LoginScreen(
         // Password Field
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.setPassword(it) },
             label = { Text("Password") },
             leadingIcon = {
                 Icon(
@@ -145,7 +145,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Log in button
+
         Button(
             onClick = {
                 viewModel.setUserName(username)
