@@ -72,7 +72,7 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setGender(value: String) {
-        val upper_case = value.uppercase()
+        val upper_case = value.uppercase().trim()
         gender.value = upper_case
     }
 
