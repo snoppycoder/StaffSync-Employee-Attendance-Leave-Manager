@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+//import com.example.figma_replicate.SessionManagement.SessionViewModel
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
 import com.example.figma_replicate.ui.screen.*
@@ -38,7 +39,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Figma_replicateTheme {
-                MainScreen()
+//                val sessionViewModel: SessionViewModel = hiltViewModel()
+                MainScreen(
+//                    sessionViewModel
+                )
             }
         }
     }
@@ -46,10 +50,18 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+//    sessionViewModel: SessionViewModel
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+//    val isLoggedIn by sessionViewModel.isLoggedIn
     val currentRoute = navBackStackEntry?.destination?.route
+//    LaunchedEffect(isLoggedIn) {
+//        navController.navigate(if (isLoggedIn) Routes.HOME else Routes.LOGIN) {
+//            popUpTo(0) // Clear back stack
+//        }
+//    }
 
     Scaffold(
         bottomBar = {

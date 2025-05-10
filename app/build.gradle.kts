@@ -105,6 +105,13 @@ dependencies {
     val kotlin_metadata_jvm_version = "0.5.1"
     val okhttpVersion = "4.11.0"
 
+
+    //datastore
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+
+
     // Room with KSP
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")

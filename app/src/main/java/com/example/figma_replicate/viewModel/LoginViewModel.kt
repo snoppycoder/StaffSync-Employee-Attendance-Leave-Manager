@@ -40,13 +40,23 @@ class LoginViewModel @Inject constructor(
         loginState.value = LoginState.Loading
 
         viewModelScope.launch {
-            loginRepository.login(
-                LoginUsers(
-                    username=username.value,
-                    password=password.value
+            try {
+                val user = loginRepository.login(
+                    LoginUsers(
+                        username=username.value,
+                        password=password.value
+
+
+                    )
 
                 )
-            )
+                loginState.value = LoginState.Success(user)
+
+
+            }
+            catch(e: Exception) {
+                loginState.value = LoginState.Error("Login failed because of ${e.message}")
+            }
         }
 
     }

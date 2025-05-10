@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import android.widget.Toast
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.figma_replicate.R
+import com.example.figma_replicate.viewModel.LoginState
 import com.example.figma_replicate.viewModel.LoginViewModel
 import com.example.figma_replicate.viewModel.SignupViewModel
 
@@ -50,146 +52,172 @@ fun LoginScreen(
     val context = LocalContext.current
     var username by viewModel.username
     var password by   viewModel.password
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(40.dp))
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with your asset
-            contentDescription = "Login Illustration",
-            modifier = Modifier
-                .height(280.dp)
-                .fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Back to sync?",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Access your account by logging in",
-            fontSize = 14.sp,
-            color = Color.Gray
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Email Field
-        OutlinedTextField(
-            value = username,
-            onValueChange = { viewModel.setUserName(it) },
-            label = { Text("Username") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_key), // Replace with your email icon
-                    contentDescription = "Username"
+    val loginState by viewModel.loginState
+    when (loginState) {
+        is LoginState.Idle -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(40.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with your asset
+                    contentDescription = "Login Illustration",
+                    modifier = Modifier
+                        .height(280.dp)
+                        .fillMaxWidth()
                 )
-            },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(12.dp),
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Back to sync?",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Access your account by logging in",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Email Field
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { viewModel.setUserName(it) },
+                    label = { Text("Username") },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_key), // Replace with your email icon
+                            contentDescription = "Username"
+                        )
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(12.dp),
 //            colors = TextFieldDefaults.outlinedTextFieldColors(
 //                focusedBorderColor = Color.LightGray,
 //                unfocusedBorderColor = Color.LightGray,
 //                containerColor = Color(0xFFF0F0F0)
 //            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Password Field
-        OutlinedTextField(
-            value = password,
-            onValueChange = { viewModel.setPassword(it) },
-            label = { Text("Password") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_key), // Replace with your lock icon
-                    contentDescription = "Password"
                 )
-            },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(12.dp),
 
-        )
+                Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
+                // Password Field
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { viewModel.setPassword(it) },
+                    label = { Text("Password") },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_key), // Replace with your lock icon
+                            contentDescription = "Password"
+                        )
+                    },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(12.dp),
 
-        Text(
-            text = "Forgot Password?",
-            color = Color.Gray,
-            fontSize = 14.sp,
-            modifier = Modifier
-                .align(Alignment.End)
-                .clickable {
-                    navController.navigate("forgotpassword")
+                    )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Forgot Password?",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .clickable {
+                            navController.navigate("forgotpassword")
+                        }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+
+                Button(
+                    onClick = {
+                        viewModel.setUserName(username)
+                        viewModel.setPassword(password)
+                        viewModel.login()
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = orange)
+                ) {
+                    Text(
+                        text = "Log in",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = Color.White
+
+                    )
                 }
-        )
 
-        Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
+                Divider(color = Color.LightGray, thickness = 1.dp)
 
-        Button(
-            onClick = {
-                viewModel.setUserName(username)
-                viewModel.setPassword(password)
-                viewModel.login()
+                Spacer(modifier = Modifier.height(16.dp))
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = orange)
-        ) {
-            Text(
-                text = "Log in",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                color = Color.White
+                Row {
+                    Text(
+                        text = "No account?",
+                        color = Color.Gray,
+                        fontSize = 14.sp
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Sign up",
+                        color = orange,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.clickable {
+                            navController.navigate("signup")
+                        }
+                    )
+                }
+            }
 
+        }
+        is LoginState.Loading -> {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center) // This will center the indicator
             )
         }
+        is LoginState.Success -> {
+            navController.navigate("home")
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Divider(color = Color.LightGray, thickness = 1.dp)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row {
-            Text(
-                text = "No account?",
-                color = Color.Gray,
-                fontSize = 14.sp
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = "Sign up",
-                color = orange,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.clickable {
-                    navController.navigate("signup")
-                }
-            )
         }
+        is LoginState.Error -> {
+            val error = (loginState as LoginState.Error).message
+            val context = LocalContext.current
+            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+
+
+        }
+
     }
+
+
 }
