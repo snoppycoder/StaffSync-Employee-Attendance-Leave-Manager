@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { identifyUser } = require('../utils/middleware');
+const { parse } = require('date-fns');
 
 signupRouter.post('/', async (req, res) => {
   const {
@@ -62,7 +63,7 @@ signupRouter.post('/', async (req, res) => {
               gender,
               employmentType,
               designation,
-              dateOfBirth: new Date(dateOfBirth),
+              dateOfBirth: parse(dateOfBirth, 'MMM dd, yyyy', new Date()), // Parse date string to Date object
             }
           }
         }
