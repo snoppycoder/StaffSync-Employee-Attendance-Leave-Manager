@@ -2,6 +2,7 @@ package com.example.figma_replicate.di
 
 import android.content.Context
 import com.example.figma_replicate.data.AuthPrefs
+import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.network.ApiServiceInterface
 import com.example.figma_replicate.data.repository.LoginRepository
 import com.example.figma_replicate.data.repository.SignupRepository
@@ -17,12 +18,10 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
 import java.util.concurrent.TimeUnit
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    private const val BASE_URL = "https://192.168.100.6:3000" // Replace with your API URL
+    private const val BASE_URL = "http://192.168.100.6:3000/"
 
     @Provides
     @Singleton
@@ -53,19 +52,11 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiServiceInterface =
         retrofit.create(ApiServiceInterface::class.java)
-
-    @Provides
-    @Singleton
-    fun provideLoginRepository(apiService: ApiServiceInterface): LoginRepository {
-        return LoginRepository(apiService)
-    }
-
     @Provides
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
     }
-
     @Provides
     @Singleton
     fun provideAuthPrefs(@ApplicationContext context: Context): AuthPrefs {
