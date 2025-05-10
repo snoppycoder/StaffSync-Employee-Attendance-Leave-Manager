@@ -18,47 +18,47 @@ import com.example.figma_replicate.viewModel.UserViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersScreen(viewModel: UserViewModel = viewModel()) {
-    val users by viewModel.users.collectAsState()
-    val loading by viewModel.isLoading.collectAsState()
-    val error by viewModel.errorMessage.collectAsState()
-
-    Scaffold(topBar = {
-        TopAppBar(title = { Text("Users") })
-    }) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            when {
-                loading -> {
-                    CircularProgressIndicator()
-                }
-                error != null -> {
-                    Text(
-                        text = error ?: "Unknown error",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                users.isEmpty() -> {
-                    Text(
-                        text = "No users found.",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                else -> {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        users.forEach { user ->
-                            Text(
-                                text = "${user.username} - ${user.email}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Divider(modifier = Modifier.padding(vertical = 4.dp))
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    val users by viewModel.users.collectAsState()
+//    val loading by viewModel.isLoading.collectAsState()
+//    val error by viewModel.errorMessage.collectAsState()
+//
+//    Scaffold(topBar = {
+//        TopAppBar(title = { Text("Users") })
+//    }) { paddingValues ->
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(paddingValues),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            when {
+//                loading -> {
+//                    CircularProgressIndicator()
+//                }
+//                error != null -> {
+//                    Text(
+//                        text = error ?: "Unknown error",
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
+//                }
+//                users.isEmpty() -> {
+//                    Text(
+//                        text = "No users found.",
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
+//                }
+//                else -> {
+//                    Column(modifier = Modifier.padding(16.dp)) {
+//                        users.forEach { user ->
+//                            Text(
+//                                text = "${user.username} - ${user.email}",
+//                                style = MaterialTheme.typography.bodyMedium
+//                            )
+//                            Divider(modifier = Modifier.padding(vertical = 4.dp))
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
