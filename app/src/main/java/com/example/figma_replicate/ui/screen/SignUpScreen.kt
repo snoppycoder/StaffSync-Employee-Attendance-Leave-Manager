@@ -38,7 +38,6 @@ fun SignupScreen(
     navController: NavController,
     viewModel: SignupViewModel = hiltViewModel()
 ) {
-    val orange = Color(0xFFFF7F50)
     val context = LocalContext.current
     val state by viewModel.signupState
 
@@ -205,10 +204,10 @@ fun CreateAccountFullName(
         Text("Create account", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(16.dp))
         Spacer(modifier = Modifier.height(24.dp))
-        var username by remember { mutableStateOf("") }
+        var username by viewModel.username
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = { viewModel.setUsername(it)},
             label = { Text("Enter Your Preferred Username") },
             singleLine = true,
             modifier = Modifier
@@ -216,10 +215,10 @@ fun CreateAccountFullName(
                 .height(56.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        var name by remember { mutableStateOf("") }
+        var name by  viewModel.fullName
         OutlinedTextField(
             value = name,
-            onValueChange = { name = it },
+            onValueChange = { viewModel.setFullName(it) },
             label = { Text("Enter Your Full Name") },
             singleLine = true,
             modifier = Modifier
@@ -227,10 +226,10 @@ fun CreateAccountFullName(
                 .height(56.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        var email by remember { mutableStateOf("") }
+        var email by viewModel.email
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = { viewModel.setEmail(it) },
             label = { Text("Enter Your Email Address") },
             singleLine = true,
             modifier = Modifier
@@ -238,10 +237,10 @@ fun CreateAccountFullName(
                 .height(56.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        var designation by remember { mutableStateOf("") }
+        var designation by  viewModel.designation
         OutlinedTextField(
             value = designation,
-            onValueChange = { designation = it },
+            onValueChange = { viewModel.setDesignation(it) },
             label = { Text("Enter Your Designation") },
             singleLine = true,
             modifier = Modifier
@@ -252,9 +251,6 @@ fun CreateAccountFullName(
         Button(
             onClick = {
                 navController.navigate("gender")
-                viewModel.setFullNameAndEmail(name, email)
-                viewModel.setDesignation(designation)
-                viewModel.setUsername(username)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -300,10 +296,10 @@ fun CreateAccountGender(
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(1)
         Spacer(modifier = Modifier.height(24.dp))
-        var employmentType by remember { mutableStateOf("") }
+        var employmentType by  viewModel.employmentType
         OutlinedTextField(
             value = employmentType,
-            onValueChange = { employmentType = it },
+            onValueChange = {viewModel.setEmploymentType(it) },
             label = { Text("Employment Type") },
             singleLine = true,
             modifier = Modifier
@@ -311,10 +307,10 @@ fun CreateAccountGender(
                 .height(56.dp)
         )
         Spacer(modifier = Modifier.height(24.dp))
-        var gender by remember { mutableStateOf("") }
+        var gender by viewModel.gender
         OutlinedTextField(
             value = gender,
-            onValueChange = { gender = it },
+            onValueChange = { viewModel.setGender(it) },
             label = { Text("Gender") },
             singleLine = true,
             modifier = Modifier
@@ -325,8 +321,7 @@ fun CreateAccountGender(
         Button(
             onClick = {
                 navController.navigate("dob")
-                viewModel.setGender(gender)
-                viewModel.setEmploymentType(employmentType)
+
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -372,10 +367,10 @@ fun CreateAccountDOB(
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(2)
         Spacer(modifier = Modifier.height(24.dp))
-        var dob by remember { mutableStateOf("") }
+        var dob by viewModel.dob
         OutlinedTextField(
             value = dob,
-            onValueChange = { dob = it },
+            onValueChange = {viewModel.setDob(it) },
             label = { Text("Date of Birth") },
             singleLine = true,
             modifier = Modifier
@@ -386,7 +381,7 @@ fun CreateAccountDOB(
         Button(
             onClick = {
                 navController.navigate("password")
-                viewModel.setDob(dob)
+
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
@@ -432,10 +427,10 @@ fun CreateAccountPassword(
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(3)
         Spacer(modifier = Modifier.height(24.dp))
-        var password by remember { mutableStateOf("") }
+        var password by  viewModel.password
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.setPassword(it)},
             label = { Text("Password") },
             singleLine = true,
             modifier = Modifier
@@ -457,9 +452,10 @@ fun CreateAccountPassword(
 
         Button(
             onClick = {
-                navController.navigate("login")
-                viewModel.setPassword(password)
                 viewModel.signup()
+                navController.navigate("login")
+
+
             },
             modifier = Modifier
                 .fillMaxWidth()

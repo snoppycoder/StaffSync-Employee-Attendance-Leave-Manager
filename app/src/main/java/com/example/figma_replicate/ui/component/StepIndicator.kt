@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun StepIndicator(currentStep: Int) {
-    val steps = listOf("Email", "Gender", "Birthday", "Password", "OTP")
+    val steps = listOf("Email", "Gender", "Birthday", "Password")
 
     Row(
         modifier = Modifier.fillMaxWidth(),

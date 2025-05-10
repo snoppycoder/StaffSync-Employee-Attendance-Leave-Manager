@@ -1,6 +1,5 @@
 package com.example.figma_replicate.viewModel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,56 +24,83 @@ class SignupViewModel @Inject constructor(
 ) : ViewModel() {
     var signupState = mutableStateOf<SignupState>(SignupState.Idle)
         private set
-    private var role: UserRole? = null
-    private var fullName: String? = null
-    private var email: String? = null
-    private var gender: String? = null
-    private var dob: String? = null
-    private var password: String? = null
-    private var username: String? = null
-    private var designation: String? = null
-    private var employmentType: String? = null
-    fun setUsername(username: String) {
-        println(username)
-        this.username = username
-    }
-    fun setDesignation(designation: String) {
+    var username = mutableStateOf("")
+        private set
 
-        this.designation = designation
+    var fullName = mutableStateOf("")
+        private set
 
-    }
-    fun setEmploymentType(employmentType: String) {
-        this.employmentType = employmentType
-    }
+    var email = mutableStateOf("")
+        private set
+    var confirmPassword = mutableStateOf("")
+        private set
 
-    fun setRole(role: UserRole) {
-        this.role = role
-    }
+    var gender = mutableStateOf("")
+        private set
 
-    fun setFullNameAndEmail(name: String, email: String) {
-        this.fullName = name
-        this.email = email
-    }
+    var dob = mutableStateOf("")
+        private set
 
-    fun setGender(gender: String) {
-        this.gender = gender
-    }
+    var password = mutableStateOf("")
+        private set
 
-    fun setDob(dob: String) {
-        this.dob = dob
+    var designation = mutableStateOf("")
+        private set
+
+    var employmentType = mutableStateOf("")
+        private set
+
+    var role = mutableStateOf<UserRole?>(null)
+        private set
+
+
+    fun setUsername(value: String) {
+        username.value = value
     }
 
-    fun setPassword(password: String) {
-        this.password = password
+    fun setFullName(value: String) {
+        fullName.value = value
+    }
+
+    fun setEmail(value: String) {
+        email.value = value
+    }
+
+    fun setGender(value: String) {
+        gender.value = value
+    }
+
+    fun setDob(value: String) {
+        dob.value = value
+    }
+
+    fun setPassword(value: String) {
+        password.value = value
+    }
+
+    fun setDesignation(value: String) {
+        designation.value = value
+    }
+
+    fun setEmploymentType(value: String) {
+        employmentType.value = value
+    }
+    fun setConfirmPassword(value: String) {
+        employmentType.value = value
+    }
+
+    fun setRole(userRole: UserRole) {
+        role.value = userRole
     }
 
     fun signup() {
 //        if (!validateInput()) {
-////            println(username, password, dob, designation, email, employmentType, fullName)
+//            println(username, password, dob, designation, email, employmentType, fullName)
 //            println("Incomplete or invalid input")
 //            signupState.value = SignupState.Error("Incomplete or invalid input.")
 //            return
 //        }
+        println("$username, $password, $dob, $designation, $email, $employmentType, $fullName, $role")
 
         signupState.value = SignupState.Loading
 
@@ -82,26 +108,25 @@ class SignupViewModel @Inject constructor(
             try {
 
 //
-                val user = signupRepository.signup(
-                    User(
-                        username = username,
-                        gender = gender,
-                        dateOfBirth = dob,
-                        fullName = fullName,
-                        password = password,
-                        email = email,
-                        role = role,
-                        designation = designation,
-                        employmentType = employmentType
-                    )
+                val user = User(
+                    username = username.value,
+                    fullName = fullName.value,
+                    email = email.value,
+                    gender = gender.value,
+                    dateOfBirth = dob.value,
+                    password = password.value,
+                    designation = designation.value,
+                    employmentType = employmentType.value
                 )
-                println("user profile $user")
+                signupRepository.signup(user)
+                println("successfully sent")
+
 
                 signupState.value = SignupState.Success(user)
             } catch (e: Exception) {
                 signupState.value = SignupState.Error("Signup failed. Please try again.")
                 println("here is the error ${e.localizedMessage}, ${e.cause}")
-//
+
             }
         }
     }
@@ -115,14 +140,14 @@ class SignupViewModel @Inject constructor(
 
     fun resetState() {
         signupState.value = SignupState.Idle
-        role = null
-        fullName = null
-        email = null
-        gender = null
-        dob = null
-        password = null
-        username = null
-        designation = null
-        employmentType = null
+        username.value = ""
+        fullName.value = ""
+        email.value = ""
+        gender.value = ""
+        dob.value = ""
+        password.value = ""
+        designation.value = ""
+        employmentType.value = ""
+        role.value = null
     }
 }

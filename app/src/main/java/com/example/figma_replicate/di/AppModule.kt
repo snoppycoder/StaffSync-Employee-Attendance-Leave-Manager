@@ -1,6 +1,7 @@
 package com.example.figma_replicate.di
 
 import com.example.figma_replicate.data.network.ApiServiceInterface
+import com.example.figma_replicate.data.repository.LoginRepository
 import com.example.figma_replicate.data.repository.SignupRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://10.6.152.84:3000/"
+    private const val BASE_URL = "http://10.0.2.2:3000/"
 
     @Provides
     @Singleton
@@ -53,5 +54,11 @@ object AppModule {
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
+    }
+    @Provides
+    @Singleton
+    fun provideLoginRepository(apiService: ApiServiceInterface): LoginRepository {
+        return LoginRepository(apiService)
+
     }
 }

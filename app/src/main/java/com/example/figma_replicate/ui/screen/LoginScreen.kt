@@ -30,11 +30,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.figma_replicate.R
+import com.example.figma_replicate.viewModel.LoginViewModel
+import com.example.figma_replicate.viewModel.SignupViewModel
 
 @Composable
+
 fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel(),
+
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
@@ -42,7 +48,7 @@ fun LoginScreen(
 ) {
     val orange = Color(0xFFFF7F50)
     val context = LocalContext.current
-    var email by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Column(
@@ -81,13 +87,13 @@ fun LoginScreen(
 
         // Email Field
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username") },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_key), // Replace with your email icon
-                    contentDescription = "Email"
+                    contentDescription = "Username"
                 )
             },
             singleLine = true,
@@ -121,11 +127,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(56.dp),
             shape = RoundedCornerShape(12.dp),
-//            colors = TextFieldDefaults.outlinedTextFieldColors(
-//                focusedBorderColor = Color.LightGray,
-//                unfocusedBorderColor = Color.LightGray,
-//                containerColor = Color(0xFFF0F0F0)
-//            )
+
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -145,7 +147,12 @@ fun LoginScreen(
 
         // Log in button
         Button(
-            onClick = onLoginClick,
+            onClick = {
+                viewModel.setUserName(username)
+                viewModel.setPassword(password)
+                viewModel.login()
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -157,6 +164,7 @@ fun LoginScreen(
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
                 color = Color.White
+
             )
         }
 
