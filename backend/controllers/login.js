@@ -32,13 +32,15 @@ loginRouter.post('/', async(req, res)=>{
             id: user.id,
             role: user.role, 
           };
-        console.log('userToken:', userToken);
+        console.log('userToken:', userToken, typeof role);
         const token = jwt.sign(userToken, process.env.SECRET, { expiresIn: '1h' }); //this took me an hour to figure out, if you remove the expiration date, the logout doesn't work.
         res.status(200).send({
             token,
             username : user.username,
             email : user.email,
             role : user.role,
+            id: user.id,
+        
         });
     
     

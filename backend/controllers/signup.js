@@ -18,6 +18,7 @@ signupRouter.post('/', async (req, res) => {
     dateOfBirth,
     role
   } = req.body;
+  
 
   // Validate required fields
   if (!username || !password || !email || !fullName || !gender || !employmentType || !designation || !dateOfBirth) {
@@ -68,15 +69,16 @@ signupRouter.post('/', async (req, res) => {
           }
         }
       });
+      console.log('Received signup data:', user);
 
-      // Create initial leave balances for each leave type
+  
       const leaveTypes = ['SICK', 'VACATION', 'PERSONAL'];
       for (const type of leaveTypes) {
         await prisma.leaveBalance.create({
           data: {
             userId: user.id,
             type,
-            balance: 20, // Initial balance of 20 days per leave type
+            balance: 20,
           },
         });
       }
