@@ -91,7 +91,7 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setEmploymentType(value: String) {
-        val upper_case = value.uppercase()
+        val upper_case = value.uppercase().trim()
         employmentType.value = upper_case
     }
     fun setRole(userRole: UserRole) {
