@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SignupRepository @Inject constructor(
     private val apiService: ApiServiceInterface
 ) {
-    suspend fun signup(user: User) {
+    suspend fun signup(user: User):User {
         return apiService.signup(user)
     }
 }
