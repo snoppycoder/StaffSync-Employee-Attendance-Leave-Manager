@@ -63,14 +63,6 @@ class AuthPrefs @Inject constructor(context: Context) {
         return prefs.getString(KEY_TOKEN, null)
     }
 
-    fun getRememberMe(): Boolean {
-        return prefs.getBoolean(KEY_REMEMBER_ME, false)
-    }
-
-    fun getLoginMethod(): String {
-        return prefs.getString(KEY_LOGIN_METHOD, "email") ?: "email"
-    }
-
     fun clearAuthData() {
         prefs.edit { clear() }
     }
