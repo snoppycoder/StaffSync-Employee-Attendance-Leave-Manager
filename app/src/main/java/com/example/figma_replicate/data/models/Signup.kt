@@ -12,7 +12,8 @@ data class SignupRequest(
     val gender: String? = null,
     val dob: String? = null,
     val password: String? = null,
-    val role: UserRole? = UserRole.EMPLOYEE
+    val role: UserRole? = UserRole.EMPLOYEE,
+    val dateOfBirth: String? = null
 )
 
 
@@ -20,7 +21,6 @@ data class SignupRequest(
 data class SignupResponse(
     val id: String,
     val username: String,
-    val email: String,
     val role: UserRole,
     val token: String? = null
 )

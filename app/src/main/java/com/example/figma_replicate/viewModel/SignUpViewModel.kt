@@ -15,7 +15,7 @@ import kotlin.String
 sealed class SignupState {
     object Idle : SignupState()
     object Loading : SignupState()
-    data class Success(val user: User) : SignupState()
+    data class Success(val signupRequest: SignupRequest) : SignupState()
     data class Error(val message: String) : SignupState()
 }
 
@@ -109,7 +109,7 @@ class SignupViewModel @Inject constructor(
             try {
 
 //
-                val user = User(
+                val signupRequest = SignupRequest(
                     username = username.value,
                     fullName = fullName.value,
                     email = email.value,
@@ -124,7 +124,7 @@ class SignupViewModel @Inject constructor(
 
 
 
-                signupState.value = SignupState.Success(user)
+                signupState.value = SignupState.Success(signupRequest)
             } catch (e: Exception) {
                 signupState.value = SignupState.Error("Signup failed. Please try again.")
                 println("here is the error ${e.localizedMessage}, ${e.cause}")
