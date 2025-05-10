@@ -3,6 +3,7 @@ package com.example.figma_replicate.viewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.figma_replicate.data.models.SignupRequest
 import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.models.UserRole
 import com.example.figma_replicate.data.repository.SignupRepository
@@ -118,8 +119,9 @@ class SignupViewModel @Inject constructor(
                     designation = designation.value,
                     employmentType = employmentType.value
                 )
-                signupRepository.signup(user)
-                println("successfully sent")
+                signupRepository.signup(SignupRequest())
+                println("Signup successful")
+
 
 
                 signupState.value = SignupState.Success(user)

@@ -1,17 +1,16 @@
 package com.example.figma_replicate.data.network
-import com.example.figma_replicate.data.models.LoginUsers
-import com.example.figma_replicate.data.models.User
+
+import com.example.figma_replicate.data.models.LoginRequest
+import com.example.figma_replicate.data.models.LoginResponse
+import com.example.figma_replicate.data.models.SignupRequest
+import com.example.figma_replicate.data.models.SignupResponse
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiServiceInterface {
+    @POST("login")
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
-//    @GET("api/users")
-//    suspend fun getUsers(): List<User>
-
-    @POST("api/signup")
-    suspend fun signup(@Body user: User): User
-    @POST("api/login")
-    suspend fun login(@Body login_user: LoginUsers): User
+    @POST("signup")
+    suspend fun signup(@Body signupRequest: SignupRequest): SignupResponse
 }

@@ -1,5 +1,7 @@
 package com.example.figma_replicate.di
 
+import android.content.Context
+import com.example.figma_replicate.data.AuthPrefs
 import com.example.figma_replicate.data.network.ApiServiceInterface
 import com.example.figma_replicate.data.repository.LoginRepository
 import com.example.figma_replicate.data.repository.SignupRepository
@@ -7,6 +9,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,7 +22,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://10.0.2.2:3000/"
+    private const val BASE_URL = "https://10.6.154.164:3000" // Replace with your API URL
 
     @Provides
     @Singleton
@@ -50,15 +53,26 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiServiceInterface =
         retrofit.create(ApiServiceInterface::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(apiService: ApiServiceInterface): LoginRepository {
+        return LoginRepository(apiService)
+    }
+
     @Provides
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
     }
+
     @Provides
     @Singleton
-    fun provideLoginRepository(apiService: ApiServiceInterface): LoginRepository {
-        return LoginRepository(apiService)
-
+    fun provideAuthPrefs(@ApplicationContext context: Context): AuthPrefs {
+        return AuthPrefs(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context): Context = context
 }
