@@ -67,7 +67,9 @@ fun MainScreen(
         bottomBar = {
             if (currentRoute != Routes.NOTIFICATION && currentRoute != Routes.APPLY_LEAVE &&
                 currentRoute != Routes.NOTIFICATION_SETTING && currentRoute != Routes.CHANGE_PASSWORD &&
-                currentRoute != Routes.SIGNUP && currentRoute != Routes.LOGIN
+                currentRoute != Routes.SIGNUP && currentRoute != Routes.LOGIN &&
+                currentRoute != Routes.FULLNAME && currentRoute != Routes.DOB &&
+                currentRoute != Routes.PASSWORD && currentRoute != Routes.GENDER
             /* Replace with individual routes if needed */
             ) {
                 BottomNavBar(navController = navController)

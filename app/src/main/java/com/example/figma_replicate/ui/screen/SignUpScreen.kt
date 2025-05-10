@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -29,11 +31,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.figma_replicate.InputValidators.Designation_Validation
+import com.example.figma_replicate.InputValidators.Email_Validator
+import com.example.figma_replicate.InputValidators.FullName_Validator
+import com.example.figma_replicate.InputValidators.Password_Validator
+import com.example.figma_replicate.InputValidators.UserName_Validator
+
 import com.example.figma_replicate.R
 import com.example.figma_replicate.data.models.UserRole
+import com.example.figma_replicate.ui.component.CalendarField
 import com.example.figma_replicate.ui.component.StepIndicator
 import com.example.figma_replicate.viewModel.SignupState
 import com.example.figma_replicate.viewModel.SignupViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun SignupScreen(
@@ -46,7 +57,10 @@ fun SignupScreen(
     // Handle ViewModel state
     when (state) {
         is SignupState.Loading -> {
-            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+            CircularProgressIndicator(
+                modifier = Modifier.fillMaxSize()
+
+            )
         }
         is SignupState.Error -> {
             LaunchedEffect(state) {
@@ -178,10 +192,13 @@ fun CreateAccountFullName(
     navController: NavController,
     viewModel: SignupViewModel = hiltViewModel()
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(horizontal=16.dp)
+            .verticalScroll(rememberScrollState())
+        ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -194,7 +211,7 @@ fun CreateAccountFullName(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.signup_illustration),
             contentDescription = "Illustration",
             modifier = Modifier
                 .height(200.dp)
@@ -203,9 +220,9 @@ fun CreateAccountFullName(
         )
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(0)
+        Spacer(modifier = Modifier.height(16.dp))
         Text("Create account", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(16.dp))
-        Spacer(modifier = Modifier.height(24.dp))
         var username by viewModel.username
         OutlinedTextField(
             value = username,
@@ -214,8 +231,19 @@ fun CreateAccountFullName(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        val userNameValidator:String? = UserName_Validator(username)
+        if ( userNameValidator != null) {
+            Text(
+                userNameValidator, color=Color.Red
+            )
+
+        }
+
+
+
         Spacer(modifier = Modifier.height(16.dp))
         var name by  viewModel.fullName
         OutlinedTextField(
@@ -225,8 +253,18 @@ fun CreateAccountFullName(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        val fullNameValidator:String? = FullName_Validator(name)
+        if ( fullNameValidator != null) {
+            Text(
+                fullNameValidator, color=Color.Red
+            )
+
+        }
         Spacer(modifier = Modifier.height(16.dp))
         var email by viewModel.email
         OutlinedTextField(
@@ -236,8 +274,18 @@ fun CreateAccountFullName(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        val emailValidator:String? = Email_Validator(email)
+        if ( emailValidator != null) {
+            Text(
+                emailValidator, color=Color.Red
+            )
+
+        }
+
+
         Spacer(modifier = Modifier.height(16.dp))
         var designation by  viewModel.designation
         OutlinedTextField(
@@ -247,13 +295,24 @@ fun CreateAccountFullName(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
-        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(4.dp))
+        val designation_validator:String? = Designation_Validation(designation)
+        if (designation_validator != null) {
+            Text(designation_validator, color=Color.Red)
+
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+
         Button(
             onClick = {
                 navController.navigate("gender")
             },
+//            enabled = validator == null,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7043)),
             modifier = Modifier
                 .fillMaxWidth()
@@ -273,7 +332,7 @@ fun CreateAccountGender(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(horizontal=16.dp)
             .verticalScroll(rememberScrollState()),
 
         horizontalAlignment = Alignment.CenterHorizontally
@@ -288,7 +347,7 @@ fun CreateAccountGender(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.signup_illustration),
             contentDescription = "Illustration",
             modifier = Modifier
                 .height(200.dp)
@@ -299,7 +358,7 @@ fun CreateAccountGender(
         Text("Create account", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(1)
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         var employmentType by  viewModel.employmentType
         OutlinedTextField(
             value = employmentType,
@@ -308,9 +367,9 @@ fun CreateAccountGender(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         var gender by viewModel.gender
         OutlinedTextField(
             value = gender,
@@ -319,9 +378,9 @@ fun CreateAccountGender(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
                 navController.navigate("dob")
@@ -343,10 +402,12 @@ fun CreateAccountDOB(
     navController: NavController,
     viewModel: SignupViewModel = hiltViewModel()
 ) {
+    var dob by viewModel.dob
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(horizontal=24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -359,7 +420,7 @@ fun CreateAccountDOB(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.signup_illustration),
             contentDescription = "Illustration",
             modifier = Modifier
                 .height(200.dp)
@@ -370,18 +431,19 @@ fun CreateAccountDOB(
         Text("Create account", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(2)
-        Spacer(modifier = Modifier.height(24.dp))
-        var dob by viewModel.dob
-        OutlinedTextField(
-            value = dob,
-            onValueChange = {viewModel.setDob(it) },
-            label = { Text("Date of Birth") },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+//        OutlinedTextField(
+//            value = dob,
+//            onValueChange = {viewModel.setDob(it) },
+//            label = { Text("Date of Birth") },
+//            singleLine = true,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(65.dp)
+//        )
+        CalendarField("Date of Birth", selectedDate = dob) { viewModel.setDob(it)}
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
                 navController.navigate("password")
@@ -406,7 +468,7 @@ fun CreateAccountPassword(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(horizontal=24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -419,7 +481,7 @@ fun CreateAccountPassword(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.signup_illustration),
             contentDescription = "Illustration",
             modifier = Modifier
                 .height(200.dp)
@@ -430,7 +492,7 @@ fun CreateAccountPassword(
         Text("Create account", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(16.dp))
         StepIndicator(3)
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         var password by  viewModel.password
         OutlinedTextField(
             value = password,
@@ -439,7 +501,7 @@ fun CreateAccountPassword(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         var confirm_password by remember { mutableStateOf("") }
@@ -452,6 +514,10 @@ fun CreateAccountPassword(
                 .fillMaxWidth()
                 .height(56.dp)
         )
+        val passwordValidator:String? = Password_Validator(password, confirm_password)
+        if (passwordValidator != null) {
+            Text(passwordValidator, color=Color.Red)
+        }
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(

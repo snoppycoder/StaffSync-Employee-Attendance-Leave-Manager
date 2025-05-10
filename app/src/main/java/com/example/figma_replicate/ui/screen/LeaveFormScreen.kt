@@ -1,5 +1,7 @@
 package com.example.figma_replicate.ui.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -18,6 +20,7 @@ import androidx.navigation.NavController
 
 import com.example.figma_replicate.ui.component.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 

@@ -1,5 +1,7 @@
 package com.example.figma_replicate.viewModel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +10,8 @@ import com.example.figma_replicate.data.models.UserRole
 import com.example.figma_replicate.data.repository.SignupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.String
 
@@ -67,11 +71,14 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setGender(value: String) {
-        gender.value = value
+        val upper_case = value.uppercase()
+        gender.value = upper_case
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setDob(value: String) {
         dob.value = value
+
     }
 
     fun setPassword(value: String) {
@@ -79,27 +86,19 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setDesignation(value: String) {
+
         designation.value = value
     }
 
     fun setEmploymentType(value: String) {
-        employmentType.value = value
+        val upper_case = value.uppercase()
+        employmentType.value = upper_case
     }
-    fun setConfirmPassword(value: String) {
-        employmentType.value = value
-    }
-
     fun setRole(userRole: UserRole) {
         role.value = userRole
     }
 
     fun signup() {
-//        if (!validateInput()) {
-//            println(username, password, dob, designation, email, employmentType, fullName)
-//            println("Incomplete or invalid input")
-//            signupState.value = SignupState.Error("Incomplete or invalid input.")
-//            return
-//        }
         println("$username, $password, $dob, $designation, $email, $employmentType, $fullName, $role")
 
         signupState.value = SignupState.Loading
