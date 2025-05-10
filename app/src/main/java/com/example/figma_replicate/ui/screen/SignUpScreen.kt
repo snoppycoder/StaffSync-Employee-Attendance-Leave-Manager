@@ -156,28 +156,24 @@ fun SignupForm(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         // Bottom Text
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(0.85f),
             thickness = 2.dp,
             color = Color(0xFFD9D9D9)
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
+        Row {
             Text(
-                text = "Have an account? ",
-                fontSize = 14.sp,
-                color = Color(0xFF36454F)
+                text = "No account?",
+                color = Color.Gray,
+                fontSize = 14.sp
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Log in",
-                fontSize = 14.sp,
+                text = "Login",
                 color = orange,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.clickable {
                     navController.navigate("login")

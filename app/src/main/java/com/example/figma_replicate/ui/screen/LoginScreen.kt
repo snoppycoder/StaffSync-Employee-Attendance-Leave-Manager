@@ -89,7 +89,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Email Field
+
                 OutlinedTextField(
                     value = username,
                     onValueChange = { viewModel.setUserName(it) },
@@ -105,11 +105,6 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .height(56.dp),
                     shape = RoundedCornerShape(12.dp),
-//            colors = TextFieldDefaults.outlinedTextFieldColors(
-//                focusedBorderColor = Color.LightGray,
-//                unfocusedBorderColor = Color.LightGray,
-//                containerColor = Color(0xFFF0F0F0)
-//            )
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -147,7 +142,7 @@ fun LoginScreen(
                         }
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
 
                 Button(
@@ -206,6 +201,7 @@ fun LoginScreen(
             )
         }
         is LoginState.Success -> {
+
             navController.navigate("home")
 
         }

@@ -15,6 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,9 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object AppModule {
     private const val BASE_URL = "http://192.168.100.6:3000/"
+    val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
 
     @Provides
     @Singleton
@@ -30,6 +34,7 @@ object AppModule {
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
             .build()
 
     @Provides
@@ -56,6 +61,11 @@ object AppModule {
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
+    }
+    @Provides
+    @Singleton
+    fun provideLoginRepository(apiService: ApiServiceInterface): LoginRepository {
+        return LoginRepository(apiService)
     }
     @Provides
     @Singleton

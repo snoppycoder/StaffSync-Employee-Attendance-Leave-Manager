@@ -70,7 +70,7 @@ fun MainScreen(
                 currentRoute != Routes.SIGNUP && currentRoute != Routes.LOGIN &&
                 currentRoute != Routes.FULLNAME && currentRoute != Routes.DOB &&
                 currentRoute != Routes.PASSWORD && currentRoute != Routes.GENDER
-            /* Replace with individual routes if needed */
+
             ) {
                 BottomNavBar(navController = navController)
             }

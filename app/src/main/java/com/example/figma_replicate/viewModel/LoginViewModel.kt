@@ -42,23 +42,33 @@ class LoginViewModel @Inject constructor(
     fun login() {
         loginState.value = LoginState.Loading
         viewModelScope.launch {
+            println("${username.value} & ${password.value}")
+
             try {
+                println("here $username")
+
+
                 val user = loginRepository.login(
                     LoginRequest(
-                        username = username.value,
-                        password = password.value
+                        username = username.value.toString(),
+                        password = password.value.toString()
                     )
                 )
-                loginState.value = LoginState.Success(loginRequest = LoginRequest(username = username.value, password = password.value))
-                // Save authentication data to AuthPrefs
+                loginState.value = LoginState.Success(
+                    loginRequest = LoginRequest(username = username.value, password = password.value)
+
+                )
+
                 authPrefs.saveAuthData(
                     token = user.token,
-                    userId = user.id,
+                    userId = user.id.toString(),
                     username = user.username,
                     role = user.role
                 )
+                println("here ${username.value}")
             } catch (e: Exception) {
                 loginState.value = LoginState.Error("Login failed because of ${e.message}")
+                println("here $e")
             }
         }
     }
@@ -66,9 +76,9 @@ class LoginViewModel @Inject constructor(
     private fun saveAuthPreferences() {
         authPrefs.saveAuthData(
             token = authPrefs.getToken(), // Preserve existing token
-            userId = authPrefs.getUserId() ?: "",
             username = authPrefs.getUsername() ?: "",
             role = authPrefs.getUserRole() ?: UserRole.EMPLOYEE,
+            userId = authPrefs.getUserId() ?: ""
         )
     }
 
