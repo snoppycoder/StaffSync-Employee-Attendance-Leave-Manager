@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.figma_replicate.data.models.SignupRequest
 import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.models.UserRole
 import com.example.figma_replicate.data.repository.SignupRepository
@@ -19,7 +18,7 @@ import kotlin.String
 sealed class SignupState {
     object Idle : SignupState()
     object Loading : SignupState()
-    data class Success(val signupRequest: SignupRequest) : SignupState()
+    data class Success(val user: User) : SignupState()
     data class Error(val message: String) : SignupState()
 }
 
@@ -72,7 +71,7 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setGender(value: String) {
-        val upper_case = value.uppercase().trim()
+        val upper_case = value.uppercase()
         gender.value = upper_case
     }
 
@@ -92,7 +91,7 @@ class SignupViewModel @Inject constructor(
     }
 
     fun setEmploymentType(value: String) {
-        val upper_case = value.uppercase().trim()
+        val upper_case = value.uppercase()
         employmentType.value = upper_case
     }
     fun setRole(userRole: UserRole) {
@@ -108,7 +107,7 @@ class SignupViewModel @Inject constructor(
             try {
 
 //
-                val signupRequest = SignupRequest(
+                val user = User(
                     username = username.value,
                     fullName = fullName.value,
                     email = email.value,
@@ -118,12 +117,11 @@ class SignupViewModel @Inject constructor(
                     designation = designation.value,
                     employmentType = employmentType.value
                 )
-                signupRepository.signup(SignupRequest())
-                println("Signup successful")
+                signupRepository.signup(user)
+                println("successfully sent")
 
 
-
-                signupState.value = SignupState.Success(signupRequest)
+                signupState.value = SignupState.Success(user)
             } catch (e: Exception) {
                 signupState.value = SignupState.Error("Signup failed. Please try again.")
                 println("here is the error ${e.localizedMessage}, ${e.cause}")
@@ -132,12 +130,6 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-//    private fun validateInput(): Boolean {
-//        return fullName?.isNotBlank() == true &&
-//                email?.contains("@") == true &&
-//                (password?.length ?: 0) >= 6 &&
-//                role != null
-//    }
 
     fun resetState() {
         signupState.value = SignupState.Idle
