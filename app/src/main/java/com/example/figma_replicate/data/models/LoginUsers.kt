@@ -9,8 +9,9 @@ data class LoginRequest(
 )
 @Serializable
 data class LoginResponse(
-    val id: String,
+    val id: Int,
     val username: String,
+    val email: String?,
     val role: UserRole,
-    val token: String? = null
+    val token: String?
 )
