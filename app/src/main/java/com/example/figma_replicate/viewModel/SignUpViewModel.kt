@@ -130,12 +130,6 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-//    private fun validateInput(): Boolean {
-//        return fullName?.isNotBlank() == true &&
-//                email?.contains("@") == true &&
-//                (password?.length ?: 0) >= 6 &&
-//                role != null
-//    }
 
     fun resetState() {
         signupState.value = SignupState.Idle
