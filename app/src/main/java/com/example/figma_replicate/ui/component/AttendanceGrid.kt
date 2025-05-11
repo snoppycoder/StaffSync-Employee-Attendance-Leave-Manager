@@ -1,36 +1,27 @@
 package com.example.figma_replicate.ui.component
 
-import com.example.figma_replicate.R
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.example.figma_replicate.R
+import com.example.figma_replicate.data.models.AttendanceRecord
+import com.example.figma_replicate.viewModel.AttendanceState
+import com.example.figma_replicate.viewModel.AttendanceViewModel
+import androidx.compose.runtime.getValue
 
-
-@Composable()
+@Composable
 fun AttendanceCard(
     status: String,
     time: String,
     task: String
 ) {
-
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,10 +32,9 @@ fun AttendanceCard(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth().padding(4.dp)
-
+                .fillMaxWidth()
+                .padding(4.dp)
         ) {
-
             Icon(
                 painter = if (status.lowercase().trim() == "check in")
                     painterResource(id = R.drawable.ic_checkin_)
@@ -61,52 +51,79 @@ fun AttendanceCard(
                     .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(status, style = MaterialTheme.typography.bodyMedium, color=Color.Black)
+                Text(status, style = MaterialTheme.typography.bodyMedium, color = Color.Black)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(time, style = MaterialTheme.typography.bodyLarge, color=Color.Black, fontWeight = FontWeight.Bold)
+                Text(time, style = MaterialTheme.typography.bodyLarge, color = Color.Black, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(task, style = MaterialTheme.typography.bodyMedium, color=Color.Black)
+                Text(task, style = MaterialTheme.typography.bodyMedium, color = Color.Black)
             }
         }
     }
 }
 
-    @Composable
-    fun AttendanceGrid() {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
+@Composable
+fun AttendanceGrid(viewModel: AttendanceViewModel) {
+    val state by viewModel.attendanceState // Directly use State delegation
 
-            Text(
-                text = "Your Attendance",
-                color = Color.Black,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(8.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Text(
+            text = "Your Attendance",
+            color = Color.Black,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(8.dp)
+        )
 
-            )
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-
-                ) {
-                val attendanceList = listOf(
-                    Triple("Check In", "10:45PM", "On Time"),
-                    Triple("Check Out", "6:30PM", "Left Early"),
-                    Triple("Check In", "9:00AM", "Late"),
-                    Triple("Check Out", "5:00PM", "On Time")
+        when (val result = state) {
+            is AttendanceState.Loading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
+            is AttendanceState.Error -> {
+                Text(
+                    text = "Error: ${result.message}",
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-
-                items(attendanceList.size) { item ->
-                    val (status, time, task) = attendanceList[item]
-                    AttendanceCard(status, time, task)
+            }
+            is AttendanceState.Success -> {
+                val records = when (val data = result.data) {
+                    is List<*> -> data.filterIsInstance<AttendanceRecord>()
+                    else -> emptyList()
                 }
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(records.size) { index ->
+                        val record = records[index]
+                        val status = if (record.checkIn != null && record.checkOut == null) "Check In" else "Check Out"
+                        val time = record.checkIn ?: record.checkOut ?: "N/A"
+                        val task = when {
+                            record.attendance == null -> "Pending"
+                            record.attendance.name == "PRESENT" -> "On Time"
+                            else -> "Absent"
+                        }
+                        AttendanceCard(status, time, task)
+                    }
+                }
+                if (records.isEmpty()) {
+                    Text(
+                        text = "No attendance records",
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+            }
+            is AttendanceState.Idle -> {
+                Text(
+                    text = "Loading attendance...",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
         }
     }
-
+}

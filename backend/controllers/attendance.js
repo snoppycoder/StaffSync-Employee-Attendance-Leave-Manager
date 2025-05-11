@@ -8,6 +8,7 @@ const attendanceRouter = express.Router();
 
 // POST /api/attendance/check-in - Record check-in (all authenticated users)
 attendanceRouter.post('/check-in', identifyUser, async (req, res, next) => {
+  console.log('Check-in request:', req.body);
   try {
     // Check for active check-in (no check-out)
     const activeAttendance = await prisma.attendance.findFirst({
@@ -116,6 +117,10 @@ attendanceRouter.post('/check-out', identifyUser, async (req, res, next) => {
 
 // GET /api/attendance - List attendance history
 attendanceRouter.get('/', identifyUser, async (req, res, next) => {
+  console.log('Fetching attendance history for user:', req.user.id);
+  console.log('Query params:', req.query);
+  console.log('User role:', req.user.role);
+  console.log('User ID:', req.user.id);
   try {
     const { userId } = req.query;
 

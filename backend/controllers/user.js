@@ -13,7 +13,15 @@ userRouter.get('/', async (req, res) => {
         res.status(500).json({ error: 'Could not retrieve users' });
     }
 });
-
+userRouter.get('/employee', async(req,res) => {  
+  try{    const foundUser = await prisma.user.findMany({
+      where: { role: 'EMPLOYEE' },    })
+    if (!foundUser){
+      return(res.status(404).send({error: "No such user found"}))    }
+    res.send(foundUser);  }catch(e){
+    console.error(error);        res.status(500).send({ error: 'Could not retrieve user' });
+  }
+});
 userRouter.get('/:id', identifyUser, async(req,res) => {
 	const { id } = req.params;
 	try{

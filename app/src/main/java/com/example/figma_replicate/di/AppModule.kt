@@ -3,9 +3,9 @@ package com.example.figma_replicate.di
 import android.content.Context
 import com.example.figma_replicate.data.AuthPrefs
 import com.example.figma_replicate.data.network.ApiServiceInterface
+import com.example.figma_replicate.data.repository.AttendanceRepository
 import com.example.figma_replicate.data.repository.LoginRepository
 import com.example.figma_replicate.data.repository.SignupRepository
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,22 +15,31 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import javax.inject.Singleton
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://10.6.205.110:3000/" // Replace with your API URL
+    private const val BASE_URL = "http://10.6.158.115:3000/" // Replace with your API URL
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideOkHttpClient(authPrefs: AuthPrefs): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor { chain ->
+                val token = authPrefs.getToken()
+                val requestBuilder = chain.request().newBuilder()
+                if (token != null) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+                chain.proceed(requestBuilder.build())
+            }
             .build()
 
     @Provides
@@ -38,6 +47,8 @@ object AppModule {
     fun provideJson(): Json = Json {
         ignoreUnknownKeys = true
         coerceInputValues = true
+        isLenient = true
+        encodeDefaults = true
     }
 
     @Provides
@@ -64,6 +75,12 @@ object AppModule {
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAttendanceRepository(apiService: ApiServiceInterface): AttendanceRepository {
+        return AttendanceRepository(apiService)
     }
 
     @Provides
