@@ -14,33 +14,60 @@ userRouter.get('/', async (req, res) => {
     }
 });
 
-userRouter.get('/employee', async (req, res) => {
+userRouter.get('/employee', identifyUser, async (req, res) => {
   try {
     const foundUsers = await prisma.user.findMany({
       where: { role: 'EMPLOYEE' },
+      include: {
+        profile: {
+          select: {
+            fullName: true,
+        }
+      }}
     });
 
     if (!foundUsers || foundUsers.length === 0) {
       return res.status(404).send({ error: "No such user found" });
     }
+    const mergedUsers = foundUsers.map(user => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      fullName: user.profile.fullName, // Add fullName to the response
+    }));
 
-    res.send(foundUsers);
+    res.send(mergedUsers);
   } catch (e) {
     console.error('Error fetching employees:', e);
     res.status(500).send({ error: 'Could not retrieve users' });
   }
 });
+
 userRouter.get('/manager', async (req, res) => {
   try {
     const foundUsers = await prisma.user.findMany({
       where: { role: 'MANAGER' },
+      include: {
+        profile: {
+          select: {
+            fullName: true,
+        }
+      }}
     });
 
     if (!foundUsers || foundUsers.length === 0) {
       return res.status(404).send({ error: "No such user found" });
     }
+    const mergedUsers = foundUsers.map(user => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      fullName: user.profile.fullName, // Add fullName to the response
+    }));
 
-    res.send(foundUsers);
+    res.send(mergedUsers);
   } catch (e) {
     console.error('Error fetching employees:', e);
     res.status(500).send({ error: 'Could not retrieve users' });

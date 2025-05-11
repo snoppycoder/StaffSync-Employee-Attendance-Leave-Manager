@@ -56,6 +56,7 @@ model User {
   leaveRequests LeaveRequest[] @relation("UserLeaveRequests")
   leaveBalances LeaveBalance[]
   attendance    Attendance[]
+  notifications Notification[]
   approvedLeaves LeaveRequest[] @relation("ApprovedByUser")
 }
 
@@ -105,6 +106,8 @@ model LeaveRequest {
   approvedAt      DateTime?    // When the request was approved
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+  notification    Notification[]
+
 }
 
 model Attendance {
@@ -118,4 +121,14 @@ model Attendance {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   @@unique([userId, date]) // Composite unique constraint
+}
+
+model Notification {
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  message      String
+  createdAt    DateTime     @default(now())
+  leaveRequest LeaveRequest? @relation(fields: [leaveRequestId], references: [id])
+  leaveRequestId Int?
 }
