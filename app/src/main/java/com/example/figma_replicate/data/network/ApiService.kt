@@ -1,5 +1,10 @@
 package com.example.figma_replicate.data.network
 
+import com.example.figma_replicate.data.models.AttendanceRecord
+import com.example.figma_replicate.data.models.AttendanceStats
+import com.example.figma_replicate.data.models.CheckInResponse
+import com.example.figma_replicate.data.models.CheckOutResponse
+import com.example.figma_replicate.data.models.LeaveStatsResponse
 import com.example.figma_replicate.data.models.LoginRequest
 import com.example.figma_replicate.data.models.LoginResponse
 import com.example.figma_replicate.data.models.User
@@ -19,6 +24,19 @@ interface ApiServiceInterface {
     @GET("/api/users/{id}")
     suspend fun fetchInfo(@Path("id") id: Int?): User
 
+    @POST("api/attendance/check-in")
+    suspend fun checkIn(): CheckInResponse
+
+    @POST("api/attendance/check-out")
+    suspend fun checkOut(): CheckOutResponse
+
+    @GET("api/attendance")
+    suspend fun getAttendance(@Query("userId") userId: Int? = null): List<AttendanceRecord>
+
+    @GET("/api/leaveRequest/stats")
+    suspend fun getLeaveStats(
+        @Header("Authorization") token: String
+    ): LeaveStatsResponse
 
 
 

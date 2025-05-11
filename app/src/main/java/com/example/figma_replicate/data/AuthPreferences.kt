@@ -64,4 +64,8 @@ class AuthPrefs(context: Context) {
     fun clearAuthData() {
         prefs.edit { clear() }
     }
+
+    fun isManager(): Boolean {
+        return getUserRole() == UserRole.MANAGER
+    }
 }

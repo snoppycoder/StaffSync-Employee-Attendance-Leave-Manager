@@ -31,6 +31,7 @@ import com.example.figma_replicate.ui.screen.*
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
 import com.example.figma_replicate.viewModel.LoginViewModel
 import com.example.figma_replicate.viewModel.SignupViewModel
+import com.example.figma_replicate.viewModel.LeaveViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -111,9 +112,8 @@ fun MainScreen(
                 HomeScreen(navController = navController)
             }
             composable(Routes.SCHEDULE) {
-
+                val viewModel: LeaveViewModel = hiltViewModel()
                 ScheduleScreen(navController = navController)
-
             }
             composable(Routes.OFFICE) {
                 UsersScreen()

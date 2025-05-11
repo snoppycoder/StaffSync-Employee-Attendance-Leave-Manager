@@ -14,6 +14,39 @@ userRouter.get('/', async (req, res) => {
     }
 });
 
+userRouter.get('/employee', async (req, res) => {
+  try {
+    const foundUsers = await prisma.user.findMany({
+      where: { role: 'EMPLOYEE' },
+    });
+
+    if (!foundUsers || foundUsers.length === 0) {
+      return res.status(404).send({ error: "No such user found" });
+    }
+
+    res.send(foundUsers);
+  } catch (e) {
+    console.error('Error fetching employees:', e);
+    res.status(500).send({ error: 'Could not retrieve users' });
+  }
+});
+userRouter.get('/manager', async (req, res) => {
+  try {
+    const foundUsers = await prisma.user.findMany({
+      where: { role: 'MANAGER' },
+    });
+
+    if (!foundUsers || foundUsers.length === 0) {
+      return res.status(404).send({ error: "No such user found" });
+    }
+
+    res.send(foundUsers);
+  } catch (e) {
+    console.error('Error fetching employees:', e);
+    res.status(500).send({ error: 'Could not retrieve users' });
+  }
+});
+
 userRouter.get('/:id', identifyUser, async(req,res) => {
 	const { id } = req.params;
 	try{
