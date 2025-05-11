@@ -17,7 +17,7 @@ fun ScheduleContent(innerPadding: PaddingValues) {
         modifier = Modifier
             .padding(innerPadding)
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+
     ) {
         ScheduleGrid()
 

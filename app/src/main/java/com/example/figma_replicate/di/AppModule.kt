@@ -4,7 +4,9 @@ import android.content.Context
 import com.example.figma_replicate.data.AuthPrefs
 import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.network.ApiServiceInterface
+import com.example.figma_replicate.data.repository.EmployeeRepository
 import com.example.figma_replicate.data.repository.LoginRepository
+import com.example.figma_replicate.data.repository.ManagerRepository
 import com.example.figma_replicate.data.repository.SignupRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -61,6 +63,20 @@ object AppModule {
     @Singleton
     fun provideSignupRepository(apiService: ApiServiceInterface): SignupRepository {
         return SignupRepository(apiService)
+    }
+    @Provides
+    @Singleton
+    fun providesEmployeeRepository(apiService: ApiServiceInterface,
+                                   authPrefs: AuthPrefs
+    ): EmployeeRepository {
+        return EmployeeRepository(apiService, authPrefs)
+    }
+    @Provides
+    @Singleton
+    fun providesManagerRepository(apiService: ApiServiceInterface,
+                                   authPrefs: AuthPrefs
+    ): ManagerRepository {
+        return ManagerRepository(apiService, authPrefs)
     }
     @Provides
     @Singleton

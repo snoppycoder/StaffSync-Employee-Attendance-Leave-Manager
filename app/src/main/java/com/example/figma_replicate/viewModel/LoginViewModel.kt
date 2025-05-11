@@ -34,7 +34,8 @@ class LoginViewModel @Inject constructor(
     var password = mutableStateOf("")
         private set
     fun setUserName(value:String) {
-        username.value = value
+        val trimmed = value.trim()
+        username.value = trimmed
     }
     fun setPassword(value:String){
         password.value = value

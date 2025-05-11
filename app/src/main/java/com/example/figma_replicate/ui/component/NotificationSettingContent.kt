@@ -27,7 +27,7 @@ fun NotificationSettingContent(innerPadding: PaddingValues) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(top = 8.dp)
             .padding(innerPadding)
     ) {
         Row(

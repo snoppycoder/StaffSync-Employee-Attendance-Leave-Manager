@@ -17,7 +17,7 @@ import com.example.figma_replicate.ui.component.ScheduleTopBar
 fun ScheduleScreen(navController: NavController) {
     Scaffold(
         topBar = { ScheduleTopBar(navController) },
-        bottomBar = { BottomNavBar(navController = navController as NavHostController) }
+
     ) { innerPadding ->
         ScheduleContent(innerPadding)
     }

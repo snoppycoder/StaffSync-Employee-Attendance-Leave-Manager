@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp
 
 import androidx.compose.foundation.layout.Box
@@ -25,16 +26,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.example.figma_replicate.R
+import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.navigation.Routes // Import Routes
 
 @Composable
 
-fun ProfileView(navController: NavController) {
+fun ProfileView(navController: NavController, user: User?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(40.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -55,12 +57,12 @@ fun ProfileView(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "John Doe",
+                text = user?.fullName.toString(),
                 fontWeight = FontWeight.Bold,
 
 
             )
-            Text(text = "Lead UI/UX developer")
+            Text(text = user?.designation.toString())
         }
            Icon(
                 imageVector = Icons.Filled.Notifications,

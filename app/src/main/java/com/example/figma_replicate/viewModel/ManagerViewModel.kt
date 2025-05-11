@@ -12,6 +12,7 @@ import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.models.UserRole
 import com.example.figma_replicate.data.repository.EmployeeRepository
 import com.example.figma_replicate.data.repository.LoginRepository
+import com.example.figma_replicate.data.repository.ManagerRepository
 import com.example.figma_replicate.data.repository.SignupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +25,8 @@ import kotlin.String
 
 
 @HiltViewModel
-class UsersViewModel @Inject constructor(
-    private val employeeRepository: EmployeeRepository,): ViewModel()
+class ManagerViewModel @Inject constructor(
+    private val managerRepository: ManagerRepository): ViewModel()
 
 {
 
@@ -45,16 +46,16 @@ class UsersViewModel @Inject constructor(
     private fun fetchUsers() {
         viewModelScope.launch {
             _isLoading.value = true
-           try {
-               val userList = employeeRepository.fetchEmployee()
+            try {
+                val userList = managerRepository.fetchManager()
                 _users.value = userList
                 _errorMessage.value = null
-           } catch (e: Exception) {
-               Log.e("UserViewModel", "Failed to fetch users", e)
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Failed to fetch users", e)
                 _errorMessage.value = "Failed to load users: ${e.localizedMessage}"
             } finally {
                 _isLoading.value = false
-           }
-       }
+            }
+        }
     }
 }

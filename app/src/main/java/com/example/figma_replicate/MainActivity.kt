@@ -1,5 +1,6 @@
 package com.example.figma_replicate
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -22,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.figma_replicate.data.AuthPrefs
 //import com.example.figma_replicate.SessionManagement.SessionViewModel
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
@@ -40,9 +42,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Figma_replicateTheme {
 //                val sessionViewModel: SessionViewModel = hiltViewModel()
-                MainScreen(
-//                    sessionViewModel
-                )
+                MainScreen()
             }
         }
     }
@@ -51,17 +51,12 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
-//    sessionViewModel: SessionViewModel
+
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-//    val isLoggedIn by sessionViewModel.isLoggedIn
     val currentRoute = navBackStackEntry?.destination?.route
-//    LaunchedEffect(isLoggedIn) {
-//        navController.navigate(if (isLoggedIn) Routes.HOME else Routes.LOGIN) {
-//            popUpTo(0) // Clear back stack
-//        }
-//    }
+
 
     Scaffold(
         bottomBar = {
@@ -116,7 +111,9 @@ fun MainScreen(
                 HomeScreen(navController = navController)
             }
             composable(Routes.SCHEDULE) {
+
                 ScheduleScreen(navController = navController)
+
             }
             composable(Routes.OFFICE) {
                 UsersScreen()

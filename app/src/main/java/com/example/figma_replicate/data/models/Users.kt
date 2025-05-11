@@ -13,4 +13,5 @@ data class User(
     val designation: String? = null,
     val role: UserRole = UserRole.EMPLOYEE,
     val dateOfBirth: String? = null
+
 )
