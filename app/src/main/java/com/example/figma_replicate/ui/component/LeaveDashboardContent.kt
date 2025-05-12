@@ -7,11 +7,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.figma_replicate.viewModel.LeaveFormViewModel
 import com.example.figma_replicate.viewModel.LeaveViewModel
 
 @Composable
 fun LeaveDashboardContent(innerPadding: PaddingValues) {
     val viewModel: LeaveViewModel = hiltViewModel()
+    val formViewmodel: LeaveFormViewModel = hiltViewModel()
     val tabs = listOf("Upcoming", "Past", "Team Leave")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
@@ -32,7 +34,7 @@ fun LeaveDashboardContent(innerPadding: PaddingValues) {
         Spacer(modifier = Modifier.height(16.dp))
 
         when(selectedTabIndex) {
-            0 -> ListCardUpcoming()
+            0 -> ListCardUpcoming(formViewmodel)
             1 -> ListCardPast()
             2 -> ListCardTeamLeave()
         }

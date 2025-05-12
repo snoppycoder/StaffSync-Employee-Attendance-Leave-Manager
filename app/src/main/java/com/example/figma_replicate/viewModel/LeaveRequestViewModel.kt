@@ -22,9 +22,6 @@ class LeaveFormViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
-
-    // Use mutableStateOf for Compose UI state
     var leaveType by mutableStateOf("")
         private set
     var startDate by mutableStateOf("")
@@ -35,12 +32,7 @@ class LeaveFormViewModel @Inject constructor(
         private set
     var status by mutableStateOf("")
         private set
-    var approvedById by mutableStateOf(0)
-        private set
-    var leaveBalance by mutableStateOf(0)
-        private set
-    var applyDays by mutableStateOf(0)
-        private set
+
 
 
     private val _uiState = MutableStateFlow<LeaveFormUiState>(LeaveFormUiState.Idle)
@@ -71,34 +63,19 @@ class LeaveFormViewModel @Inject constructor(
         reason = newReason
     }
 
-    fun getStatus() : String{
-        return status
-    }
-    fun getApplyDays() : Int{
-        return applyDays
-    }
-    fun getLeaveBalance() : Int{
-        return leaveBalance
-    }
-    fun getApprovedById() : Int{
-        return approvedById
-    }
-    fun fetchLeaveRequest(){
 
+    fun fetchLeaveRequest() {
         viewModelScope.launch {
-
-
-        val response = LeaveRequestResponse(
-            type = leaveType,
-            startDate = startDate,
-            endDate = endDate,
-            status = status,
-            approvedById = approvedById,
-            leaveBalance = leaveBalance,
-            applyDays = applyDays,
-
-            )
-        leaveRepository.fetchLeaveRequest()}
+            try {
+                _isLoading.value = true
+                val result = leaveRepository.fetchLeaveRequest()
+                _requests.value = listOf(result)
+            } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "Unknown error"
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
 

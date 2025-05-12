@@ -20,6 +20,6 @@ fun ScheduleScreen(navController: NavController) {
     Scaffold(
         topBar = { ScheduleTopBar(navController) }
     ) { innerPadding ->
-        ScheduleContent(innerPadding, viewModel)
+        ScheduleContent(innerPadding)
     }
 }

@@ -167,15 +167,15 @@ leaveRequestRouter.get('/stats', identifyUser, async (req, res) => {
   }
 });
 
-// Get all leave requests for the user
-leaveRequestRouter.get('/', identifyUser, async (req, res) => {
-  const userId = req.user.id;
+leaveRequestRouter.get('/:id', identifyUser, async (req, res) => {
+  console.log(req.params)
+  const { userId } = req.params;
 
   try {
     const leaveRequests = await prisma.leaveRequest.findMany({
       where: { userId },
     });
-    res.json(leaveRequests);
+    res.json(leaveRequests[0]);
     console.log(leaveRequests);
   } catch (error) {
     console.error(error);

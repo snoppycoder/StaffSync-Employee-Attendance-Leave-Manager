@@ -97,7 +97,7 @@ fun ManagerScheduleScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             when (selectedTabIndex) {
-                0 -> ListCardUpcoming()
+
                 1 -> ListCardPast()
                 2 -> ManagerTeamLeave()
 

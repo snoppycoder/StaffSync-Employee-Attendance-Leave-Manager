@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.figma_replicate.data.models.Notification
-import com.example.figma_replicate.viewModel.NotificationViewModel
+// import com.example.figma_replicate.viewModel.NotificationViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,9 +24,9 @@ import java.util.*
 @Composable
 fun NotificationScreen(
     navController: NavController,
-    viewModel: NotificationViewModel = hiltViewModel()
+    // viewModel: NotificationViewModel = hiltViewModel()
 ) {
-    val notifications by viewModel.notifications.collectAsState()
+    // val notifications by viewModel.notifications.collectAsState()
 
     Scaffold(
         topBar = {
@@ -47,51 +47,19 @@ fun NotificationScreen(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            if (notifications.isEmpty()) {
-                item {
-                    Text(
-                        text = "No new notifications",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
-            } else {
-                items(notifications) { notification ->
-                    NotificationCard(notification = notification)
-                }
+            // if (notifications.isEmpty()) {
+            item {
+                Text(
+                    text = "No new notifications",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
             }
-        }
-    }
-}
-
-@Composable
-fun NotificationCard(notification: Notification, modifier: Modifier = Modifier) {
-    val dateFormatter = SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault())
-    val formattedDate = dateFormatter.format(notification.createdAt)
-
-    Card(
-        modifier = modifier
-            .padding(vertical = 8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = notification.message,
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "From: ${notification.user.fullName}",
-                style = MaterialTheme.typography.bodySmall
-            )
-            Text(
-                text = formattedDate,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.align(Alignment.End)
-            )
+            // } else {
+            //     items(notifications) { notification ->
+            //         NotificationCard(notification = notification)
+            //     }
+            // }
         }
     }
 }

@@ -48,9 +48,9 @@ interface ApiServiceInterface {
         @Header("Authorization") token: String
     ): LeaveRequestResponse
 
-    @GET("/api/leaveRequest")
+    @GET("/api/leaveRequest/{id}")
     suspend fun fetchLeaveRequest(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String, @Path("id") id:Int?
     ): LeaveRequestResponse
 
     @POST("/api/leaveRequest")

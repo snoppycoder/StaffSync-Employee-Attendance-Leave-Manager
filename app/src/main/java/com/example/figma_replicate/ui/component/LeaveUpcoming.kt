@@ -9,38 +9,67 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.figma_replicate.viewModel.LeaveFormViewModel
+import com.example.figma_replicate.viewModel.LeaveViewModel
 
 @Composable
-fun ListCardUpcoming() {
-    LeaveCardUpcoming(
-        dateRange = "Apr 15, 2025 - Apr 18, 2025",
-        applyDays = "3 Days",
-        leaveBalance = "16",
-        approvedBy = "Martin Deo",
+
+fun ListCardUpcoming(viewModel: LeaveFormViewModel) {
+    val leaveRequests by viewModel.request.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchLeaveRequest()
+    }
+    if (viewModel.request != null){
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else if (errorMessage != null) {
+                Text("Error: $errorMessage", color = Color.Red)
+            } else {
+                leaveRequests.forEach { request ->
+                    LeaveCardUpcoming(
+                        dateRange = "${request.startDate} - ${request.endDate}",
+                        applyDays = "${request.applyDays} Days",
+                        leaveBalance = request.leaveBalance.toString(),
+                        status = request.status.toString(),
+                        statusColor = Color.Yellow,
+                        viewModel = viewModel
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+        }
+    }
+    else {
+        Box(
+            modifier=Modifier
+                .fillMaxWidth()
+        ){
+            Text("You haven't applied for a leave Yet!")
+
+        }
+
+    }
 
 
-        )
-    Spacer(modifier = Modifier.height(8.dp))
-    LeaveCardUpcoming(
-        dateRange = "Mar 10, 2025 - Mar 12, 2025",
-        applyDays = "2 Days",
-        leaveBalance = "19",
-        approvedBy = "Martin Deo",
-
-
-        )
 }
+
 
 @Composable
 fun LeaveCardUpcoming(
     dateRange: String,
     applyDays: String,
     leaveBalance: String,
-    approvedBy: String,
     status: String = "Pending",
     statusColor : Color = Color.Yellow,
     chronology : Chronology = Chronology.UPCOMING,
+    viewModel: LeaveFormViewModel
 ) {
+    viewModel.fetchLeaveRequest()
+
     Card(
         modifier = Modifier.fillMaxWidth()
             .padding(8.dp),
@@ -81,11 +110,11 @@ fun LeaveCardUpcoming(
             ) {
                 Text("Apply Days\n$applyDays", style = MaterialTheme.typography.bodyMedium ,color = MaterialTheme.colorScheme.onSurface)
                 Text("Leave Balance\n$leaveBalance", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
-                Text(
-                    "Approved By\n$approvedBy",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
+//                Text(
+//                    "Approved By\n$approvedBy",
+//                    fontWeight = FontWeight.Bold,
+//                    color = Color.Black
+//                )
 
 
 
