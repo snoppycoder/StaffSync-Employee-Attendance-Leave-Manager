@@ -12,7 +12,7 @@ class NotificationRepository @Inject constructor(
     private val authPrefs: AuthPrefs
 ) {
     suspend fun fetchNotification(): Notification {
-        val id = authPrefs.getUserId()?.toInt()
-        return apiService.fetchNotification(id)
+        val token = authPrefs.getToken()
+        return apiService.fetchNotification("Bearer $token")
     }
 }

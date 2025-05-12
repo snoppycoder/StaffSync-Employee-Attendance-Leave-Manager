@@ -67,7 +67,8 @@ fun MainScreen (
                 currentRoute != Routes.NOTIFICATION_SETTING && currentRoute != Routes.CHANGE_PASSWORD &&
                 currentRoute != Routes.SIGNUP && currentRoute != Routes.LOGIN &&
                 currentRoute != Routes.FULLNAME && currentRoute != Routes.DOB &&
-                currentRoute != Routes.PASSWORD && currentRoute != Routes.GENDER
+                currentRoute != Routes.PASSWORD && currentRoute != Routes.GENDER &&
+                currentRoute != Routes.FORGOT_PASSWORD
 
             ) {
                 BottomNavBar(navController = navController)

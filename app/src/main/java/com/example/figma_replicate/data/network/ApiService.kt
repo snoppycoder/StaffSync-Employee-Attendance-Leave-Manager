@@ -23,8 +23,8 @@ interface ApiServiceInterface {
     @GET("/api/users/{id}")
     suspend fun fetchInfo(@Path("id") id: Int?): User
 
-    @GET("/api/users/{id}")
-    suspend fun fetchNotification(@Path("id") id: Int?): Notification
+    @GET("/api/users/")
+    suspend fun fetchNotification(@Header("Authorization") token: String): Notification
 
 
 
