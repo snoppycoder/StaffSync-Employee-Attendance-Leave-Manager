@@ -16,7 +16,7 @@ import com.example.figma_replicate.viewModel.LeaveViewModel
 @Composable
 fun ScheduleScreen(navController: NavController) {
     val viewModel: LeaveViewModel = hiltViewModel()
-    
+
     Scaffold(
         topBar = { ScheduleTopBar(navController) }
     ) { innerPadding ->

@@ -6,6 +6,70 @@ const { identifyUser } = require('../utils/middleware');
 const bcrypt = require('bcrypt');
 const { error } = require('../utils/logger');
 const { errorHandler } = require('../utils/middleware');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = 'uploads/profile-pictures';
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // Max 2MB
+  fileFilter: (req, file, cb) => {
+    const allowed = ['.jpg', '.jpeg', '.png'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!allowed.includes(ext)) {
+      return cb(new Error('Only .jpg, .jpeg, and .png files are allowed'));
+    }
+    cb(null, true);
+  }
+});
+
+profileRouter.patch('/:id/upload-picture', identifyUser, upload.single('picture'), async (req, res, next) => {
+  try {
+    const profileId = parseInt(req.params.id, 10);
+    const userId = req.user.id;
+
+    if (isNaN(profileId)) return res.status(400).json({ error: 'Invalid profile ID' });
+
+    const profile = await prisma.profile.findUnique({
+      where: { id: profileId },
+      select: { userId: true }
+    });
+
+    if (!profile) return res.status(404).json({ error: 'Profile not found' });
+    if (profile.userId !== userId) return res.status(403).json({ error: 'Unauthorized' });
+
+    const filePath = `/uploads/profile-pictures/${req.file.filename}`;
+
+    const updated = await prisma.profile.update({
+      where: { id: profileId },
+      data: { profilePicture: filePath },
+      select: {
+        id: true,
+        fullName: true,
+        profilePicture: true
+      }
+    });
+
+    res.json({ message: 'Profile picture updated', profile: updated });
+  } catch (error) {
+    console.error('Upload error:', error);
+    next(error);
+  }
+});
 
 profileRouter.get('/', async (req, res) => {
   try {

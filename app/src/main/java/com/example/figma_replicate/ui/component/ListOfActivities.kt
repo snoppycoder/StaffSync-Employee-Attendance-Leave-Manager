@@ -27,13 +27,15 @@ import java.util.*
 fun ListOfActivity(viewModel: AttendanceViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val state by viewModel.attendanceState
-    var isCheckedIn by remember { mutableStateOf(false) }
+    var isCheckedIn by remember { mutableStateOf(false) } // Tracks the current session state
     var localRecords by remember { mutableStateOf<List<AttendanceRecord>>(emptyList()) }
 
     // Update local records when state changes
     LaunchedEffect(state) {
         if (state is AttendanceState.Success) {
             localRecords = (state as AttendanceState.Success).data
+            // Update isCheckedIn based on the last record's state
+            isCheckedIn = localRecords.lastOrNull()?.checkOut == null
         }
     }
 
@@ -82,33 +84,27 @@ fun ListOfActivity(viewModel: AttendanceViewModel = hiltViewModel()) {
         Button(
             onClick = {
                 val timestamp = System.currentTimeMillis().toString()
+                val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                val newRecord = AttendanceRecord(
+                    id = localRecords.size + 1,
+                    checkIn = if (!isCheckedIn) timestamp else null,
+                    checkOut = if (isCheckedIn) timestamp else null,
+                    attendance = AttendanceStatus.PRESENT,
+                    date = date,
+                    createdAt = timestamp,
+                    user = null
+                )
+
+                // Create a new record instead of modifying the last one
+                localRecords = localRecords + newRecord
+                isCheckedIn = !isCheckedIn // Toggle the state
+
                 if (!isCheckedIn) {
-                    // Create new check-in record
-                    val newRecord = AttendanceRecord(
-                        id = localRecords.size + 1,
-                        checkIn = timestamp,
-                        checkOut = null,
-                        attendance = AttendanceStatus.PRESENT,
-                        date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
-                        createdAt = timestamp,
-                        user = null
-                    )
-                    localRecords = localRecords + newRecord
-                    isCheckedIn = true
+                    viewModel.checkOut()
+                    Toast.makeText(context, "Checked out successfully", Toast.LENGTH_SHORT).show()
+                } else {
                     viewModel.checkIn()
                     Toast.makeText(context, "Checked in successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    // Update the last record with check-out
-                    if (localRecords.isNotEmpty()) {
-                        val lastRecord = localRecords.last()
-                        if (lastRecord.checkOut == null) {
-                            val updatedRecord = lastRecord.copy(checkOut = timestamp)
-                            localRecords = localRecords.dropLast(1) + updatedRecord
-                            isCheckedIn = false
-                            viewModel.checkOut()
-                            Toast.makeText(context, "Checked out successfully", Toast.LENGTH_SHORT).show()
-                        }
-                    }
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7F50)),
@@ -175,22 +171,22 @@ fun ActivityCard(activity: AttendanceRecord) {
     }
 }
 
-private fun formatTimestamp(timestamp: String?): String {
-    if (timestamp == null) return "Unknown date"
+private fun formatTimestamp(date: String?): String {
+    if (date == null) return "Unknown date"
     return try {
         val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        val date = Date(timestamp.toLong())
+        val date = Date(date.toLong())
         sdf.format(date)
     } catch (e: Exception) {
         "Invalid date"
     }
 }
 
-private fun formatTime(timestamp: String?): String {
-    if (timestamp == null) return "N/A"
+private fun formatTime(date: String?): String {
+    if (date == null) return "N/A"
     return try {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = Date(timestamp.toLong())
+        val date = Date(date.toLong())
         sdf.format(date)
     } catch (e: Exception) {
         "N/A"

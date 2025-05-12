@@ -61,19 +61,19 @@ fun ProfileView(navController: NavController, user: User?) {
                 fontWeight = FontWeight.Bold,
 
 
-            )
+                )
             Text(text = user?.designation.toString())
         }
-           Icon(
-                imageVector = Icons.Filled.Notifications,
-                contentDescription = "Notification:icon",
-                tint = Color.Black,
-                modifier = Modifier
-                    .size(20.dp)
-                    .clickable {
-                        navController.navigate(Routes.NOTIFICATION)
-                    }
-            )
+        Icon(
+            imageVector = Icons.Filled.Notifications,
+            contentDescription = "Notification:icon",
+            tint = Color.Black,
+            modifier = Modifier
+                .size(20.dp)
+                .clickable {
+                    navController.navigate(Routes.NOTIFICATION)
+                }
+        )
 
     }
 }

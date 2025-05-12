@@ -57,4 +57,7 @@ class UsersViewModel @Inject constructor(
            }
        }
     }
+    private fun updateUsers(updatedUsers: List<User>) {
+        _users.value = updatedUsers
+    }
 }

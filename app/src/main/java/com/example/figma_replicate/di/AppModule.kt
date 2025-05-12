@@ -113,7 +113,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLeaveRepository(apiService: ApiServiceInterface): LeaveRepository {
-        return LeaveRepository(apiService)
+    fun provideLeaveRepository(apiService: ApiServiceInterface, authPrefs: AuthPrefs): LeaveRepository {
+        return LeaveRepository(apiService, authPrefs)
     }
+
+
 }

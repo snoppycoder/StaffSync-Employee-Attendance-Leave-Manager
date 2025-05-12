@@ -4,6 +4,8 @@ import com.example.figma_replicate.data.models.AttendanceRecord
 import com.example.figma_replicate.data.models.AttendanceStats
 import com.example.figma_replicate.data.models.CheckInResponse
 import com.example.figma_replicate.data.models.CheckOutResponse
+import com.example.figma_replicate.data.models.LeaveRequest
+import com.example.figma_replicate.data.models.LeaveRequestResponse
 import com.example.figma_replicate.data.models.LeaveStatsResponse
 import com.example.figma_replicate.data.models.LoginRequest
 import com.example.figma_replicate.data.models.LoginResponse
@@ -37,6 +39,26 @@ interface ApiServiceInterface {
     suspend fun getLeaveStats(
         @Header("Authorization") token: String
     ): LeaveStatsResponse
+
+    @GET("/api/leaveRequest")
+    suspend fun getLeaveRequests(
+        @Header("Authorization") token: String
+    ): LeaveRequestResponse
+
+    @POST("/api/leaveRequest")
+    suspend fun applyLeave(
+        @Header("Authorization") token: String,
+        @Body leaveRequest: LeaveRequest
+    ): LeaveRequest
+
+    @PATCH("/api/users/{id}")
+    suspend fun updateUser(
+        @Path("id") id: Int,
+        @Body user: User
+    ): User
+
+
+
 
 
 

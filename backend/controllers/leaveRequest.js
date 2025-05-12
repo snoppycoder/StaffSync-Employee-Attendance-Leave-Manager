@@ -6,6 +6,8 @@ const { identifyUser, rbacMiddleware, calculateLeaveDuration, isOnLeave, isOnWor
 
 // Create a leave request
 leaveRequestRouter.post('/', identifyUser, async (req, res) => {
+  
+  
   const { type, startDate, endDate, reason } = req.body;
   const userId = req.user.id;
 
@@ -174,6 +176,7 @@ leaveRequestRouter.get('/', identifyUser, async (req, res) => {
       where: { userId },
     });
     res.json(leaveRequests);
+    console.log(leaveRequests);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch leave requests' });
