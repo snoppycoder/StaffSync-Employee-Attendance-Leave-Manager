@@ -2,6 +2,7 @@ package com.example.figma_replicate.data.network
 
 import com.example.figma_replicate.data.models.LoginRequest
 import com.example.figma_replicate.data.models.LoginResponse
+import com.example.figma_replicate.data.models.Notification
 import com.example.figma_replicate.data.models.User
 import retrofit2.http.*
 
@@ -21,6 +22,9 @@ interface ApiServiceInterface {
 
     @GET("/api/users/{id}")
     suspend fun fetchInfo(@Path("id") id: Int?): User
+
+    @GET("/api/users/{id}")
+    suspend fun fetchNotification(@Path("id") id: Int?): Notification
 
 
 

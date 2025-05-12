@@ -7,6 +7,7 @@ import com.example.figma_replicate.data.network.ApiServiceInterface
 import com.example.figma_replicate.data.repository.EmployeeRepository
 import com.example.figma_replicate.data.repository.LoginRepository
 import com.example.figma_replicate.data.repository.ManagerRepository
+import com.example.figma_replicate.data.repository.NotificationRepository
 import com.example.figma_replicate.data.repository.SignupRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -77,6 +78,13 @@ object AppModule {
                                    authPrefs: AuthPrefs
     ): ManagerRepository {
         return ManagerRepository(apiService, authPrefs)
+    }
+    @Provides
+    @Singleton
+    fun providesNotificationRepository(apiService: ApiServiceInterface,
+                                  authPrefs: AuthPrefs
+    ): NotificationRepository {
+        return NotificationRepository(apiService, authPrefs)
     }
     @Provides
     @Singleton

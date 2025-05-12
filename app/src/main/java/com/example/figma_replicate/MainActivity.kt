@@ -111,18 +111,26 @@ fun MainScreen (
                 }
             }
             navigation(startDestination = Routes.HOME,  route = "navigation_bar"){
-//                val role = authPrefs.getUserRole().toString()
+                val userRole = authPrefs.getUserRole()
                 composable(Routes.HOME) {
                     HomeScreen(navController = navController)
                 }
                 composable(Routes.SCHEDULE) {
+                    if (userRole == UserRole.EMPLOYEE) {
+                        ScheduleScreen(navController = navController)
 
-                    ScheduleScreen(navController = navController)
+                    }
+                    else{
+                        ManagerScheduleScreen(navController)
+                    }
+
+
+
 
                 }
                 composable(Routes.OFFICE) {
 
-                    val userRole = authPrefs.getUserRole()
+
 
                     if (userRole == UserRole.EMPLOYEE) {
                         UsersScreen()
