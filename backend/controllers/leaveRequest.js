@@ -39,7 +39,7 @@ leaveRequestRouter.post('/', identifyUser, async (req, res) => {
 });
 
 // Update a leave request (e.g., approve, reject, cancel)
-leaveRequestRouter.patch('/:id', identifyUser, rbacMiddleware(['MANAGER']), async (req, res) => {
+leaveRequestRouter.patch('/:id', identifyUser, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   const userId = req.user.id;
@@ -174,10 +174,23 @@ leaveRequestRouter.get('/:id', identifyUser, async (req, res) => {
   try {
     const leaveRequests = await prisma.leaveRequest.findMany({
       where: { userId },
+      
+      
     });
+    const startDate = new Date(leaveRequests.startDate);
+    const endDate = new Date(leaveRequests.endDate);
+    const applyDays = Math.ceil((endDate - startDate) / (1000 * 3600 * 24)) + 1;
 
-    res.json(leaveRequests);
-    console.log(leaveRequests[0]);
+    const formattedLeaveRequests = leaveRequests.map(leaveRequest => ({
+      ...leaveRequest,
+      
+
+      startDate: new Date(leaveRequest.startDate).toISOString().split('T')[0],
+      endDate: new Date(leaveRequest.endDate).toISOString().split('T')[0], 
+      applyDays: applyDays
+    }));
+    res.json(formattedLeaveRequests)
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch leave requests' });

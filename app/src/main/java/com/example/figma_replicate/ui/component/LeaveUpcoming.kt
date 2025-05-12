@@ -2,6 +2,7 @@ package com.example.figma_replicate.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -33,7 +34,7 @@ fun ListCardUpcoming(viewModel: LeaveFormViewModel) {
                     LeaveCardUpcoming(
                         dateRange = "${request.startDate} - ${request.endDate}",
                         applyDays = "${request.applyDays} Days",
-                        leaveBalance = request.leaveBalance.toString(),
+                        leaveBalance = request.pointsDeduction.toString(),
                         status = request.status.toString(),
                         statusColor = Color.Yellow,
                         viewModel = viewModel
@@ -66,7 +67,8 @@ fun LeaveCardUpcoming(
     status: String = "Pending",
     statusColor : Color = Color.Yellow,
     chronology : Chronology = Chronology.UPCOMING,
-    viewModel: LeaveFormViewModel
+    viewModel: LeaveFormViewModel,
+
 ) {
     viewModel.fetchLeaveRequest()
 
@@ -106,15 +108,11 @@ fun LeaveCardUpcoming(
             Divider()
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text("Apply Days\n$applyDays", style = MaterialTheme.typography.bodyMedium ,color = MaterialTheme.colorScheme.onSurface)
+
                 Text("Leave Balance\n$leaveBalance", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
-//                Text(
-//                    "Approved By\n$approvedBy",
-//                    fontWeight = FontWeight.Bold,
-//                    color = Color.Black
-//                )
+//
 
 
 

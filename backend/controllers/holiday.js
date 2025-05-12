@@ -25,12 +25,10 @@ holidayRouter.post('/', identifyUser, async (req, res) => {
   try {
     const { title, startDate, endDate } = req.body;
 
-    // Validate the incoming data
     if (!title || !startDate || !endDate) {
       return res.status(400).json({ error: 'Title, start date, and end date are required.' });
     }
 
-    // Validate that startDate and endDate are proper Date objects
     const start = new Date(startDate);
     const end = new Date(endDate);
 

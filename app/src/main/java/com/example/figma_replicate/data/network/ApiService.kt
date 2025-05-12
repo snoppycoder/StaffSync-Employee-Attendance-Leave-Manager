@@ -65,6 +65,15 @@ interface ApiServiceInterface {
         @Body user: User
     ): User
 
+    @PATCH("leave-request/{id}")
+    suspend fun updateLeaveStatus(
+        @Path("id") id: Int,
+        @Body body: Map<String, String>,
+        @Header("Authorization") token: String
+    )
+
+
+
 
 
 

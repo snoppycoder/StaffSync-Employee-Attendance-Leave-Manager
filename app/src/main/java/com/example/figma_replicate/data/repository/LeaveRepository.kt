@@ -39,8 +39,18 @@ class LeaveRepository @Inject constructor(
         }
     }
 
+
+
     suspend fun fetchLeaveRequest(): List<LeaveRequestResponse> {
         val id = authPrefs.getUserId()?.toInt()
         return apiService.fetchLeaveRequest("Bearer ${authPrefs.getToken()}", id)
+    }
+    suspend fun updateLeaveStatus(id: Int, status: String) {
+        val token = authPrefs.getToken()
+        apiService.updateLeaveStatus(
+            id = id,
+            body = mapOf("status" to status),
+            token = "Bearer $token"
+        )
     }
 }

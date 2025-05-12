@@ -112,12 +112,20 @@ fun MainScreen (
                 }
             }
             navigation(startDestination = Routes.HOME,  route = "navigation_bar"){
-                val userRole = authPrefs.getUserRole()
+
+
                 composable(Routes.HOME) {
-                    HomeScreen(navController = navController)
+
+                    HomeScreen(
+                        navController = navController,
+                        authPrefs = AuthPrefs(context = LocalContext.current)
+
+
+                    )
                 }
                 composable(Routes.SCHEDULE) {
-                    if (userRole == UserRole.EMPLOYEE) {
+                    val updatedUserRole = remember { authPrefs.getUserRole() }
+                    if (updatedUserRole == UserRole.EMPLOYEE) {
                         ScheduleScreen(navController = navController)
 
                     }
@@ -130,15 +138,13 @@ fun MainScreen (
 
                 }
                 composable(Routes.OFFICE) {
-
-
-
-                    if (userRole == UserRole.EMPLOYEE) {
+                    val updatedUserRole = remember { authPrefs.getUserRole() }
+                    if (updatedUserRole == UserRole.EMPLOYEE) {
                         UsersScreen()
                     } else {
                         ManagerScreen()
                     }
-                    // OfficeScreen()
+
                 }
 
                 composable(Routes.HOLIDAY) {
@@ -172,9 +178,13 @@ fun MainScreen (
 
             composable(Routes.LOGIN) {
                 val context = LocalContext.current
+                val userRole = remember { authPrefs.getUserRole() }
                 val viewModel: LoginViewModel = hiltViewModel()
                 LoginScreen(
-                    onLoginClick = { navController.navigate(Routes.HOME) },
+
+                    onLoginClick = {
+
+                        navController.navigate(Routes.HOME) },
                     onSignUpClick = {
                         Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()
                     },

@@ -62,6 +62,18 @@ class LeaveFormViewModel @Inject constructor(
     fun updateReason(newReason: String) {
         reason = newReason
     }
+    fun updateLeaveStatus(id: Int, status: String) {
+        viewModelScope.launch {
+            try {
+                leaveRepository.updateLeaveStatus(id, status)
+                fetchLeaveRequest()
+            } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "Failed to update leave status"
+            }
+        }
+    }
+
+
 
 
     fun fetchLeaveRequest() {
@@ -90,7 +102,8 @@ class LeaveFormViewModel @Inject constructor(
             type = leaveType,
             startDate = startDate,
             endDate = endDate,
-            reason = reason
+            reason = reason,
+
         )
 
         viewModelScope.launch {

@@ -14,7 +14,7 @@ import com.example.figma_replicate.viewModel.LeaveViewModel
 fun ScheduleContent(innerPadding: PaddingValues) {
     val viewModel: LeaveViewModel = hiltViewModel()
     val formViewmodel: LeaveFormViewModel = hiltViewModel()
-    val tabs = listOf("Upcoming", "Past", "Team Leave")
+    val tabs = listOf("Upcoming", "Past")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     Column(
@@ -36,7 +36,7 @@ fun ScheduleContent(innerPadding: PaddingValues) {
         when(selectedTabIndex) {
             0 -> ListCardUpcoming(formViewmodel)
             1 -> ListCardPast()
-            2 -> ListCardTeamLeave()
+
         }
     }
 }

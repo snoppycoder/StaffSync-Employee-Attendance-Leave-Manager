@@ -21,7 +21,8 @@ data class LeaveRequestResponse(
     val status: String?=null,
     val reason: String?=null,
     val leaveBalance: Int?=null,
-    val applyDays: Int?=null
+    val applyDays: Int?=null,
+    val pointsDeduction: Int?=null
 
 )
 

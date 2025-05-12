@@ -4,13 +4,6 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 async function main() {
-    // Delete all existing data to start fresh
-    // await prisma.user.deleteMany();
-    // // await prisma.leaveBalance.deleteMany();
-    // await prisma.leaveRequest.deleteMany();
-    // await prisma.attendance.deleteMany();
-    // await prisma.blacklistedToken.deleteMany();
-    // await prisma.profile.deleteMany();
     console.log('Deleted all existing records.');
 
     const users = [

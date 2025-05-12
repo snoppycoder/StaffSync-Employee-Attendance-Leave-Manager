@@ -14,32 +14,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.figma_replicate.R
+import com.example.figma_replicate.data.models.LeaveRequestResponse
+import com.example.figma_replicate.viewModel.LeaveFormViewModel
+
 @Composable
-fun ListCardTeamLeave() {
-    LeaveTeamLeave("John Doe", "Lead UI/UX Developer",
-        "Apr 15, 2025",
-        "Apr 18 2025",
-        "3")
-    Spacer(modifier = Modifier.height(8.dp))
-    LeaveTeamLeave("John Doe", "Lead UI/UX Developer",
-        "Apr 15, 2025",
-        "Apr 18 2025",
-        "3")
-    Spacer(modifier = Modifier.height(8.dp))
-    LeaveTeamLeave("John Doe", "Lead UI/UX Developer",
-        "Apr 15, 2025",
-        "Apr 18 2025",
-        "3")
-}
-@Composable
+
 fun LeaveTeamLeave(
-    name: String,
-    designation: String,
-    startDate: String,
-    endDate: String,
-    applyDays: String,
-    chronology: Chronology = Chronology.TEAMLEAVE
+    request: LeaveRequestResponse,
+    onApprove: (Int) -> Unit,
+    onReject: (Int) -> Unit
 ) {
+    val name = "John Doe" // Replace with request.userName if available
+    val designation = "Software Engineer" // Replace with real value if available
+    val startDate = request.startDate?.take(10)
+    val endDate = request.endDate?.take(10)
+    val applyDays = "${request.pointsDeduction} Days"
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,9 +45,7 @@ fun LeaveTeamLeave(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     modifier = Modifier
@@ -67,19 +55,9 @@ fun LeaveTeamLeave(
                     contentDescription = "Profile picture"
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally // Center name and designation
-                ) {
-                    Text(
-                        text = name,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                    Text(
-                        text = designation,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray
-                    )
+                Column {
+                    Text(text = name, fontWeight = FontWeight.Bold)
+                    Text(text = designation, color = Color.Gray)
                 }
             }
 
@@ -89,46 +67,45 @@ fun LeaveTeamLeave(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "$startDate - $endDate",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Apply Days\n$applyDays",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold
-                )
+                Text("$startDate - $endDate", fontWeight = FontWeight.Bold)
+                Text("Apply Days\n$applyDays", fontWeight = FontWeight.Bold)
             }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 100.dp),
-
-                    shape = MaterialTheme.shapes.small,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF05CC8C)) // Custom color for approve button
-                ) {
-                    Text("Approve")
+                request.id?.let { id ->
+                    Button(onClick = { onApprove(id) }) {
+                        Text("Approve")
+                    }
+                    Button(onClick = { onReject(id) }) {
+                        Text("Reject")
+                    }
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
-
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 100.dp),
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text("Reject", fontWeight = FontWeight.SemiBold)
-                }
             }
         }
     }
-
-
 }
+
+
+@Composable
+fun ListCardTeamLeave(viewModel: LeaveFormViewModel) {
+    val leaveRequests by viewModel.request.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchLeaveRequest()
+    }
+
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        leaveRequests.forEach { request ->
+            LeaveTeamLeave(
+                request = request,
+                onApprove = { id -> viewModel.updateLeaveStatus(id, "APPROVED") },
+                onReject = { id -> viewModel.updateLeaveStatus(id, "REJECTED") }
+            )
+        }
+    }
+}
+
