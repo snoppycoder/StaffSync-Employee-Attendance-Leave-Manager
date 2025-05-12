@@ -6,10 +6,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
+import com.example.figma_replicate.viewModel.LeaveViewModel
 
 @Composable
-fun ScheduleContent(innerPadding: PaddingValues) {
+fun ScheduleContent(innerPadding: PaddingValues, viewModel: LeaveViewModel) {
     val tabs = listOf("Upcoming", "Past", "Team Leave")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
@@ -17,9 +17,8 @@ fun ScheduleContent(innerPadding: PaddingValues) {
         modifier = Modifier
             .padding(innerPadding)
             .verticalScroll(rememberScrollState())
-
     ) {
-        ScheduleGrid()
+        LeaveStatGrid(viewModel = viewModel)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -33,7 +32,6 @@ fun ScheduleContent(innerPadding: PaddingValues) {
             0 -> ListCardUpcoming()
             1 -> ListCardPast()
             2 -> ListCardTeamLeave()
-
         }
     }
 }

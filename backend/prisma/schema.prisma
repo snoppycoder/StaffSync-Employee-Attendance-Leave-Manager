@@ -56,7 +56,9 @@ model User {
   leaveRequests LeaveRequest[] @relation("UserLeaveRequests")
   leaveBalances LeaveBalance[]
   attendance    Attendance[]
+  notifications Notification[]
   approvedLeaves LeaveRequest[] @relation("ApprovedByUser")
+  holidays     Holiday[] 
 }
 
 model Profile {
@@ -71,6 +73,7 @@ model Profile {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
+  profilePicture String?
 }
 
 model LeaveBalance {
@@ -105,17 +108,40 @@ model LeaveRequest {
   approvedAt      DateTime?    // When the request was approved
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+  notification    Notification[]
+
 }
 
 model Attendance {
-  id        Int         @id @default(autoincrement())
-  userId    Int
-  user      User        @relation(fields: [userId], references: [id])
-  date      DateTime
-  checkIn   DateTime?
-  checkOut  DateTime?
+  id         Int         @id @default(autoincrement())
+  userId     Int
+  user       User        @relation(fields: [userId], references: [id])
+  date       DateTime
+  checkIn    DateTime?
+  checkOut   DateTime?
   attendance Attendances?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  @@unique([userId, date]) // Composite unique constraint
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+
+model Notification {
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  message      String
+  createdAt    DateTime     @default(now())
+  leaveRequest LeaveRequest? @relation(fields: [leaveRequestId], references: [id])
+  leaveRequestId Int?
+}
+model Holiday {
+  id          Int       @id @default(autoincrement())
+  title       String    // Name or title of the holiday (e.g., "Independence Day")
+  startDate   DateTime // Optional start date for holidays spanning multiple days
+  endDate     DateTime // Optional end date for holidays spanning multiple days
+  description String?   // Optional description
+  createdById Int       // Manager who added the holiday
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

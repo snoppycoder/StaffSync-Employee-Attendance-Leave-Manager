@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -71,42 +73,41 @@ fun AttendanceCard(
     }
 }
 
-    @Composable
-    fun AttendanceGrid() {
-        Column(
+@Composable
+fun AttendanceGrid() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+
+        Text(
+            text = "Your Attendance",
+            color = Color.Black,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(8.dp)
-        ) {
 
-            Text(
-                text = "Your Attendance",
-                color = Color.Black,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(8.dp)
+        )
 
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+            ) {
+            val attendanceList = listOf(
+                Triple("Check In", "10:45PM", "On Time"),
+                Triple("Check Out", "6:30PM", "Left Early"),
+                Triple("Check In", "9:00AM", "Late"),
+                Triple("Check Out", "5:00PM", "On Time")
             )
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-
-                ) {
-                val attendanceList = listOf(
-                    Triple("Check In", "10:45PM", "On Time"),
-                    Triple("Check Out", "6:30PM", "Left Early"),
-                    Triple("Check In", "9:00AM", "Late"),
-                    Triple("Check Out", "5:00PM", "On Time")
-                )
-
-                items(attendanceList.size) { item ->
-                    val (status, time, task) = attendanceList[item]
-                    AttendanceCard(status, time, task)
-                }
+            items(attendanceList.size) { item ->
+                val (status, time, task) = attendanceList[item]
+                AttendanceCard(status, time, task)
             }
         }
     }
-
+}

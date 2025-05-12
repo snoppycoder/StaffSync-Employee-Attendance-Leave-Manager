@@ -6,10 +6,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.figma_replicate.ui.component.LeaveTeamLeave
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.figma_replicate.viewModel.LeaveViewModel
 
 @Composable
 fun LeaveDashboardContent(innerPadding: PaddingValues) {
+    val viewModel: LeaveViewModel = hiltViewModel()
     val tabs = listOf("Upcoming", "Past", "Team Leave")
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
@@ -19,7 +21,7 @@ fun LeaveDashboardContent(innerPadding: PaddingValues) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        LeaveStatGrid()
+        LeaveStatGrid(viewModel = viewModel)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -33,7 +35,6 @@ fun LeaveDashboardContent(innerPadding: PaddingValues) {
             0 -> ListCardUpcoming()
             1 -> ListCardPast()
             2 -> ListCardTeamLeave()
-
         }
     }
 }

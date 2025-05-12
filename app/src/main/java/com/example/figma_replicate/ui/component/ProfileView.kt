@@ -1,3 +1,4 @@
+
 package com.example.figma_replicate.ui.component
 
 import androidx.compose.foundation.Image
@@ -54,39 +55,39 @@ fun ProfileView(navController: NavController, user: User?) {
         designation = user.designation?:"null"
 
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
+        Row(
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "profile picture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.profile),
+                    contentDescription = "profile picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = fullName,
-                fontWeight = FontWeight.Bold,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = fullName,
+                    fontWeight = FontWeight.Bold,
 
 
-            )
-            Text(text = designation)
-        }
-           Icon(
+                    )
+                Text(text = designation)
+            }
+            Icon(
                 imageVector = Icons.Filled.Notifications,
                 contentDescription = "Notification:icon",
                 tint = Color.Black,
@@ -98,6 +99,6 @@ fun ProfileView(navController: NavController, user: User?) {
                     }
             )
 
+        }
     }
-}
 }

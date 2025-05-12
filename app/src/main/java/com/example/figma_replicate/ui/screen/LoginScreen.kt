@@ -58,12 +58,12 @@ fun LoginScreen(
                     .background(Color.White)
 
                     .padding(horizontal = 24.dp)
-                    ,
+                ,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.login_illustration), // Replace with your asset
+                    painter = painterResource(id = R.drawable.signup_illustration), // Replace with your asset
                     contentDescription = "Login Illustration",
                     modifier = Modifier
                         .height(280.dp)
@@ -218,7 +218,7 @@ fun LoginScreen(
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.login_illustration), // Replace with your asset
+                    painter = painterResource(id = R.drawable.signup_illustration), // Replace with your asset
                     contentDescription = "Login Illustration",
                     modifier = Modifier
                         .height(280.dp)

@@ -44,27 +44,27 @@ import com.example.figma_replicate.ui.component.ScheduleTopBar
 @Composable
 fun ManagerTeamLeave(){
 
-        LeaveTeamLeave(
-            "John Doe", "Lead UI/UX Developer",
-            "Apr 15, 2025",
-            "Apr 18 2025",
-            "3"
-        )
+    LeaveTeamLeave(
+        "John Doe", "Lead UI/UX Developer",
+        "Apr 15, 2025",
+        "Apr 18 2025",
+        "3"
+    )
 
-        Spacer(modifier = Modifier.height(8.dp))
-        LeaveTeamLeave(
-            "John Doe", "Lead UI/UX Developer",
-            "Apr 15, 2025",
-            "Apr 18 2025",
-            "3"
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LeaveTeamLeave(
-            "John Doe", "Lead UI/UX Developer",
-            "Apr 15, 2025",
-            "Apr 18 2025",
-            "3"
-        )
+    Spacer(modifier = Modifier.height(8.dp))
+    LeaveTeamLeave(
+        "John Doe", "Lead UI/UX Developer",
+        "Apr 15, 2025",
+        "Apr 18 2025",
+        "3"
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    LeaveTeamLeave(
+        "John Doe", "Lead UI/UX Developer",
+        "Apr 15, 2025",
+        "Apr 18 2025",
+        "3"
+    )
 
 
 }

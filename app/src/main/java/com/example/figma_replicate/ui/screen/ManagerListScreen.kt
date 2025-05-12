@@ -50,7 +50,7 @@ fun ManagerScreen(viewModel: ManagerViewModel = hiltViewModel()) {
             ,
 
 
-        ) {
+            ) {
             when {
                 loading -> {
                     CircularProgressIndicator()
@@ -129,4 +129,3 @@ fun ManagerItem(
 
     Divider(color = Color.LightGray, thickness = 0.5.dp)
 }
-

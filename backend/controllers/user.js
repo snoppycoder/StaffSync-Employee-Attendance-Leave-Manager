@@ -1,3 +1,4 @@
+
 const userRouter = require('express').Router();
 const { errorHandler, identifyUser } = require('../utils/middleware');
 const { error } = require('../utils/logger');
@@ -13,23 +14,122 @@ userRouter.get('/', async (req, res) => {
         res.status(500).json({ error: 'Could not retrieve users' });
     }
 });
+userRouter.get('/employee', async (req, res) => {
+  try {
+    const foundUsers = await prisma.user.findMany({
+      where: { role: 'EMPLOYEE' },
+      include: {
+        profile: {
+          select: {
+            fullName: true,
+        }
+      }}
+    });
 
-userRouter.get('/:id', identifyUser, async(req,res) => {
-	const { id } = req.params;
-	try{
-		const foundUser = await prisma.user.findUnique({
-			where: { id: parseInt(id) },
-		})
+    if (!foundUsers || foundUsers.length === 0) {
+      return res.status(404).send({ error: "No such user found" });
+    }
+    const mergedUsers = foundUsers.map(user => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      fullName: user.profile.fullName, // Add fullName to the response
+    }));
 
-		if (!foundUser){
-			return(res.status(404).json({error: "No such user found"}))
-		}
-		res.json(foundUser);
-	}catch(e){
-		console.error(error);
-        res.status(500).json({ error: 'Could not retrieve user' });
-	}
+    res.send(mergedUsers);
+  } catch (e) {
+    console.error('Error fetching employees:', e);
+    res.status(500).send({ error: 'Could not retrieve users' });
+  }
 });
+
+userRouter.get('/manager', async (req, res) => {
+  try {
+    const foundUsers = await prisma.user.findMany({
+      where: { role: 'MANAGER' },
+      include: {
+        profile: {
+          select: {
+            fullName: true,
+        }
+      }}
+    });
+
+    if (!foundUsers || foundUsers.length === 0) {
+      return res.status(404).send({ error: "No such user found" });
+    }
+    const mergedUsers = foundUsers.map(user => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      fullName: user.profile.fullName, // Add fullName to the response
+    }));
+
+    res.send(mergedUsers);
+  } catch (e) {
+    console.error('Error fetching employees:', e);
+    res.status(500).send({ error: 'Could not retrieve users' });
+  }
+});
+
+
+userRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const foundUser = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        profile: {
+          select: {
+            fullName: true,
+            designation: true,
+          },
+        },
+        leaveBalances: {
+          select: {
+            type: true,
+            balance: true,
+          },
+        },
+        leaveRequests:{
+          select:{
+            status: true
+          },
+        },
+        
+      },
+    });
+
+    if (!foundUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const mergedUser = {
+    
+      username: foundUser.username,
+      email: foundUser.email,
+      fullName: foundUser.profile?.fullName ?? null, // safe access
+      designation: foundUser.profile?.designation ?? null, 
+      status: foundUser.leaveRequests,
+      leaveBalances: foundUser.leaveBalances[0]?.balance ?? null, 
+
+    };
+    console.log('Leave Requests:', foundUser.leaveRequests);
+
+
+    res.send(mergedUser);
+    console.log('Merged user:', mergedUser);
+  } catch (e) {
+    console.error('Error fetching user:', e);
+    res.status(500).json({ error: 'Could not retrieve user' });
+  }
+});
+
+
+
 
 // for the change your password functionality
 userRouter.patch('/:id', identifyUser, async (req, res, next) => {

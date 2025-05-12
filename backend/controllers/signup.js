@@ -78,7 +78,7 @@ signupRouter.post('/', async (req, res) => {
           data: {
             userId: user.id,
             type,
-            balance: 20,
+            balance: 33,
           },
         });
       }

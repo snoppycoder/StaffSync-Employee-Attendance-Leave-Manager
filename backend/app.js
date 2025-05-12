@@ -8,6 +8,8 @@ const logoutRouter = require('./controllers/logout');
 const leaveRequestRouter = require('./controllers/leaveRequest');
 const attendanceRouter = require('./controllers/attendance');
 const profileRouter = require('./controllers/profile');
+const notificationRouter = require('./controllers/notification');
+const holidayRouter = require('./controllers/holiday');
 const cors = require('cors');
 
 
@@ -26,5 +28,8 @@ app.use('/api/logout', logoutRouter);
 app.use('/api/profile', profileRouter)
 app.use('/api/leaveRequest', leaveRequestRouter);
 app.use('/api/attendance', attendanceRouter);
+app.use('/api/notification', notificationRouter);
+app.use('/api/holiday', holidayRouter);
+
 
 module.exports = app;
