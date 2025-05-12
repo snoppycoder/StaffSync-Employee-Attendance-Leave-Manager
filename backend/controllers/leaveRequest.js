@@ -168,15 +168,42 @@ leaveRequestRouter.get('/stats', identifyUser, async (req, res) => {
 });
 
 leaveRequestRouter.get('/:id', identifyUser, async (req, res) => {
-  console.log(req.params)
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
     const leaveRequests = await prisma.leaveRequest.findMany({
-      where: { userId },
+      where: { userId: Number(id) },
+      include: {
+        approvedBy: true,
+      },
     });
-    res.json(leaveRequests[0]);
-    console.log(leaveRequests);
+
+    if (!leaveRequests.length) {
+      return res.status(404).json({ error: 'No leave requests found' });
+    }
+
+    // Format and map the first leave request
+    const lr = leaveRequests[0];
+
+    const applyDays = Math.ceil(
+      (new Date(lr.endDate).getTime() - new Date(lr.startDate).getTime()) /
+        (1000 * 60 * 60 * 24)
+    ) + 1;
+
+    const response = {
+      id: lr.id,
+      type: lr.type,
+      startDate: lr.startDate.toISOString(),
+      endDate: lr.endDate.toISOString(),
+      approvedById: lr.approvedById ?? null,
+      approvedByName: lr.approvedBy?.name ?? null,
+      status: lr.status,
+      reason: lr.reason,
+      leaveBalance: lr.pointsDeduction,
+      applyDays: applyDays,
+    };
+
+    res.json(response);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch leave requests' });

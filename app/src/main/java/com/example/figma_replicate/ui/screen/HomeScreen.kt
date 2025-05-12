@@ -1,5 +1,6 @@
 package com.example.figma_replicate.ui.screen
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -19,17 +20,22 @@ import com.example.figma_replicate.ui.component.*
 import com.example.figma_replicate.viewModel.AttendanceViewModel
 import com.example.figma_replicate.viewModel.ResourceViewModel
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import com.example.figma_replicate.data.AuthPrefs
+import com.example.figma_replicate.data.models.UserRole
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     navController: NavController,
     resourceViewModel: ResourceViewModel = hiltViewModel(),
-    attendanceViewModel: AttendanceViewModel = hiltViewModel()
+    attendanceViewModel: AttendanceViewModel = hiltViewModel(),
+    authPrefs: AuthPrefs
 ) {
     val user by resourceViewModel.employee.collectAsState()
     val attendanceState by attendanceViewModel.attendanceState
     val scrollState = rememberScrollState()
+
 
 
 
@@ -52,9 +58,13 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             AttendanceGrid()
-            ListOfActivity(viewModel = attendanceViewModel)
+            val role = remember { authPrefs.getUserRole() }
+            if (role == UserRole.EMPLOYEE){
+                ListOfActivity(viewModel = attendanceViewModel)
+
+            }
+
         }
     }
 
 }
-

@@ -30,6 +30,7 @@ import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
 import com.example.figma_replicate.ui.screen.*
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
+import com.example.figma_replicate.viewModel.HolidayViewModel
 import com.example.figma_replicate.viewModel.LoginViewModel
 import com.example.figma_replicate.viewModel.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,12 +113,20 @@ fun MainScreen (
                 }
             }
             navigation(startDestination = Routes.HOME,  route = "navigation_bar"){
-                val userRole = authPrefs.getUserRole()
+
+
                 composable(Routes.HOME) {
-                    HomeScreen(navController = navController)
+
+                    HomeScreen(
+                        navController = navController,
+                        authPrefs = AuthPrefs(context = LocalContext.current)
+
+
+                    )
                 }
                 composable(Routes.SCHEDULE) {
-                    if (userRole == UserRole.EMPLOYEE) {
+                    val updatedUserRole = remember { authPrefs.getUserRole() }
+                    if (updatedUserRole == UserRole.EMPLOYEE) {
                         ScheduleScreen(navController = navController)
 
                     }
@@ -130,19 +139,25 @@ fun MainScreen (
 
                 }
                 composable(Routes.OFFICE) {
-
-
-
-                    if (userRole == UserRole.EMPLOYEE) {
+                    val updatedUserRole = remember { authPrefs.getUserRole() }
+                    if (updatedUserRole == UserRole.EMPLOYEE) {
                         UsersScreen()
                     } else {
                         ManagerScreen()
                     }
-                    // OfficeScreen()
+
                 }
 
                 composable(Routes.HOLIDAY) {
-                    // HolidayScreen()
+                    // Get the HolidayViewModel using hiltViewModel
+                    val holidayViewModel: HolidayViewModel = hiltViewModel()
+                    val authPrefs = remember { AuthPrefs(context) }
+
+
+                    HolidayScreen(
+                        viewModel = holidayViewModel,
+                        authPrefs = authPrefs
+                    )
                 }
                 composable(Routes.PROFILE) {
                     ProfileScreen(navController = navController)
@@ -172,9 +187,13 @@ fun MainScreen (
 
             composable(Routes.LOGIN) {
                 val context = LocalContext.current
+                val userRole = remember { authPrefs.getUserRole() }
                 val viewModel: LoginViewModel = hiltViewModel()
                 LoginScreen(
-                    onLoginClick = { navController.navigate(Routes.HOME) },
+
+                    onLoginClick = {
+
+                        navController.navigate(Routes.HOME) },
                     onSignUpClick = {
                         Toast.makeText(context, "Employee Clicked", Toast.LENGTH_SHORT).show()
                     },

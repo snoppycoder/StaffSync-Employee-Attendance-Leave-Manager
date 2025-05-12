@@ -6,12 +6,11 @@ const { parse } = require('date-fns');
 const prisma = new PrismaClient();
 
 holidayRouter.get('/', identifyUser, async (req, res) => {
+  console.log(req.params);
+  
+  
     try {
-        const holidays = await prisma.holiday.findMany({
-            orderBy: {
-                date: 'asc',
-            },
-        });
+        const holidays = await prisma.holiday.findMany();
         res.status(200).json(holidays);
     } catch (error) {
         console.error('Error fetching holidays:', error);
@@ -21,9 +20,11 @@ holidayRouter.get('/', identifyUser, async (req, res) => {
 );
 
 // Endpoint to create a holiday
-holidayRouter.post('/', identifyUser, async (req, res) => {
+holidayRouter.post('/', async (req, res) => {
   try {
     const { title, startDate, endDate } = req.body;
+    console.log(req.body);
+    
 
     // Validate the incoming data
     if (!title || !startDate || !endDate) {
@@ -48,13 +49,11 @@ holidayRouter.post('/', identifyUser, async (req, res) => {
         title: title.trim(),
         startDate: start,
         endDate: end,
-        createdBy: {
-            connect: {
-                id: req.user.id  // or just 2 if testing manually
-            }
-    }
+        createdBy: new Date(),
       },
     });
+    console.log(req.body);
+    
 
     // Respond with the created holiday
     res.status(201).json(holiday);

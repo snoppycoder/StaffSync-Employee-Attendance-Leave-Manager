@@ -1,9 +1,11 @@
 package com.example.figma_replicate.data.network
 
+import com.example.figma_replicate.data.models.AddHoliday
 import com.example.figma_replicate.data.models.AttendanceRecord
 import com.example.figma_replicate.data.models.AttendanceStats
 import com.example.figma_replicate.data.models.CheckInResponse
 import com.example.figma_replicate.data.models.CheckOutResponse
+import com.example.figma_replicate.data.models.Holiday
 import com.example.figma_replicate.data.models.LeaveRequest
 import com.example.figma_replicate.data.models.LeaveRequestResponse
 import com.example.figma_replicate.data.models.LeaveStatsResponse
@@ -65,6 +67,14 @@ interface ApiServiceInterface {
         @Body user: User
     ): User
 
+    @GET("/api/holiday")
+    suspend fun fetchHoliday(@Header("Authorization") token:String): List<Holiday>
+
+    @POST("/api/holiday")
+    suspend fun addHoliday(
+        @Header("Authorization") token: String,
+        @Body addHoliday: AddHoliday
+    ): Holiday
 
 
 

@@ -140,8 +140,8 @@ model Holiday {
   startDate   DateTime // Optional start date for holidays spanning multiple days
   endDate     DateTime // Optional end date for holidays spanning multiple days
   description String?   // Optional description
-  createdById Int       // Manager who added the holiday
-  createdBy   User      @relation(fields: [createdById], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdById Int  ?     // Manager who added the holiday
+  createdBy   User?      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime ? @default(now())
+  updatedAt   DateTime?  @updatedAt
 }

@@ -73,7 +73,7 @@ class AttendanceViewModel @Inject constructor(
         attendanceState.value = AttendanceState.Idle
     }
 
-    fun isManager(): Boolean {
-        return authPrefs.isManager()
-    }
+//    fun isManager(): Boolean {
+//        return authPrefs.isManager()
+//    }
 }

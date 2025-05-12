@@ -58,14 +58,14 @@ class AuthPrefs(context: Context) {
         return prefs.getString(KEY_TOKEN, null)
     }
 
-
-
     // Clear all authentication data (e.g., on logout)
     fun clearAuthData() {
         prefs.edit { clear() }
     }
-
     fun isManager(): Boolean {
-        return getUserRole() == UserRole.MANAGER
+        val role = prefs.getString(KEY_ROLE, null)
+        return role == UserRole.MANAGER.name
+
     }
+
 }
