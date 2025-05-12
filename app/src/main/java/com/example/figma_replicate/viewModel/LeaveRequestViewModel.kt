@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.figma_replicate.data.models.LeaveRequest
+import com.example.figma_replicate.data.models.LeaveRequestResponse
+import com.example.figma_replicate.data.models.User
 import com.example.figma_replicate.data.repository.LeaveRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,9 @@ class LeaveFormViewModel @Inject constructor(
     private val leaveRepository: LeaveRepository
 ) : ViewModel() {
 
+
+
+
     // Use mutableStateOf for Compose UI state
     var leaveType by mutableStateOf("")
         private set
@@ -28,9 +33,26 @@ class LeaveFormViewModel @Inject constructor(
         private set
     var reason by mutableStateOf("")
         private set
+    var status by mutableStateOf("")
+        private set
+    var approvedById by mutableStateOf(0)
+        private set
+    var leaveBalance by mutableStateOf(0)
+        private set
+    var applyDays by mutableStateOf(0)
+        private set
+
 
     private val _uiState = MutableStateFlow<LeaveFormUiState>(LeaveFormUiState.Idle)
     val uiState: StateFlow<LeaveFormUiState> = _uiState.asStateFlow()
+    private val _requests = MutableStateFlow<List<LeaveRequestResponse>>(emptyList())
+    val request: StateFlow<List<LeaveRequestResponse>> = _requests
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
 
 
     fun updateLeaveType(newLeaveType: String) {
@@ -48,6 +70,37 @@ class LeaveFormViewModel @Inject constructor(
     fun updateReason(newReason: String) {
         reason = newReason
     }
+
+    fun getStatus() : String{
+        return status
+    }
+    fun getApplyDays() : Int{
+        return applyDays
+    }
+    fun getLeaveBalance() : Int{
+        return leaveBalance
+    }
+    fun getApprovedById() : Int{
+        return approvedById
+    }
+    fun fetchLeaveRequest(){
+
+        viewModelScope.launch {
+
+
+        val response = LeaveRequestResponse(
+            type = leaveType,
+            startDate = startDate,
+            endDate = endDate,
+            status = status,
+            approvedById = approvedById,
+            leaveBalance = leaveBalance,
+            applyDays = applyDays,
+
+            )
+        leaveRepository.fetchLeaveRequest()}
+    }
+
 
     fun submitLeaveRequest() {
         // Basic validation
@@ -72,6 +125,7 @@ class LeaveFormViewModel @Inject constructor(
             )
         }
     }
+
 
     fun clearUiState() {
         _uiState.value = LeaveFormUiState.Idle

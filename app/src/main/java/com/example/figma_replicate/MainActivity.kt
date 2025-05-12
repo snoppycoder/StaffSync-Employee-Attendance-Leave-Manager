@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.figma_replicate.data.AuthPrefs
+import com.example.figma_replicate.data.models.UserRole
 //import com.example.figma_replicate.SessionManagement.SessionViewModel
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
@@ -31,7 +32,6 @@ import com.example.figma_replicate.ui.screen.*
 import com.example.figma_replicate.ui.theme.Figma_replicateTheme
 import com.example.figma_replicate.viewModel.LoginViewModel
 import com.example.figma_replicate.viewModel.SignupViewModel
-import com.example.figma_replicate.viewModel.LeaveViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,12 +51,14 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(
+fun MainScreen (
 
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val context = LocalContext.current
+    val authPrefs = remember { AuthPrefs(context) }
 
 
     Scaffold(
@@ -108,23 +110,45 @@ fun MainScreen(
                     CreateAccountPassword(navController, viewModel)
                 }
             }
-            composable(Routes.HOME) {
-                HomeScreen(navController = navController)
+            navigation(startDestination = Routes.HOME,  route = "navigation_bar"){
+                val userRole = authPrefs.getUserRole()
+                composable(Routes.HOME) {
+                    HomeScreen(navController = navController)
+                }
+                composable(Routes.SCHEDULE) {
+                    if (userRole == UserRole.EMPLOYEE) {
+                        ScheduleScreen(navController = navController)
+
+                    }
+                    else{
+                        ManagerScheduleScreen(navController)
+                    }
+
+
+
+
+                }
+                composable(Routes.OFFICE) {
+
+
+
+                    if (userRole == UserRole.EMPLOYEE) {
+                        UsersScreen()
+                    } else {
+                        ManagerScreen()
+                    }
+                    // OfficeScreen()
+                }
+
+                composable(Routes.HOLIDAY) {
+                    // HolidayScreen()
+                }
+                composable(Routes.PROFILE) {
+                    ProfileScreen(navController = navController)
+                }
+
             }
-            composable(Routes.SCHEDULE) {
-                val viewModel: LeaveViewModel = hiltViewModel()
-                ScheduleScreen(navController = navController)
-            }
-            composable(Routes.OFFICE) {
-                UsersScreen()
-                // OfficeScreen()
-            }
-            composable(Routes.HOLIDAY) {
-                // HolidayScreen()
-            }
-            composable(Routes.PROFILE) {
-                ProfileScreen(navController = navController)
-            }
+
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
             }

@@ -20,8 +20,8 @@ class EmployeeRepository @Inject constructor(
 
         return apiService.fetchInfo(id)
     }
-    // Update user data by ID
-    suspend fun updateUser(id: Int, updatedUser: User): User {
-        return apiService.updateUser(id, updatedUser)
-    }
+//    // Update user data by ID
+//    suspend fun updateUser(id: Int, updatedUser: User): User {
+//        return apiService.updateUser(id, updatedUser)
+//    }
 }

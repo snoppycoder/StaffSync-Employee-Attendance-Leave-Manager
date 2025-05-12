@@ -12,16 +12,16 @@ data class LeaveStatsResponse(
 
 @Serializable
 data class LeaveRequestResponse(
-    val id: Int,
-    val type: String,
-    val startDate: String,
-    val endDate: String,
-    val approvedById: Int,
-    val approvedByName: String,
-    val status: String,
-    val reason: String,
-    val leaveBalance: Int,
-    val applyDays: Int
+    val id: Int?=null,
+    val type: String?=null,
+    val startDate: String?=null,
+    val endDate: String?=null,
+    val approvedById: Int?=null,
+    val approvedByName: String?=null,
+    val status: String?=null,
+    val reason: String?=null,
+    val leaveBalance: Int?=null,
+    val applyDays: Int?=null
 
 )
 

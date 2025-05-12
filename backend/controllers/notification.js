@@ -44,9 +44,9 @@ notificationRouter.get('/:id', identifyUser, async (req, res) => {
     }
 });
 
-//Leave Requester Notification
-notificationRouter.post('/request', identifyUser, async (req, res) => {
-    const { leaveRequestId, startDate, endDate } = req.body;
+    //Leave Requester Notification
+    notificationRouter.post('/request', identifyUser, async (req, res) => {
+        const { leaveRequestId, startDate, endDate } = req.body;
     const userId = req.user.id;
 
     try {

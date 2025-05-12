@@ -45,19 +45,16 @@ class UsersViewModel @Inject constructor(
     private fun fetchUsers() {
         viewModelScope.launch {
             _isLoading.value = true
-           try {
-               val userList = employeeRepository.fetchEmployee()
+            try {
+                val userList = employeeRepository.fetchEmployee()
                 _users.value = userList
                 _errorMessage.value = null
-           } catch (e: Exception) {
-               Log.e("UserViewModel", "Failed to fetch users", e)
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Failed to fetch users", e)
                 _errorMessage.value = "Failed to load users: ${e.localizedMessage}"
             } finally {
                 _isLoading.value = false
-           }
-       }
-    }
-    private fun updateUsers(updatedUsers: List<User>) {
-        _users.value = updatedUsers
+            }
+        }
     }
 }

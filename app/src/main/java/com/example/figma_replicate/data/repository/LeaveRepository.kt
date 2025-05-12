@@ -38,4 +38,8 @@ class LeaveRepository @Inject constructor(
             Result.failure(e)
         }
     }
+
+    suspend fun fetchLeaveRequest(): LeaveRequestResponse {
+        return apiService.fetchLeaveRequest("Bearer ${authPrefs.getToken()}")
+    }
 }

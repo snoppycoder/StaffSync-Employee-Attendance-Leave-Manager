@@ -46,8 +46,7 @@ fun UsersScreen(viewModel: UsersViewModel = hiltViewModel()) {
                 .padding(paddingValues)
             ,
 
-            contentAlignment = Alignment.Center
-        ) {
+            ) {
             when {
                 loading -> {
                     CircularProgressIndicator()
@@ -101,7 +100,7 @@ fun EmployeeItem(
         Column(modifier = Modifier.weight(1f)
             .padding(16.dp))
 
-            {
+        {
             Text(
                 text = employee.fullName.toString()?: "Unknown User",
                 fontWeight = FontWeight.Bold,
@@ -118,7 +117,7 @@ fun EmployeeItem(
 //            text = employee.status,
             text="Checked In",
 //            color = if (employee.status == "Checked In") Color(0xFF4CAF50) else Color.Red,
-                    color = Color(0xFF4CAF50),
+            color = Color(0xFF4CAF50),
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium
         )
@@ -126,4 +125,3 @@ fun EmployeeItem(
 
     Divider(color = Color.LightGray, thickness = 0.5.dp)
 }
-
