@@ -168,15 +168,16 @@ leaveRequestRouter.get('/stats', identifyUser, async (req, res) => {
 });
 
 leaveRequestRouter.get('/:id', identifyUser, async (req, res) => {
-  console.log(req.params)
   const { userId } = req.params;
+  
 
   try {
     const leaveRequests = await prisma.leaveRequest.findMany({
       where: { userId },
     });
-    res.json(leaveRequests[0]);
-    console.log(leaveRequests);
+
+    res.json(leaveRequests);
+    console.log(leaveRequests[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch leave requests' });

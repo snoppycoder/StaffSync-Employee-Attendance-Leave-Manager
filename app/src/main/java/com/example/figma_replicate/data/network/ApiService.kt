@@ -51,7 +51,7 @@ interface ApiServiceInterface {
     @GET("/api/leaveRequest/{id}")
     suspend fun fetchLeaveRequest(
         @Header("Authorization") token: String, @Path("id") id:Int?
-    ): LeaveRequestResponse
+    ): List<LeaveRequestResponse>
 
     @POST("/api/leaveRequest")
     suspend fun applyLeave(

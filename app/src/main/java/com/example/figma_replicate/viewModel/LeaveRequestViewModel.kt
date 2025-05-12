@@ -69,7 +69,7 @@ class LeaveFormViewModel @Inject constructor(
             try {
                 _isLoading.value = true
                 val result = leaveRepository.fetchLeaveRequest()
-                _requests.value = listOf(result)
+                _requests.value = result
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error"
             } finally {
