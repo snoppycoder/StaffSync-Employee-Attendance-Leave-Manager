@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -491,6 +492,7 @@ fun CreateAccountPassword(
             onValueChange = { viewModel.setPassword(it)},
             label = { Text("Password") },
             singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(65.dp)
@@ -502,6 +504,7 @@ fun CreateAccountPassword(
             onValueChange = { confirm_password = it },
             label = { Text("Confirm Password") },
             singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)

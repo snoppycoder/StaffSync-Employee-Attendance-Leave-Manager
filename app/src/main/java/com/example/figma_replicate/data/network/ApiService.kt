@@ -12,10 +12,13 @@ interface ApiServiceInterface {
 
     @POST("api/signup")
     suspend fun signup(@Body user: User): User
+
     @GET("/api/users/employee")
     suspend fun fetchEmployee(@Header("Authorization") token:String): List<User>
+
     @GET("/api/users/manager")
     suspend fun fetchManager(@Header("Authorization") token:String): List<User>
+
     @GET("/api/users/{id}")
     suspend fun fetchInfo(@Path("id") id: Int?): User
 

@@ -94,6 +94,8 @@ class SignupViewModel @Inject constructor(
         val upper_case = value.uppercase().trim()
         employmentType.value = upper_case
     }
+
+
     fun setRole(userRole: UserRole) {
         role.value = userRole
     }
@@ -106,11 +108,11 @@ class SignupViewModel @Inject constructor(
         viewModelScope.launch {
             try {
 
-//
                 val user = User(
                     username = username.value,
                     fullName = fullName.value,
                     email = email.value,
+                    role = role.value,
                     gender = gender.value,
                     dateOfBirth = dob.value,
                     password = password.value,
@@ -118,7 +120,8 @@ class SignupViewModel @Inject constructor(
                     employmentType = employmentType.value
                 )
                 signupRepository.signup(user)
-                println("successfully sent")
+                println("here is the user $user")
+
 
 
                 signupState.value = SignupState.Success(user)

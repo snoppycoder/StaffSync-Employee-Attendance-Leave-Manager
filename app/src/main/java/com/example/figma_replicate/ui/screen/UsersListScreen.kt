@@ -46,7 +46,6 @@ fun UsersScreen(viewModel: UsersViewModel = hiltViewModel()) {
                 .padding(paddingValues)
             ,
 
-            contentAlignment = Alignment.Center
         ) {
             when {
                 loading -> {

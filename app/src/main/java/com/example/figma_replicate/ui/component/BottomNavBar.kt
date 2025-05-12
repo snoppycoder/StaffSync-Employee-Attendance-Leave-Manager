@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.figma_replicate.R
+import com.example.figma_replicate.data.AuthPrefs
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.theme.coral
 

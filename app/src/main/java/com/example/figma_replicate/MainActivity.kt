@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.figma_replicate.data.AuthPrefs
+import com.example.figma_replicate.data.models.UserRole
 //import com.example.figma_replicate.SessionManagement.SessionViewModel
 import com.example.figma_replicate.navigation.Routes
 import com.example.figma_replicate.ui.component.*
@@ -50,12 +51,14 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(
+fun MainScreen (
 
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val context = LocalContext.current
+    val authPrefs = remember { AuthPrefs(context) }
 
 
     Scaffold(
@@ -107,24 +110,37 @@ fun MainScreen(
                     CreateAccountPassword(navController, viewModel)
                 }
             }
-            composable(Routes.HOME) {
-                HomeScreen(navController = navController)
-            }
-            composable(Routes.SCHEDULE) {
+            navigation(startDestination = Routes.HOME,  route = "navigation_bar"){
+//                val role = authPrefs.getUserRole().toString()
+                composable(Routes.HOME) {
+                    HomeScreen(navController = navController)
+                }
+                composable(Routes.SCHEDULE) {
 
-                ScheduleScreen(navController = navController)
+                    ScheduleScreen(navController = navController)
+
+                }
+                composable(Routes.OFFICE) {
+
+                    val userRole = authPrefs.getUserRole()
+
+                    if (userRole == UserRole.EMPLOYEE) {
+                        UsersScreen()
+                    } else {
+                        ManagerScreen()
+                    }
+                    // OfficeScreen()
+                }
+
+                composable(Routes.HOLIDAY) {
+                    // HolidayScreen()
+                }
+                composable(Routes.PROFILE) {
+                    ProfileScreen(navController = navController)
+                }
 
             }
-            composable(Routes.OFFICE) {
-                UsersScreen()
-                // OfficeScreen()
-            }
-            composable(Routes.HOLIDAY) {
-                // HolidayScreen()
-            }
-            composable(Routes.PROFILE) {
-                ProfileScreen(navController = navController)
-            }
+
             composable(Routes.NOTIFICATION) {
                 NotificationScreen(navController = navController)
             }

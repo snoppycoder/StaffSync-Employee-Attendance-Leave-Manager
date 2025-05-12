@@ -21,6 +21,7 @@ sealed class LoginState {
     object Loading : LoginState()
     data class Success(val loginRequest: LoginRequest) : LoginState()
     data class Error(val message: String) : LoginState()
+
 }
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -33,20 +34,23 @@ class LoginViewModel @Inject constructor(
         private set
     var password = mutableStateOf("")
         private set
+    var loginError = mutableStateOf(false)
+        private set
     fun setUserName(value:String) {
         val trimmed = value.trim()
         username.value = trimmed
     }
     fun setPassword(value:String){
         password.value = value
+        loginError.value = false
     }
     fun login() {
         loginState.value = LoginState.Loading
         viewModelScope.launch {
-            println("${username.value} & ${password.value}")
+
 
             try {
-                println("here $username")
+
 
 
                 val user = loginRepository.login(
@@ -55,10 +59,8 @@ class LoginViewModel @Inject constructor(
                         password = password.value.toString()
                     )
                 )
-                loginState.value = LoginState.Success(
-                    loginRequest = LoginRequest(username = username.value, password = password.value)
-
-                )
+                loginState.value = LoginState.Success(loginRequest = LoginRequest(username = username.value, password = password.value))
+                loginError.value = false
 
                 authPrefs.saveAuthData(
                     token = user.token,
@@ -66,10 +68,11 @@ class LoginViewModel @Inject constructor(
                     username = user.username,
                     role = user.role
                 )
-                println("here ${username.value}")
+
             } catch (e: Exception) {
                 loginState.value = LoginState.Error("Login failed because of ${e.message}")
-                println("here $e")
+                loginError.value = true
+
             }
         }
     }

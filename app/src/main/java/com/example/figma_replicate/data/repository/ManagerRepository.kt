@@ -15,6 +15,6 @@ class ManagerRepository @Inject constructor(
 ) {
     suspend fun fetchManager() : List<User> {
         val token = authPrefs.getToken()
-        return apiService.fetchEmployee("Bearer $token")
+        return apiService.fetchManager("Bearer $token")
     }
 }
